@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html ng-app="AhimsaApp">
+   <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+      <title>..:: Procedure Tracking ::..</title>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="bootstrap.css" />
+      <link rel="stylesheet" href="style.css" />
+      <style type="text/css">
+        .analytics_dashboard .anly-left-pane-inner,
+        .analytics_dashboard #secondary_container,
+        .analytics_dashboard .anly-right-pane-inner{
+          background: #fff;
+          height:calc(100vh - 80px) !important;
+        }
+      </style>
+   </head>
+   <body style="background: #eeeeee">
+      <div class="left-menu-new-des leftMenu">
+         <a ui-sref="postlogin" href="#!/postlogin">
+            <div class="logo-new-des">
+               <img src="newlogo_ap22.png">
+               <div>
+                  <span class="vers-aftr-login">Ver. 2.5</span>
+               </div>
+            </div>
+         </a>
+         <div class="col-xs-12 pro-pic">
+            <a ui-sref="my_profile({user: 'bd79d5b0-8377-474a-96fe-41bb879fccdb', ct: 1594031716432})" title="Edit Profile" href="#!/myprofile/bd79d5b0-8377-474a-96fe-41bb879fccdb/1594031716432">
+               <div class="col-xs-12">
+                  <span><img src="pro33.png"></span>
+               </div>
+            </a>
+            <div class="col-xs-12" style="margin-top: 10px;">
+               <span class="pro-name"> Txxxxxxxxn 
+               </span>
+            </div>
+         </div>
+         <div class="col-xs-12" style="margin-top: 50px; padding: 0;">
+            <a id="dashlink" ui-sref="delegate_dashboard({ruuid : '0', wtype : 'WAITING'})" data-it-mark="_headerlink" href="#!/delegate_dashboard/?ruuid=0&amp;wtype=WAITING">
+               <div class="col-xs-12 nav-newdes DASHBOARD">
+                  <span class="nav-icon"><img src="home3.png"></span><span class="nav-txt-newdes">Dashboard</span>
+               </div>
+            </a>
+            <!----------------------------------------- Analytics link ----------------------------------------------- -->
+            <a id="analink" data-it-mark="_headerlink">
+               <div class="col-xs-12 nav-newdes ANALYTICS nav-newdes-over" ng-click="redirectToAnalysis(); analyticsSubMenu = 'MORTALITY' ">
+                  <span class="nav-icon"><i class="fa fa-line-chart" style="font-size:24px; font-weight: 50; padding-left: 4px;"></i></span><span class="nav-txt-newdes">Analytics</span>
+               </div>
+               <div id="analiticsSubmenu" style="display: none;">
+                  <div class="anly-submenu col-xs-12 MORTALITY" ng-class="{'anly-submenu-active12' : analyticsSubMenu == 'MORTALITY'}" ng-click="redirectToAnalysis();analyticsSubMenu = 'MORTALITY'">
+                     <span>Mortality</span>
+                  </div>
+                  <div class="anly-submenu col-xs-12 MAJORCOMPLICATION" ng-class="{'anly-submenu-active12' : analyticsSubMenu == 'MAJORCOMPLICATION'}" ng-click="redirectToMajorComplication();analyticsSubMenu = 'MAJORCOMPLICATION'">
+                     <span>Major Complications</span>
+                  </div>
+                  <div class="anly-submenu col-xs-12 COSTANALYSIS" ng-class="{'anly-submenu-active12' : analyticsSubMenu == 'COST'}" ng-click="redirectToCostAnalysis();analyticsSubMenu = 'COST'">
+                     <span>Cost Analysis</span>
+                  </div>
+               </div>
+            </a>
+            <!--------------------------------------------- Analytics link End ---------------------------------------- -->
+            <a id="patlink" data-it-mark="_headerlink" ng-click="patientLinkClicked()">
+               <div class="col-xs-12 nav-newdes PATIENTDETAILS">
+                  <span class="nav-icon"><img src="patient2.png"></span><span class="nav-txt-newdes">Patient</span>
+               </div>
+            </a>
+            <a id="patlink" ng-click="adminLinkClicked()" data-it-mark="_headerlink">
+               <div class="col-xs-12 nav-newdes ADMINPAGE">
+                  <span class="nav-icon"><img src="admin2.png"></span><span class="nav-txt-newdes">Admin</span>
+               </div>
+            </a>
+         </div>
+         <div class="col-xs-12 footer-new-des">© Cirakas 2019 | <span><a style="cursor:pointer;text-decoration:underline !important;font-size:12px;" onclick="loadTermsAndConditions()">Privacy Policy</a></span></div>
+      </div>
+      <div class="right-side-new-des analytics_dashboard">
+         <div class="col-md-12">
+            <div class="menu-bg">
+               <div class="anly-proc-type-bd">
+                  <div class="anly-proc-type-txt">PROCEDURE TYPE</div>
+                  <div class="anly-proc-type-select-bd" style="">
+                     <select class="in-field"
+                        ng-options="x.name disable when x.disable for x in procedureTypes track by x.uuid"
+                        ng-model="procedureType"></select>
+                  </div>
+               </div>
+               <div class="menu-db " ng-click="redirectToDeathAnalysis()">
+                  <img
+                     src="images/db-3.png" />
+                  <p>Public</p>
+               </div>
+               <div class="menu-db " ng-click="redirectToDeathAnalysis()">
+                  <img
+                     src="images/db-4.png" />
+                  <p>Private</p>
+               </div>
+            </div>
+         </div>
+         <div class="anly-left-pane col-md-3">
+            <div class="anly-left-pane-inner">
+               <div class="db-cal">
+                  <div class="col-md-12 cal-bd">
+                     <div class='input-group date date-picker-bg' id='datetimepicker9'>
+                        <input type='text' id='_datetimepicker9' class="in-field"
+                           placeholder="from year (yyyy)" ng-model="fromDate" />
+                        <div id="from" ng-if="fromDate" class="close-date" type="reset"
+                           ng-click="clearDate('fromDate')"></div>
+                        <span class="input-group-addon"
+                           style="border: 1px solid #CCCCCC;"> <span
+                           class="glyphicon"><img
+                           src="images/clndr.png" /></span>
+                        </span>
+                     </div>
+                  </div>
+                  <div class="col-md-12 cal-bd">
+                     <div class='input-group date date-picker-bg' id='datetimepicker10'>
+                        <input type='text' id='_datetimepicker10' class="in-field"
+                           placeholder="to year (yyyy)" ng-model="toDate" />
+                        <div id="to" ng-if="toDate" class="close-date" type="reset"
+                           ng-click="clearDate('toDate')"></div>
+                        <span class="input-group-addon"
+                           style="border: 1px solid #CCCCCC;"> <span
+                           class="glyphicon"><img
+                           src="images/clndr.png" /></span>
+                        </span>
+                     </div>
+                  </div>
+                  <!-- <div class="col-md-12 cal-bd">
+                     <select class="in-field">
+                        <option value="">---Valve Name---</option>
+                        <option value="">Name 1</option>
+                        <option value="">Name 2</option>
+                     </select>
+                  </div> -->
+                  <div class="col-xs-12" style="padding:5px;" ng-click="startPlotGraphs()">
+                     <button style="margin-top: 5px;" class="themeBtn-search-analytics" ng-click="drawProcedureGraph()"> Search </button>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="anly-graph-bd col-md-6">
+            <div id="secondary_container" class="col-md-12">
+               <svg version="1.1" style="font-family: Roboto; font-size: 12px;" xmlns="http://www.w3.org/2000/svg" width="660" height="660" viewBox="0 0 660 660" aria-hidden="false" aria-label="Interactive chart"><defs aria-hidden="true"><clipPath ><rect x="0" y="0" width="606" height="539" fill="none"></rect></clipPath><clipPath ><rect x="0" y="0" width="606" height="539" fill="none"></rect></clipPath></defs><rect fill="#ffffff" x="0" y="0" width="660" height="660" rx="0" ry="0" aria-hidden="true"></rect><rect fill="none" x="44" y="47" width="606" height="539" aria-hidden="true"></rect><g data-z-index="0" aria-hidden="true"></g><rect fill="none" data-z-index="1" x="44" y="47" width="606" height="539" aria-hidden="true"></rect><g data-z-index="1" aria-hidden="true"><path fill="none" stroke-dasharray="none" data-z-index="1" d="M 144.5 47 L 144.5 586" opacity="1"></path><path fill="none" stroke-dasharray="none" data-z-index="1" d="M 245.5 47 L 245.5 586" opacity="1"></path><path fill="none" stroke-dasharray="none" data-z-index="1" d="M 346.5 47 L 346.5 586" opacity="1"></path><path fill="none" stroke-dasharray="none" data-z-index="1" d="M 447.5 47 L 447.5 586" opacity="1"></path><path fill="none" stroke-dasharray="none" data-z-index="1" d="M 548.5 47 L 548.5 586" opacity="1"></path><path fill="none" stroke-dasharray="none" data-z-index="1" d="M 649.5 47 L 649.5 586" opacity="1"></path><path fill="none" stroke-dasharray="none" data-z-index="1" d="M 43.5 47 L 43.5 586" opacity="1"></path></g><g data-z-index="1" aria-hidden="true"><path fill="none" stroke="#e6e6e6" stroke-width="1" stroke-dasharray="none" data-z-index="1" d="M 44 466.5 L 650 466.5" opacity="1"></path><path fill="none" stroke="#e6e6e6" stroke-width="1" stroke-dasharray="none" data-z-index="1" d="M 44 406.5 L 650 406.5" opacity="1"></path><path fill="none" stroke="#e6e6e6" stroke-width="1" stroke-dasharray="none" data-z-index="1" d="M 44 346.5 L 650 346.5" opacity="1"></path><path fill="none" stroke="#e6e6e6" stroke-width="1" stroke-dasharray="none" data-z-index="1" d="M 44 287.5 L 650 287.5" opacity="1"></path><path fill="none" stroke="#e6e6e6" stroke-width="1" stroke-dasharray="none" data-z-index="1" d="M 44 227.5 L 650 227.5" opacity="1"></path><path fill="none" stroke="#e6e6e6" stroke-width="1" stroke-dasharray="none" data-z-index="1" d="M 44 167.5 L 650 167.5" opacity="1"></path><path fill="none" stroke="#e6e6e6" stroke-width="1" stroke-dasharray="none" data-z-index="1" d="M 44 107.5 L 650 107.5" opacity="1"></path><path fill="none" stroke="#e6e6e6" stroke-width="1" stroke-dasharray="none" data-z-index="1" d="M 44 46.5 L 650 46.5" opacity="1"></path><path fill="none" stroke="#e6e6e6" stroke-width="1" stroke-dasharray="none" data-z-index="1" d="M 44 586.5 L 650 586.5" opacity="1"></path><path fill="none" stroke="#e6e6e6" stroke-width="1" stroke-dasharray="none" data-z-index="1" d="M 44 526.5 L 650 526.5" opacity="1"></path></g><g data-z-index="2" aria-hidden="true"><path fill="none" stroke="#ccd6eb" stroke-width="1" data-z-index="7" d="M 44 586.5 L 650 586.5"></path></g><g data-z-index="2" aria-hidden="true"><path fill="none" data-z-index="7" d="M 44 47 L 44 586"></path></g><g data-z-index="3" aria-hidden="false"><g data-z-index="0.1" opacity="1" transform="translate(44,47) scale(1 1)" clip-path="url(#highcharts-i2isokn-390-)" aria-hidden="true"><path fill="none" d="M 50.5 35.93333333332998 C 50.5 35.93333333332998 111.1 365.32222222222003 151.5 365.32222222222003 C 191.9 365.32222222222003 212.1 365.32222222222003 252.5 359.33333333332996 C 292.9 353.3444444444399 313.1 239.55555555555998 353.5 227.57777777778 C 393.9 215.60000000000002 414.1 215.60000000000002 454.5 215.60000000000002 C 494.9 215.60000000000002 555.5 311.42222222222 555.5 311.42222222222" data-z-index="1" stroke="#6f58e9" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path><path fill="none" d="M 50.5 35.93333333332998 C 50.5 35.93333333332998 111.1 365.32222222222003 151.5 365.32222222222003 C 191.9 365.32222222222003 212.1 365.32222222222003 252.5 359.33333333332996 C 292.9 353.3444444444399 313.1 239.55555555555998 353.5 227.57777777778 C 393.9 215.60000000000002 414.1 215.60000000000002 454.5 215.60000000000002 C 494.9 215.60000000000002 555.5 311.42222222222 555.5 311.42222222222" data-z-index="2" stroke-linecap="round" stroke-linejoin="round" stroke="rgba(192,192,192,0.0001)" stroke-width="22" style="cursor: pointer;"></path></g><g data-z-index="0.1" opacity="1" transform="translate(44,47) scale(1 1)" clip-path="none" style="cursor: pointer; outline: none;" aria-hidden="false" role="region" tabindex="-1" aria-label="Valve Size 1, line 1 of 3 with 6 data points."><path fill="#6f58e9" d="M 50 39.93333333332998 A 4 4 0 1 1 50.00399999933334 39.93333133333015 Z" opacity="1" tabindex="-1" role="img" aria-label="2014, 94. Valve Size 1." style="outline: none;"></path><path fill="#6f58e9" d="M 151 369.32222222222003 A 4 4 0 1 1 151.00399999933333 369.3222202222202 Z" opacity="1" tabindex="-1" role="img" aria-label="2016, 39. Valve Size 1." style="outline: none;"></path><path fill="#6f58e9" d="M 252 363.33333333332996 A 4 4 0 1 1 252.00399999933333 363.33333133333014 Z" opacity="1" tabindex="-1" role="img" aria-label="2018, 40. Valve Size 1." style="outline: none;"></path><path fill="#6f58e9" d="M 353 231.57777777778 A 4 4 0 1 1 353.00399999933336 231.57777577778018 Z" opacity="1" tabindex="-1" role="img" aria-label="2020, 62. Valve Size 1." style="outline: none;"></path><path fill="#6f58e9" d="M 454 219.60000000000002 A 4 4 0 1 1 454.00399999933336 219.5999980000002 Z" opacity="1" tabindex="-1" role="img" aria-label="2022, 64. Valve Size 1." style="outline: none;"></path><path fill="#6f58e9" d="M 555 315.42222222222 A 4 4 0 1 1 555.0039999993334 315.4222202222202 Z" opacity="1" tabindex="-1" role="img" aria-label="2024, 48. Valve Size 1." style="outline: none;"></path></g><g data-z-index="0.1" opacity="1" transform="translate(44,47) scale(1 1)" clip-path="url(#highcharts-i2isokn-390-)" aria-hidden="true"><path fill="none" d="M 50.5 203.62222222222 C 50.5 203.62222222222 111.1 515.044444444444 151.5 515.044444444444 C 191.9 515.044444444444 212.1 459.9466666666688 252.5 389.27777777778 C 292.9 318.6088888888912 313.1 229.97333333333398 353.5 161.7 C 393.9 93.426666666666 414.1 47.91111111111002 454.5 47.91111111111002 C 494.9 47.91111111111002 555.5 467.133333333333 555.5 467.133333333333" data-z-index="1" stroke="#ff5c00" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path><path fill="none" d="M 50.5 203.62222222222 C 50.5 203.62222222222 111.1 515.044444444444 151.5 515.044444444444 C 191.9 515.044444444444 212.1 459.9466666666688 252.5 389.27777777778 C 292.9 318.6088888888912 313.1 229.97333333333398 353.5 161.7 C 393.9 93.426666666666 414.1 47.91111111111002 454.5 47.91111111111002 C 494.9 47.91111111111002 555.5 467.133333333333 555.5 467.133333333333" data-z-index="2" stroke-linecap="round" stroke-linejoin="round" stroke="rgba(192,192,192,0.0001)" stroke-width="22" style="cursor: pointer;"></path></g><g data-z-index="0.1" opacity="1" transform="translate(44,47) scale(1 1)" clip-path="none" style="cursor: pointer; outline: none;" aria-hidden="false" role="region" tabindex="-1" aria-label="Valve Size 2, line 2 of 3 with 6 data points."><path fill="#ff5c00" d="M 50 199.62222222222 L 54 203.62222222222 L 50 207.62222222222 L 46 203.62222222222 Z" opacity="1" tabindex="-1" role="img" aria-label="2014, 66. Valve Size 2." style="outline: none;"></path><path fill="#ff5c00" d="M 151 511.044444444444 L 155 515.044444444444 L 151 519.044444444444 L 147 515.044444444444 Z" opacity="1" tabindex="-1" role="img" aria-label="2016, 14. Valve Size 2." style="outline: none;"></path><path fill="#ff5c00" d="M 252 385.27777777778 L 256 389.27777777778 L 252 393.27777777778 L 248 389.27777777778 Z" opacity="1" tabindex="-1" role="img" aria-label="2018, 35. Valve Size 2." style="outline: none;"></path><path fill="#ff5c00" d="M 353 157.7 L 357 161.7 L 353 165.7 L 349 161.7 Z" opacity="1" tabindex="-1" role="img" aria-label="2020, 73. Valve Size 2." style="outline: none;"></path><path fill="#ff5c00" d="M 454 43.91111111111002 L 458 47.91111111111002 L 454 51.91111111111002 L 450 47.91111111111002 Z" opacity="1" tabindex="-1" role="img" aria-label="2022, 92. Valve Size 2." style="outline: none;"></path><path fill="#ff5c00" d="M 555 463.133333333333 L 559 467.133333333333 L 555 471.133333333333 L 551 467.133333333333 Z" opacity="1" tabindex="-1" role="img" aria-label="2024, 22. Valve Size 2." style="outline: none;"></path></g><g data-z-index="0.1" opacity="1" transform="translate(44,47) scale(1 1)" clip-path="url(#highcharts-i2isokn-390-)" aria-hidden="true"><path fill="none" d="M 50.5 113.78888888889003 C 50.5 113.78888888889003 111.1 219.1933333333292 151.5 299.44444444444 C 191.9 379.6955555555508 212.1 515.044444444444 252.5 515.044444444444 C 292.9 515.044444444444 313.1 101.81111111111 353.5 101.81111111111 C 393.9 101.81111111111 414.1 158.1066666666686 454.5 227.57777777778 C 494.9 297.0488888888914 555.5 449.16666666666697 555.5 449.16666666666697" data-z-index="1" stroke="#1e6788" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path><path fill="none" d="M 50.5 113.78888888889003 C 50.5 113.78888888889003 111.1 219.1933333333292 151.5 299.44444444444 C 191.9 379.6955555555508 212.1 515.044444444444 252.5 515.044444444444 C 292.9 515.044444444444 313.1 101.81111111111 353.5 101.81111111111 C 393.9 101.81111111111 414.1 158.1066666666686 454.5 227.57777777778 C 494.9 297.0488888888914 555.5 449.16666666666697 555.5 449.16666666666697" data-z-index="2" stroke-linecap="round" stroke-linejoin="round" stroke="rgba(192,192,192,0.0001)" stroke-width="22" style="cursor: pointer;"></path></g><g data-z-index="0.1" opacity="1" transform="translate(44,47) scale(1 1)" clip-path="none" style="cursor: pointer; outline: none;" aria-hidden="false" role="region" tabindex="-1" aria-label="Valve Size 3, line 3 of 3 with 6 data points."><path fill="#1e6788" d="M 46 109.78888888889003 L 54 109.78888888889003 L 54 117.78888888889003 L 46 117.78888888889003 Z" opacity="1" tabindex="-1" role="img" aria-label="2014, 81. Valve Size 3." style="outline: none;"></path><path fill="#1e6788" d="M 147 295.44444444444 L 155 295.44444444444 L 155 303.44444444444 L 147 303.44444444444 Z" opacity="1" tabindex="-1" role="img" aria-label="2016, 50. Valve Size 3." style="outline: none;"></path><path fill="#1e6788" d="M 248 511.044444444444 L 256 511.044444444444 L 256 519.044444444444 L 248 519.044444444444 Z" opacity="1" tabindex="-1" role="img" aria-label="2018, 14. Valve Size 3." style="outline: none;"></path><path fill="#1e6788" d="M 349 97.81111111111 L 357 97.81111111111 L 357 105.81111111111 L 349 105.81111111111 Z" opacity="1" tabindex="-1" role="img" aria-label="2020, 83. Valve Size 3." style="outline: none;"></path><path fill="#1e6788" d="M 450 223.57777777778 L 458 223.57777777778 L 458 231.57777777778 L 450 231.57777777778 Z" opacity="1" tabindex="-1" role="img" aria-label="2022, 62. Valve Size 3." style="outline: none;"></path><path fill="#1e6788" d="M 551 445.16666666666697 L 559 445.16666666666697 L 559 453.16666666666697 L 551 453.16666666666697 Z" opacity="1" tabindex="-1" role="img" aria-label="2024, 25. Valve Size 3." style="outline: none;"></path></g></g><g data-z-index="3" aria-hidden="true"><g stroke-linecap="round" style="cursor: pointer;" transform="translate(626,10)"><title>Chart context menu</title><rect fill="#ffffff" x="0.5" y="0.5" width="24" height="22" rx="2" ry="2" stroke="none" stroke-width="1"></rect><text font-family='Roboto-Regular,Roboto' x="0" data-z-index="1" y="15.5" style="color: rgb(51, 51, 51); font-weight: normal; fill: rgb(51, 51, 51);"></text></g></g><text font-family='Roboto-Regular,Roboto' x="330" text-anchor="middle" data-z-index="4" style="color: rgb(51, 51, 51); font-size: 18px; fill: rgb(51, 51, 51);" y="24" aria-hidden="true">Valve</text><text font-family='Roboto-Regular,Roboto' x="330" text-anchor="middle" data-z-index="4" style="color: rgb(102, 102, 102); fill: rgb(102, 102, 102);" y="46" aria-hidden="true"></text><text font-family='Roboto-Regular,Roboto' x="10" text-anchor="start" data-z-index="4" style="color: rgb(102, 102, 102); fill: rgb(102, 102, 102);" y="657" aria-hidden="true"></text><g data-z-index="7" aria-hidden="true" transform="translate(172,619)"><rect fill="none" rx="0" ry="0" x="0" y="0" width="315" height="26"></rect><g data-z-index="1"><g><g data-z-index="1" transform="translate(8,3)"><path fill="none" d="M 0 11 L 16 11" stroke="#6f58e9" stroke-width="2"></path><path fill="#6f58e9" d="M 8 15 A 4 4 0 1 1 8.003999999333336 14.999998000000167 Z" opacity="1"></path><text font-family='Roboto-Regular,Roboto' x="21" text-anchor="start" data-z-index="2" y="15" style="color: rgb(51, 51, 51); cursor: pointer; font-size: 12px; font-weight: bold; fill: rgb(51, 51, 51);">Valve Size 1</text></g><g data-z-index="1" transform="translate(114.42500305175781,3)"><path fill="none" d="M 0 11 L 16 11" stroke="#ff5c00" stroke-width="2"></path><path fill="#ff5c00" d="M 8 7 L 12 11 L 8 15 L 4 11 Z" opacity="1"></path><text font-family='Roboto-Regular,Roboto' x="21" y="15" text-anchor="start" data-z-index="2" style="color: rgb(51, 51, 51); cursor: pointer; font-size: 12px; font-weight: bold; fill: rgb(51, 51, 51);">Valve Size 2</text></g><g data-z-index="1" transform="translate(220.85000610351562,3)"><path fill="none" d="M 0 11 L 16 11" stroke="#1e6788" stroke-width="2"></path><path fill="#1e6788" d="M 4 7 L 12 7 L 12 15 L 4 15 Z" opacity="1"></path><text font-family='Roboto-Regular,Roboto' x="21" y="15" text-anchor="start" data-z-index="2" style="color: rgb(51, 51, 51); cursor: pointer; font-size: 12px; font-weight: bold; fill: rgb(51, 51, 51);">Valve Size 3</text></g></g></g></g><g data-z-index="7" aria-hidden="true"><text font-family='Roboto-Regular,Roboto' x="94.5" style="color: rgb(102, 102, 102); cursor: default; font-size: 11px; fill: rgb(102, 102, 102);" text-anchor="middle" transform="translate(0,0)" y="605" opacity="1">2014</text><text font-family='Roboto-Regular,Roboto' x="195.5" text-anchor="middle" transform="translate(0,0)" style="color: rgb(102, 102, 102); cursor: default; font-size: 11px; fill: rgb(102, 102, 102);" y="605" opacity="1">2016</text><text font-family='Roboto-Regular,Roboto' x="296.5" text-anchor="middle" transform="translate(0,0)" style="color: rgb(102, 102, 102); cursor: default; font-size: 11px; fill: rgb(102, 102, 102);" y="605" opacity="1">2018</text><text font-family='Roboto-Regular,Roboto' x="397.5" text-anchor="middle" transform="translate(0,0)" style="color: rgb(102, 102, 102); cursor: default; font-size: 11px; fill: rgb(102, 102, 102);" y="605" opacity="1">2020</text><text font-family='Roboto-Regular,Roboto' x="498.5" text-anchor="middle" transform="translate(0,0)" style="color: rgb(102, 102, 102); cursor: default; font-size: 11px; fill: rgb(102, 102, 102);" y="605" opacity="1">2022</text><text font-family='Roboto-Regular,Roboto' x="599.5" text-anchor="middle" transform="translate(0,0)" style="color: rgb(102, 102, 102); cursor: default; font-size: 11px; fill: rgb(102, 102, 102);" y="605" opacity="1">2024</text></g><g data-z-index="7" aria-hidden="true"><text font-family='Roboto-Regular,Roboto' x="29" style="color: rgb(102, 102, 102); cursor: default; font-size: 11px; fill: rgb(102, 102, 102);" text-anchor="end" transform="translate(0,0)" y="471" opacity="1">30</text><text font-family='Roboto-Regular,Roboto' x="29" style="color: rgb(102, 102, 102); cursor: default; font-size: 11px; fill: rgb(102, 102, 102);" text-anchor="end" transform="translate(0,0)" y="411" opacity="1">40</text><text font-family='Roboto-Regular,Roboto' x="29" style="color: rgb(102, 102, 102); cursor: default; font-size: 11px; fill: rgb(102, 102, 102);" text-anchor="end" transform="translate(0,0)" y="351" opacity="1">50</text><text font-family='Roboto-Regular,Roboto' x="29" style="color: rgb(102, 102, 102); cursor: default; font-size: 11px; fill: rgb(102, 102, 102);" text-anchor="end" transform="translate(0,0)" y="291" opacity="1">60</text><text font-family='Roboto-Regular,Roboto' x="29" style="color: rgb(102, 102, 102); cursor: default; font-size: 11px; fill: rgb(102, 102, 102);" text-anchor="end" transform="translate(0,0)" y="231" opacity="1">70</text><text font-family='Roboto-Regular,Roboto' x="29" style="color: rgb(102, 102, 102); cursor: default; font-size: 11px; fill: rgb(102, 102, 102);" text-anchor="end" transform="translate(0,0)" y="171" opacity="1">80</text><text font-family='Roboto-Regular,Roboto' x="29" style="color: rgb(102, 102, 102); cursor: default; font-size: 11px; fill: rgb(102, 102, 102);" text-anchor="end" transform="translate(0,0)" y="111" opacity="1">90</text><text font-family='Roboto-Regular,Roboto' x="29" style="color: rgb(102, 102, 102); cursor: default; font-size: 11px; fill: rgb(102, 102, 102);" text-anchor="end" transform="translate(0,0)" y="52" opacity="1">100</text><text font-family='Roboto-Regular,Roboto' x="29" text-anchor="end" transform="translate(0,0)" style="color: rgb(102, 102, 102); cursor: default; font-size: 11px; fill: rgb(102, 102, 102);" y="591" opacity="1">10</text><text font-family='Roboto-Regular,Roboto' x="29" text-anchor="end" transform="translate(0,0)" style="color: rgb(102, 102, 102); cursor: default; font-size: 11px; fill: rgb(102, 102, 102);" y="531" opacity="1">20</text></g></svg>
+
+            </div>
+         </div>
+         <div class="anly-right-pane col-md-3">
+         <div class="anly-right-pane-inner">
+
+            <div class="cntrl-bnt-right">
+               <div class="contrl-anly">
+                  <i class="fa fa-bar-chart" aria-hidden="true"></i>
+               </div>
+               <!-- <div class="contrl-btn"
+                  ng-show=" procedureType.uuid == taviProcedureTypeUuid "> -->
+               <div class="contrl-btn" >
+
+                  <button ng-click="deathPeriodType = 'WAITING' ;" class="themeBtn">KM Curve - During Procedure</button>
+                  <button ng-click="dType = 'WAITING';redirectToDeathAnalysis()" class="themeBtn ">Mortality - Waiting List Patients</button>
+                  <button ng-click="dType = 'ONHOLD';redirectToDeathAnalysis()" class="themeBtn ">Mortality - Onhold List Patients</button>
+
+                  <button ng-click="dType = 'ONHOLD';redirectToDeathAnalysis()" class="themeBtn themeBtn-act">LVEF Improvement</button>
+
+                  <!-- <button ng-click=" graphType='kmcurve'; " class="themeBtn "
+                     ng-class="{'themeBtn-act':graphType=='kmcurve'}">KM-CURVE</button>
+                  <button ng-click=" graphType='death'  ;  " class="themeBtn"
+                     ng-class="{'themeBtn-act':graphType=='death'}">MORTALITY</button> -->
+                  <!-- <button ng-click=" graphType='paraValvularLeak'  ; "
+                     class="themeBtn"
+                     ng-class="{'themeBtn-act':graphType=='paraValvularLeak'}">
+                     PARA VALVULAR LEAK</button>
+                  <button ng-click=" graphType='stroke'  ; " class="themeBtn"
+                     ng-class="{'themeBtn-act':graphType=='stroke'}">STROKE</button>
+                  <button ng-click=" graphType='pacemaker'  ; " class="themeBtn"
+                     ng-class="{'themeBtn-act':graphType=='pacemaker'}">NEW
+                     PACEMAKER</button> -->
+               </div>
+               <!-- <div class="contrl-btn"
+                  ng-show=" procedureType.uuid == laaoProcedureTypeUuid ">
+                  <button ng-click=" graphType='stroke'  ; " class="themeBtn"
+                     ng-class="{'themeBtn-act':graphType=='stroke'}">STROKE</button>
+                  <button ng-click=" graphType='bleeding'  ; " class="themeBtn"
+                     ng-class="{'themeBtn-act':graphType=='bleeding'}">BLEEDING</button>
+               </div> -->
+
+
+            </div>
+
+            
+
+
+         </div>
+      </div>
+         
+      </div>
+      <!-- Right Side start -->
+   </body>
+</html>

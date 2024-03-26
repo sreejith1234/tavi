@@ -1,0 +1,89 @@
+
+
+*{ color-adjust: exact !important;
+	-webkit-print-color-adjust: exact !important;
+	print-color-adjust: exact !important;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 12px;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.pdfclosebtn{
+	float: right;
+	margin-right: 10px;
+	font-size: 20px;
+	cursor: pointer;
+}
+.pdfprint{
+	float: right;
+	padding: 3px;
+	margin-right: 50px;
+	background: #2196F3;
+	color: white;
+	border-radius: 2px;
+	width: 54px;
+	text-align: center;
+	cursor: pointer;
+}
+
+.sum-header{
+	width: 100%;margin-top: 46px
+}
+
+
+
+.pdf-close{
+		position: fixed;
+    z-index: 200;
+    width: 100%;
+    /* height: 43px; */
+    top: 0px;
+    padding: 7px 5px;
+    background: white;
+    border-bottom: solid 1px #ccc;
+	}
+
+.pdf-head-blue{background-color:#3366ff !important;color:#fff !important;}
+.pdf-head-red{background-color:#900000 !important;color:#fff !important;}
+.pdf-head-green{background-color:#006411 !important;color:#fff !important;}
+.pdf-head-brown{background-color:#90713a !important;color:#fff !important;}
+.pdf-text-center{text-align:center;}
+.pdf-label{background:#c0c0c0 !important;width:18% !important;}
+.pdf-field{background:#fff !important;width:32% !important;}
+.text-blue{color:#3366ff;font-size:12px;}
+.customise-label{padding: 0px 8px !important;}
+.customise-field{padding:0px  !important;}
+.sub-label-border{display:inline-flex;width:100%;}
+.sub-label{width:50% !important;background:#c0c0c0;text-align:center;padding: 5px 0px;}
+.sub-field-border{display:inline-flex;width:100%;}
+.sub-field{width:50%;background:#fff;text-align:center;padding: 10px 0px;}
+.sub-split-field-top{width:100%;border-bottom:solid 1px #ddd;padding:5px 0px;}
+.sub-split-field-bottom{width:100%;padding:5px 0px;}
+.box{border:solid 1px;padding:0px 5px;line-height: 14px;}
+.input-label{padding:0px 5px;}
+.color-green{color:#00ab00;}
+.color-red{color:#c30000;}
+.box1{border:solid 1px;padding:0px 5px;line-height: 14px;}
+.header-images img{
+    height:40px;
+    position:absolute;
+  }
+  
+@media print {
+	
+	.pdf-close{
+		display: none;
+	}
+}
+
+

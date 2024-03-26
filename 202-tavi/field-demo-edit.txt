@@ -1,0 +1,9 @@
+<div class="in-field-ckbox">
+</div>
+
+<div class="input-group">
+    <input class="in-field">
+        <span class="input-group-addon addon-text"> 
+          <span></span>
+        </span>
+</div>

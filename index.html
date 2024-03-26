@@ -1,0 +1,876 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html ng-app="AhimsaApp">
+
+   <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+      <title>..:: Procedure Tracking ::..</title>
+      <link rel="stylesheet" href="bootstrap.css" />
+      <link rel="stylesheet" href="style.css" />
+    </head>
+<body>
+      <div class="left-menu-new-des leftMenu">
+         <a ui-sref="postlogin" href="#!/postlogin">
+            <div class="logo-new-des">
+               <img src="newlogo_ap22.png">
+               <div>
+                  <span class="vers-aftr-login">Ver. 2.5</span>
+               </div>
+            </div>
+         </a>
+         <div class="col-xs-12 pro-pic">
+            <a ui-sref="my_profile({user: 'bd79d5b0-8377-474a-96fe-41bb879fccdb', ct: 1594031716432})" title="Edit Profile" href="#!/myprofile/bd79d5b0-8377-474a-96fe-41bb879fccdb/1594031716432">
+               <div class="col-xs-12">
+                  <span><img src="pro33.png"></span>
+               </div>
+            </a>
+            <div class="col-xs-12" style="margin-top: 10px;">
+               <span class="pro-name"> Txxxxxxxxn 
+               </span>
+            </div>
+         </div>
+         <div class="col-xs-12" style="margin-top: 50px; padding: 0;">
+            <a id="dashlink" ui-sref="delegate_dashboard({ruuid : '0', wtype : 'WAITING'})" data-it-mark="_headerlink" href="#!/delegate_dashboard/?ruuid=0&amp;wtype=WAITING">
+               <div class="col-xs-12 nav-newdes DASHBOARD">
+                  <span class="nav-icon"><img src="home3.png"></span><span class="nav-txt-newdes">Dashboard</span>
+               </div>
+            </a>
+            <!----------------------------------------- Analytics link ----------------------------------------------- -->
+            <a id="analink" data-it-mark="_headerlink">
+               <div class="col-xs-12 nav-newdes ANALYTICS" ng-click="redirectToAnalysis(); analyticsSubMenu = 'MORTALITY' ">
+                  <span class="nav-icon"><i class="fa fa-line-chart" style="font-size:24px; font-weight: 50; padding-left: 4px;"></i></span><span class="nav-txt-newdes">Analytics</span>
+               </div>
+               <div id="analiticsSubmenu" style="display: none;">
+                  <div class="anly-submenu col-xs-12 MORTALITY" ng-class="{'anly-submenu-active12' : analyticsSubMenu == 'MORTALITY'}" ng-click="redirectToAnalysis();analyticsSubMenu = 'MORTALITY'">
+                     <span>Mortality</span>
+                  </div>
+                  <div class="anly-submenu col-xs-12 MAJORCOMPLICATION" ng-class="{'anly-submenu-active12' : analyticsSubMenu == 'MAJORCOMPLICATION'}" ng-click="redirectToMajorComplication();analyticsSubMenu = 'MAJORCOMPLICATION'">
+                     <span>Major Complications</span>
+                  </div>
+                  <div class="anly-submenu col-xs-12 COSTANALYSIS" ng-class="{'anly-submenu-active12' : analyticsSubMenu == 'COST'}" ng-click="redirectToCostAnalysis();analyticsSubMenu = 'COST'">
+                     <span>Cost Analysis</span>
+                  </div>
+               </div>
+            </a>
+            <!--------------------------------------------- Analytics link End ---------------------------------------- -->
+            <a id="patlink" data-it-mark="_headerlink" ng-click="patientLinkClicked()">
+               <div class="col-xs-12 nav-newdes PATIENTDETAILS nav-newdes-over">
+                  <span class="nav-icon"><img src="patient2.png"></span><span class="nav-txt-newdes">Patient</span>
+               </div>
+            </a>
+            <a id="patlink" ng-click="adminLinkClicked()" data-it-mark="_headerlink">
+               <div class="col-xs-12 nav-newdes ADMINPAGE">
+                  <span class="nav-icon"><img src="admin2.png"></span><span class="nav-txt-newdes">Admin</span>
+               </div>
+            </a>
+            <div class="class=" col-xs-12"="" style="padding-top: 50px;">
+               <div class="class=" col-xs-12"="" style="text-align: center; padding-top: 150px;">
+                  <a href="/nz-shd-stage/ms/ahimsaLogoutServlet?r=/ahimsa/procedure/v2/launch.htm&amp;dt=1594031716433" title="Logout" onclick="return confirm('Are you sure, you want to end your session ..?')"> <img src="logout-btn-vv.png">
+                  </a>
+               </div>
+            </div>
+         </div>
+         <div class="col-xs-12 footer-new-des">© Cirakas 2019 | <span><a style="cursor:pointer;text-decoration:underline !important;font-size:12px;" onclick="loadTermsAndConditions()">Privacy Policy</a></span></div>
+      </div>
+
+      <div class="right-side-new-des ng-scope">
+         <div class="col-xs-6" style="margin-top: 10px;">
+            <span class="heading ng-binding">Edit Patient</span>
+         </div>
+         <!-- ngIf: mode == 'REF_EDIT' || enablePatientDataLink == true -->
+         
+         <div ng-form="" name="myForm" id="totalDiv" class="ng-pristine ng-invalid ng-invalid-required ng-valid-pattern ng-valid-minlength ng-valid-maxlength">
+            <div class="col-xs-12" id="divToDisable">
+               <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" style="float: right; padding: 0; right: 20px;">
+                  <div style="float: right; margin-left: 5px;">
+                     (<span style="color: red">**</span>)<span style="color: red; font-weight: none;"> Fields mandatory
+                     for referral save</span>
+                  </div>
+                  <div style="float: right; margin-right: 5px;" ng-hide="pedit == 1">
+                     (<span style="color: red">*</span>)<span style="color: red">
+                     Fields mandatory for referral submission</span>
+                  </div>
+               </div>
+               <div class="col-xs-12" ng-class="{'disabled': false == true ? true : false}">
+                  <div class="col-xs-12 new-pat-box12" style="padding-top: 10px; padding-bottom: 10px;">
+                     <div class="col-xs-12" style="padding: 15px 0 0 0;">
+                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" style="min-height: 70px;">
+                           MRN <span style="color: red">**</span> <span class="his-icon" ng-click="showHistoryClicked($event,'PATIENT_MRN,1',true)"><i class="fa fa-history" aria-hidden="true"></i></span>
+                           <div class="col-xs-12 disabled" style="padding: 0;" ng-class="{'disabled': mode == 'NEW_REF' || mode == 'PAT_EDIT'}">
+                              <div class="col-xs-12" style="padding: 0;">
+                                 <input type="text" name="mrn" class="in-field-lookup ng-pristine ng-untouched ng-not-empty ng-valid ng-valid-required" ng-change="mrnTextFieldChanged();lookupError = undefined;patientdata.mrn=patientdata.mrn.toUpperCase();" tabindex="1" ng-model="patientdata.mrn" ng-disabled="mode != 'NEW_PAT'" ng-blur="validatePatientMrn()" required="" disabled="disabled">
+                              </div>
+                              <span class="com-icon" ng-click="showPatientInfoCommentBox($event, 'referraldata.patientcomment.mrnComment')"><i class="fa fa-commenting" aria-hidden="true"></i></span>
+                              <!-- ngIf: patientdata.mrn --><span ng-if="patientdata.mrn" style="color: red; font-size: 11px;" class="err-span-v2 ng-binding ng-scope"></span><!-- end ngIf: patientdata.mrn -->
+                              <span style="color: red" class="err-span-v2 ng-hide" ng-show="myForm.mrn.$error.required">MRN is required!</span>
+                           </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" style="min-height: 70px;">
+                           First Name <span style="color: red">**</span> <span class="his-icon" ng-click="showHistoryClicked($event,'PATIENT_FNAME,1',true)"><i class="fa fa-history" aria-hidden="true"></i></span> <input type="text" class="in-field ng-pristine ng-untouched ng-not-empty ng-valid ng-valid-required" name="fnm" tabindex="2" ng-model="patientdata.fname" ng-disabled="patientdata.freeze" ng-change="lookupError = undefined" required="">
+                           <span class="com-icon" ng-click="showPatientInfoCommentBox($event, 'referraldata.patientcomment.fnameComment')"><i class="fa fa-commenting" aria-hidden="true"></i></span>
+                           <span style="color: red" class="err-span-v2 ng-hide" ng-show="myForm.fnm.$touched &amp;&amp; myForm.fnm.$error.required &amp;&amp; !patientdata.freeze">First
+                           name is required!</span>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" style="min-height: 70px;">
+                           Last Name <span style="color: red">**</span> <span class="his-icon" ng-click="showHistoryClicked($event,'PATIENT_LNAME,1',true)"><i class="fa fa-history" aria-hidden="true"></i></span> <input type="text" name="lnm" tabindex="3" class="in-field ng-pristine ng-untouched ng-not-empty ng-valid ng-valid-required" ng-model="patientdata.lname" ng-disabled="patientdata.freeze" ng-change="lookupError = undefined" required="">
+                           <span class="com-icon" ng-click="showPatientInfoCommentBox($event, 'referraldata.patientcomment.lnameComment')"><i class="fa fa-commenting" aria-hidden="true"></i></span>
+                           <span style="color: red" class="err-span-v2 ng-hide" ng-show="myForm.lnm.$touched &amp;&amp; myForm.lnm.$error.required &amp;&amp; !patientdata.freeze">Last
+                           name is required!</span>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" style="min-height: 70px;">
+                           Gender <span style="color: red">**</span> <span class="his-icon" ng-click="showHistoryClicked($event,'PATIENT_GENDER,1',true)"><i class="fa fa-history" aria-hidden="true"></i></span> 
+                           <select name="gen" class="in-field ng-pristine ng-untouched ng-not-empty ng-valid ng-valid-required" ng-model="patientdata.gender" tabindex="4" ng-disabled="patientdata.freeze" ng-change="lookupError = undefined" required="">
+                              <option value="">---Select---</option>
+                              <option value="M" selected="selected">Male</option>
+                              <option value="F">Female</option>
+                           </select>
+                           <!-- ngIf: myForm.gen.$touched && !patientdata.gender && !patientdata.freeze -->
+                           <span class="com-icon" ng-click="showPatientInfoCommentBox($event, 'referraldata.patientcomment.genderComment')"><i class="fa fa-commenting" aria-hidden="true"></i></span>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" style="min-height: 70px;">
+                           DOB <span style="color: red">**</span> <span class="his-icon" ng-click="showHistoryClicked($event,'PATIENT_DOB,4',true)"><i class="fa fa-history" aria-hidden="true"></i></span>
+                           <div class="input-group date date-picker-bg" id="_refdatetimepicker0">
+                              <input id="refdatetimepicker0" type="text" name="dob" class="in-field ng-pristine ng-untouched ng-not-empty ng-valid ng-valid-required" ng-model="patientdata.dob" tabindex="5" placeholder="yyyy-mm-dd" ng-disabled="patientdata.freeze
+                                 || mode == 'NEW_REF' || mode == 'PAT_EDIT'" required="" disabled="">
+                              <!-- ngIf: patientdata.dob && !patientdata.freeze && mode != 'NEW_REF' && mode != 'PAT_EDIT' -->
+                              <span class="input-group-addon" style="border: 1px solid #CCCCCC;" ng-disabled="patientdata.freeze
+                                 || mode == 'NEW_REF' || mode == 'PAT_EDIT'" disabled="disabled">
+                              <span class="glyphicon"><img src="/nz-shd-stage/moduleResources/procedure-tracking-module/v2/images/clndr.png"></span>
+                              </span>
+                           </div>
+                           <span class="com-icon" ng-click="showPatientInfoCommentBox($event, 'referraldata.patientcomment.dobComment')"><i class="fa fa-commenting" aria-hidden="true"></i></span>
+                           <span style="color: red" class="err-span-v2 ng-hide" ng-show="myForm.dob.$touched &amp;&amp; myForm.dob.$error.required &amp;&amp; !patientdata.freeze">Date
+                           of birth is required!</span>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" style="min-height: 70px;">
+                           Telephone <span style="color: red">**</span> <span class="his-icon" ng-click="showHistoryClicked($event,'PATIENT_PHONE,1',true)"><i class="fa fa-history" aria-hidden="true"></i></span> <input type="text" tabindex="6" class="in-field ng-pristine ng-untouched ng-valid-pattern ng-valid-minlength ng-valid-maxlength ng-not-empty ng-valid ng-valid-required" name="phone" ng-model="patientdata.tel" ng-change="lookupError = undefined" ng-pattern="/^[\+]?[(]?[0-9]{2}[)]?[-\s\.]?[0-9]{1}[-\s\.]?[0-9]{2,15}$/" ng-minlength="5" ng-maxlength="15" ng-disabled="patientdata.freeze" required="">
+                           <span class="com-icon" ng-click="showPatientInfoCommentBox($event, 'referraldata.patientcomment.telephoneComment')"><i class="fa fa-commenting" aria-hidden="true"></i></span>
+                           <span style="color: red" class="err-span-v2 ng-hide" ng-show="myForm.phone.$touched &amp;&amp; myForm.phone.$error.required &amp;&amp; !patientdata.freeze">phone
+                           number is required!</span> <span style="color: red" class="err-span-v2 ng-hide" ng-show="myForm.phone.$error.minlength">Phone
+                           number should have atleast 5 digits</span> <span style="color: red" class="err-span-v2 ng-hide" ng-show="myForm.phone.$error.maxlength">Phone
+                           number should only have maximum 15 digits</span> <br> <span style="color: red" class="err-span-v2 ng-hide" ng-show="myForm.phone.$error.pattern">Please match
+                           pattern [eg : +3163647 || +(91)-1452]</span>
+                        </div>
+                     </div>
+                  </div>
+                  <!-- Referral check list ui starts -->
+                  <div ng-class="{'dis_none_div': mode== 'PAT_EDIT'}" class="dis_none_div">
+                     <div class="col-xs-12 new-pat-box12" style="padding-top: 5px;">
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" style="margin-top: 10px; padding: 0" ng-class="{'disabled': false == true ? true : false}" ng-hide="hideReferralDiv">
+                           <div class="col-xs-12">
+                              <div class="col-xs-12" style="padding: 0">
+                                 <span class="heading-sub">Referral Cardiologist :</span>
+                              </div>
+                              <div class="col-xs-12" style="padding: 0; min-height: 70px;">
+                                 First Name <span style="color: red">**</span>
+                                 <span class="his-icon" ng-click="showHistoryClicked($event,'REFERRAL_CARDIO_FNAME,1')"><i class="fa fa-history" aria-hidden="true"></i></span>
+                                 <input class="in-field ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" type="text" name="refcardfname" ng-model="referraldata.referralCardioFname" ng-disabled="referraldata.freeze" required="">
+                                 <span class="com-icon" ng-click="showReferralCommentBox($event, 'referraldata.rcfnameComment')"><i class="fa fa-commenting" aria-hidden="true"></i></span>
+                                 <span class="err-span-v2 ng-hide" ng-show="myForm.refcardfname.$touched &amp;&amp; myForm.refcardfname.$error.required &amp;&amp; !referraldata.freeze">First
+                                 Name Required !</span>
+                              </div>
+                              <div class="col-xs-12" style="padding: 0; min-height: 70px;">
+                                 Last Name <span style="color: red">**</span>
+                                 <span class="his-icon" ng-click="showHistoryClicked($event,'REFERRAL_CARDIO_LNAME,1')"><i class="fa fa-history" aria-hidden="true"></i></span>
+                                 <input class="in-field ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" type="text" name="refcardlname" ng-model="referraldata.referralCardioLname" ng-disabled="referraldata.freeze" required="">
+                                 <span class="com-icon" ng-click="showReferralCommentBox($event, 'referraldata.rclnameComment')"><i class="fa fa-commenting" aria-hidden="true"></i></span>
+                                 <span class="err-span-v2 ng-hide" ng-show="myForm.refcardlname.$error.required &amp;&amp; myForm.refcardlname.$touched &amp;&amp; !referraldata.freeze">Last
+                                 Name Required !</span>
+                              </div>
+                              <div class="col-xs-12" style="padding: 0; min-height: 70px;">
+                                 E-mail <span style="color: red">**</span>
+                                 <span class="his-icon" ng-click="showHistoryClicked($event,'REFERRAL_CARDIO_EMAIL,1')"><i class="fa fa-history" aria-hidden="true"></i></span>
+                                 <input class="in-field ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required ng-valid-pattern" type="text" ng-pattern="/^[a-z,0-9,\.]+@(([a-z])+\.){1,}[a-z]{2,5}$/i" name="refcardemail" ng-model="referraldata.referralCardioEmail" ng-disabled="referraldata.freeze" required="">
+                                 <span class="com-icon" ng-click="showReferralCommentBox($event, 'referraldata.rcemailComment')"><i class="fa fa-commenting" aria-hidden="true"></i></span>
+                                 <span class="err-span-v2 ng-hide" ng-show="myForm.refcardemail.$error.required &amp;&amp; myForm.refcardemail.$touched &amp;&amp; !referraldata.freeze">Email
+                                 is a required field</span> <span class="err-span-v2 ng-hide" ng-show="myForm.refcardemail.$error.pattern">please
+                                 match the pattern eg: smith@gmail.com</span>
+                              </div>
+                              <div class="col-xs-12" style="padding: 0; min-height: 50px;">
+                                 Telephone   
+                                 <span class="his-icon" ng-click="showHistoryClicked($event,'REFERRAL_CARDIO_PHONE,1')"><i class="fa fa-history" aria-hidden="true"></i></span>
+                                 <input class="in-field ng-pristine ng-untouched ng-valid ng-empty ng-valid-pattern ng-valid-minlength ng-valid-maxlength" type="text" name="refcardph" ng-model="referraldata.referralCardioPhone" ng-minlength="5" ng-maxlength="15" ng-disabled="referraldata.freeze" ng-pattern="/^[\+]?[(]?[0-9]{2}[)]?[-\s\.]?[0-9]{1}[-\s\.]?[0-9]{2,15}$/">
+                                 <!-- <span style="color: red" class="err-span-v2"
+                                    ng-show="myForm.refcardph.$touched && myForm.refcardph.$error.required">phone
+                                    number is required!</span> -->
+                                 <span class="com-icon" ng-click="showReferralCommentBox($event, 'referraldata.rctelephoneComment')"><i class="fa fa-commenting" aria-hidden="true"></i></span>
+                                 <span style="color: red" class="err-span-v2 ng-hide" ng-show="myForm.refcardph.$error.minlength">Phone
+                                 number should have atleast 5 digits</span> <span style="color: red" class="err-span-v2 ng-hide" ng-show="myForm.refcardph.$error.maxlength">Phone
+                                 number should only have maximum 15 digits</span> <span class="err-span-v2 ng-hide" ng-show="myForm.refcardph.$error.pattern">please
+                                 match the pattern eg: +31636363 or +(91)-45517</span>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" style="margin-top: 10px; padding: 0">
+                           <div class="col-xs-12">
+                              <div class="col-xs-12" style="padding: 0">
+                                 <span class="heading-sub">General Practitioner :</span>
+                              </div>
+                              <div class="col-xs-12" style="padding: 0; min-height: 70px;">
+                                 First Name <span style="color: red">**</span>
+                                 <span class="his-icon" ng-click="showHistoryClicked($event,'REFERRAL_GP_FNAME,1')"><i class="fa fa-history" aria-hidden="true"></i></span>
+                                 <input class="in-field ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" type="text" name="gpfname" ng-model="referraldata.gpFname" ng-disabled="referraldata.freeze" required="">
+                                 <span class="com-icon" ng-click="showReferralCommentBox($event, 'referraldata.gpfnameComment')"><i class="fa fa-commenting" aria-hidden="true"></i></span>
+                                 <span class="err-span-v2 ng-hide" ng-show="myForm.gpfname.$error.required &amp;&amp; myForm.gpfname.$touched &amp;&amp; !referraldata.freeze">First
+                                 Name Required !</span>
+                              </div>
+                              <div class="col-xs-12" style="padding: 0; min-height: 70px;">
+                                 Last Name <span style="color: red">**</span>
+                                 <span class="his-icon" ng-click="showHistoryClicked($event,'REFERRAL_GP_LNAME,1')"><i class="fa fa-history" aria-hidden="true"></i></span>
+                                 <input class="in-field ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" type="text" name="gpLname" ng-model="referraldata.gpLname" ng-disabled="referraldata.freeze" required="">
+                                 <span class="com-icon" ng-click="showReferralCommentBox($event, 'referraldata.gplnameComment')"><i class="fa fa-commenting" aria-hidden="true"></i></span>
+                                 <span class="err-span-v2 ng-hide" ng-show="myForm.gpLname.$error.required &amp;&amp; myForm.gpLname.$touched &amp;&amp; !referraldata.freeze">Last
+                                 Name Required !</span>
+                              </div>
+                              <div class="col-xs-12" style="padding: 0; min-height: 70px;">
+                                 E-mail  <!-- <span
+                                    style="color: red">**</span> -->
+                                 <span class="his-icon" ng-click="showHistoryClicked($event,'REFERRAL_GP_EMAIL,1')"><i class="fa fa-history" aria-hidden="true"></i></span>
+                                 <input class="in-field ng-pristine ng-untouched ng-valid ng-empty ng-valid-pattern" type="text" name="gpemail" ng-model="referraldata.gpEmail" ng-disabled="referraldata.freeze" ng-pattern="/^[a-z,0-9,\.]+@(([a-z])+\.){1,}[a-z]{2,5}$/i">
+                                 <span class="com-icon" ng-click="showReferralCommentBox($event, 'referraldata.gpemailComment')"><i class="fa fa-commenting" aria-hidden="true"></i></span>
+                                 <span class="err-span-v2 ng-hide" ng-show="myForm.gpemail.$error.required &amp;&amp; myForm.gpemail.$touched &amp;&amp; !referraldata.freeze">Email
+                                 is a required field</span> <span class="err-span-v2 ng-hide" ng-show="myForm.gpemail.$error.pattern">please match
+                                 the pattern eg: smith@gmail.com</span>
+                              </div>
+                              <div class="col-xs-12" style="padding: 0; min-height: 50px;">
+                                 Telephone 
+                                 <span class="his-icon" ng-click="showHistoryClicked($event,'REFERRAL_GP_PHONE,1')"><i class="fa fa-history" aria-hidden="true"></i></span>
+                                 <input class="in-field ng-pristine ng-untouched ng-valid ng-empty ng-valid-pattern ng-valid-minlength ng-valid-maxlength" type="text" name="gpph" ng-model="referraldata.gpPhone" ng-pattern="/^[\+]?[(]?[0-9]{2}[)]?[-\s\.]?[0-9]{1}[-\s\.]?[0-9]{2,15}$/" ng-minlength="5" ng-maxlength="15" ng-disabled="referraldata.freeze">
+                                 <!-- <span style="color: red" class="err-span-v2" 
+                                    ng-show="myForm.gpph.$touched && myForm.gpph.$error.required">phone
+                                    number is required!</span>  -->
+                                 <span class="com-icon" ng-click="showReferralCommentBox($event, 'referraldata.gptelephoneComment')"><i class="fa fa-commenting" aria-hidden="true"></i></span>
+                                 <span style="color: red" class="err-span-v2 ng-hide" ng-show="myForm.gpph.$error.minlength">Phone number
+                                 should have atleast 5 digits</span> <span style="color: red" class="err-span-v2 ng-hide" ng-show="myForm.gpph.$error.maxlength">Phone
+                                 number should only have maximum 15 digits</span> <span class="err-span-v2 ng-hide" ng-show="myForm.gpph.$error.pattern">please
+                                 match the pattern eg: +31636363 or +(91)-45517</span>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-xs-12 new-pat-box12" ng-class="{'disabled': referraldata.rstatus == 'SUBMITTED'}">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="min-height: 70px;">
+                           <div>
+                              <span class="att-icon" data-toggle="modal" data-target="#myModal1" ng-click="showSectionId = 1; referralFileUploadInit()"><i class="fa fa-paperclip" aria-hidden="true"></i></span> Referral Letter <span style="color: red">**</span> &nbsp;&nbsp;&nbsp; <!-- ngRepeat: f in uploadedFiles | filter: {sectionid : 1} : true -->
+                           </div>
+                           <div class="col-xs-4" style="padding: 0">
+                              <select class="in-field ng-pristine ng-untouched ng-valid ng-not-empty" ng-model="referraldata.refLetter" ng-init="referraldata.refLetter = refNo" ng-disabled="referraldata.freeze || mode == 'REF_EDIT'" ng-change="makeDateFieldNull('refLetterDate',referraldata.refLetter)">
+                                 <option value="5de50025-8350-4b05-a80e-47b8817f3f18" selected="selected">No</option>
+                                 <option value="7df1d84a-fab8-4051-a99e-3f238bd331af">Yes</option>
+                              </select>
+                           </div>
+                           <div class="col-xs-8" style="padding: 0">
+                              <!-- <span  class="his-icon-dat" ng-click="showHistoryClicked($event,'REFERRAL_REFLETDATE,4')"><i class="fa fa-history" aria-hidden="true"></i></span> -->
+                              <div class="input-group date date-picker-bg" id="_referralletterdate">
+                                 <input class="in-field ng-pristine ng-untouched ng-valid ng-empty ng-valid-required" id="referraldate" name="referraldate" ng-model="referraldata.refLetterDate" placeholder="yyyy-mm-dd" type="text" ng-disabled="referraldata.freeze || referraldata.refLetter == refNo || mode == 'REF_EDIT'" ng-required="referraldata.refLetter == refYes" disabled="">
+                                 <!-- ngIf: referraldata.refLetterDate -->
+                                 <span style="border: 1px solid #CCCCCC;" class="input-group-addon"> <span class="glyphicon" ng-disabled="referraldata.freeze || mode == 'REF_EDIT'">
+                                 <img src="/nz-shd-stage/moduleResources/procedure-tracking-module/v2/images/clndr.png">
+                                 </span>
+                                 </span>
+                              </div>
+                              <input type="hidden" id="___referralletterdate" value="refLetterDate" autocomplete="off">
+                              <!-- <span class="ref-let-com"
+                                 ng-click="showReferralCommentBox($event, 'referraldata.refdateComment')"><i
+                                 class="fa fa-commenting" aria-hidden="true"></i></span> -->
+                              <span class="err-span-v2 ng-hide" ng-show="myForm.referraldate.$error.required">Date
+                              Required !</span>
+                           </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="min-height: 70px;">
+                           <div>
+                              CT-TAVI Protocol <span style="color: red">*</span> &nbsp;&nbsp;&nbsp;
+                              <!-- ngRepeat: f in uploadedFiles | filter: {sectionid : 7} : true -->
+                           </div>
+                           <div class="col-xs-4" style="padding: 0">
+                              <select class="in-field ng-pristine ng-untouched ng-valid ng-not-empty" ng-model="referraldata.ctTaviProtocol" ng-init="referraldata.ctTaviProtocol = refNo" ng-disabled="referraldata.freeze" ng-change="makeDateFieldNull('ctTaviProtocolDate',referraldata.ctTaviProtocol)">
+                                 <option value="5de50025-8350-4b05-a80e-47b8817f3f18" selected="selected">No</option>
+                                 <option value="7df1d84a-fab8-4051-a99e-3f238bd331af">Yes</option>
+                              </select>
+                           </div>
+                           <span class="his-icon-dat his-icon-ct-tav" ng-click="showHistoryClicked($event,'REFERRAL_TAVIPROTOCOL_DATE,4')"><i class="fa fa-history" aria-hidden="true"></i></span><span class="com-icon-dat com-icon-ct-tav" ng-click="showReferralCommentBox($event, 'referraldata.ctdateComment')"><i class="fa fa-commenting" aria-hidden="true"></i></span>
+                           <span class="att-icon1" data-toggle="modal" data-target="#myModal1" ng-click="showSectionId = 2; referralFileUploadInit()"><i class="fa fa-paperclip" aria-hidden="true"></i></span>
+                           <div class="col-xs-8" style="padding: 0;">
+                              <div class="input-group date date-picker-bg" id="_cttavidate">
+                                 <input class="in-field ng-pristine ng-untouched ng-valid ng-empty ng-valid-required" id="cttavidate" name="cttavidate" ng-model="referraldata.ctTaviProtocolDate" placeholder="yyyy-mm-dd" type="text" ng-disabled="referraldata.freeze || referraldata.ctTaviProtocol == refNo" ng-required="referraldata.ctTaviProtocol == refYes" disabled="">
+                                 <!-- ngIf: referraldata.ctTaviProtocolDate -->
+                                 <span style="border: 1px solid #CCCCCC;" class="input-group-addon"> <span class="glyphicon" ng-disabled="referraldata.freeze"> <img src="/nz-shd-stage/moduleResources/procedure-tracking-module/v2/images/clndr.png">
+                                 </span>
+                                 </span>
+                              </div>
+                              <input type="hidden" id="___cttavidate" value="ctTaviProtocolDate" autocomplete="off"> <span class="err-span-v2 ng-hide" ng-show="myForm.cttavidate.$error.required">Date
+                              Required !</span>
+                           </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="min-height: 70px;">
+                           <div>
+                              Cardio Surgical Conference &nbsp;&nbsp;&nbsp;
+                              <!-- ngRepeat: f in uploadedFiles | filter: {sectionid : 2} : true -->
+                           </div>
+                           <div class="col-xs-4" style="padding: 0">
+                              <select class="in-field ng-pristine ng-untouched ng-valid ng-not-empty" ng-model="referraldata.cardioSurgical" ng-init="referraldata.cardioSurgical = refNo" ng-disabled="referraldata.freeze" ng-change="makeDateFieldNull('cardioSurgicalDate',referraldata.cardioSurgical)">
+                                 <option value="5de50025-8350-4b05-a80e-47b8817f3f18" selected="selected">No</option>
+                                 <option value="7df1d84a-fab8-4051-a99e-3f238bd331af">Yes</option>
+                              </select>
+                           </div>
+                           <span class="his-icon-dat his-icon-card-sur-con" ng-click="showHistoryClicked($event,'REFERRAL_SUR_CONF_DATE,4')"><i class="fa fa-history" aria-hidden="true"></i></span><span class="com-icon-dat com-icon-card-sur-con" ng-click="showReferralCommentBox($event, 'referraldata.cardsurconfComment')"><i class="fa fa-commenting" aria-hidden="true"></i></span>
+                           <span class="att-icon1" data-toggle="modal" data-target="#myModal1" ng-click="showSectionId = 3; referralFileUploadInit()"><i class="fa fa-paperclip" aria-hidden="true"></i></span>
+                           <div class="col-xs-8" style="padding: 0;">
+                              <div class="input-group date date-picker-bg" id="_cardiosurgicaldate">
+                                 <input class="in-field ng-pristine ng-untouched ng-valid ng-empty ng-valid-required" id="cardiosurgicaldate" name="cardiosurgicaldate" ng-model="referraldata.cardioSurgicalDate" placeholder="yyyy-mm-dd" type="text" ng-disabled="referraldata.freeze || referraldata.cardioSurgical == refNo" ng-required="referraldata.cardioSurgical == refYes" disabled="">
+                                 <!-- ngIf: referraldata.cardioSurgicalDate -->
+                                 <span style="border: 1px solid #CCCCCC;" class="input-group-addon"> <span class="glyphicon" ng-disabled="referraldata.freeze"> <img src="/nz-shd-stage/moduleResources/procedure-tracking-module/v2/images/clndr.png">
+                                 </span>
+                                 </span>
+                              </div>
+                              <input type="hidden" id="___cardiosurgicaldate" value="cardioSurgicalDate" autocomplete="off">
+                              <span class="err-span-v2 ng-hide" ng-show="myForm.cardiosurgicaldate.$error.required">Date
+                              Required !</span>
+                           </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="min-height: 70px;">
+                           <div>
+                              Coronary Angiography <span style="color: red">*</span> &nbsp;&nbsp;&nbsp;
+                              <!-- ngRepeat: f in uploadedFiles | filter: {sectionid : 8} : true -->
+                           </div>
+                           <div class="col-xs-4" style="padding: 0">
+                              <select class="in-field ng-pristine ng-untouched ng-valid ng-not-empty" ng-model="referraldata.coronaryAngio" ng-init="referraldata.coronaryAngio = refNo" ng-disabled="referraldata.freeze" ng-change="makeDateFieldNull('coronaryAngioDate',referraldata.coronaryAngio)">
+                                 <option value="5de50025-8350-4b05-a80e-47b8817f3f18" selected="selected">No</option>
+                                 <option value="7df1d84a-fab8-4051-a99e-3f238bd331af">Yes</option>
+                              </select>
+                           </div>
+                           <span class="his-icon-dat his-icon-cor-angy" ng-click="showHistoryClicked($event,'REFERRAL_COR_ANGIODATE,4')"><i class="fa fa-history" aria-hidden="true"></i></span><span class="com-icon-dat com-icon-cor-angy" ng-click="showReferralCommentBox($event, 'referraldata.coroangidateComment')"><i class="fa fa-commenting" aria-hidden="true"></i></span>
+                           <span class="att-icon1" data-toggle="modal" data-target="#myModal1" ng-click="showSectionId = 4; referralFileUploadInit()"><i class="fa fa-paperclip" aria-hidden="true"></i></span>
+                           <div class="col-xs-8" style="padding: 0;">
+                              <div class="input-group date date-picker-bg" id="_coronaryangiodate">
+                                 <input class="in-field ng-pristine ng-untouched ng-valid ng-empty ng-valid-required" id="coronaryangiodate" name="coronaryangiodate" ng-model="referraldata.coronaryAngioDate" placeholder="yyyy-mm-dd" type="text" ng-disabled="referraldata.freeze || referraldata.coronaryAngio == refNo" ng-required="referraldata.coronaryAngio == refYes" disabled="">
+                                 <!-- ngIf: referraldata.coronaryAngioDate -->
+                                 <span style="border: 1px solid #CCCCCC;" class="input-group-addon"> <span class="glyphicon" ng-disabled="referraldata.freeze"> <img src="/nz-shd-stage/moduleResources/procedure-tracking-module/v2/images/clndr.png">
+                                 </span>
+                                 </span>
+                              </div>
+                              <input type="hidden" id="___coronaryangiodate" value="coronaryAngioDate" autocomplete="off">
+                              <span class="err-span-v2 ng-hide" ng-show="myForm.coronaryangiodate.$error.required">Date
+                              Required !</span>
+                           </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="min-height: 70px;">
+                           <div>
+                              Cardiac Surgeon Review <span style="color: red">*</span> &nbsp;&nbsp;&nbsp;
+                              <!-- ngRepeat: f in uploadedFiles | filter: {sectionid : 3} : true -->
+                           </div>
+                           <div class="col-xs-4" style="padding: 0">
+                              <select class="in-field ng-pristine ng-untouched ng-valid ng-not-empty" ng-model="referraldata.cardiacSurgieonReview" ng-init="referraldata.cardiacSurgieonReview = refNo" ng-disabled="referraldata.freeze" ng-change="makeDateFieldNull('cardiacSurgieonReviewDate',referraldata.cardiacSurgieonReview)">
+                                 <option value="5de50025-8350-4b05-a80e-47b8817f3f18" selected="selected">No</option>
+                                 <option value="7df1d84a-fab8-4051-a99e-3f238bd331af">Yes</option>
+                              </select>
+                           </div>
+                           <div class="col-xs-8" style="padding: 0;">
+                              <span class="his-icon-dat his-icon-carsur-rev" ng-click="showHistoryClicked($event,'REFERRAL_SURGEIONREVIEW_DATE,4')"><i class="fa fa-history" aria-hidden="true"></i></span><span class="com-icon-dat com-icon-carsur-rev" ng-click="showReferralCommentBox($event, 'referraldata.cardsurgrevComment')"><i class="fa fa-commenting" aria-hidden="true"></i></span> <span class="att-icon1" data-toggle="modal" data-target="#myModal1" ng-click="showSectionId = 5; referralFileUploadInit()"><i class="fa fa-paperclip" aria-hidden="true"></i></span>
+                              <div class="input-group date date-picker-bg" id="_cardiacsurgreviewdate">
+                                 <input class="in-field ng-pristine ng-untouched ng-valid ng-empty ng-valid-required" id="cardiacsurgreviewdate" name="cardiacsurgreviewdate" ng-model="referraldata.cardiacSurgieonReviewDate" placeholder="yyyy-mm-dd" type="text" ng-disabled="referraldata.freeze || referraldata.cardiacSurgieonReview == refNo" ng-required="referraldata.cardiacSurgieonReview == refYes" disabled="">
+                                 <!-- ngIf: referraldata.cardiacSurgieonReviewDate -->
+                                 <span style="border: 1px solid #CCCCCC;" class="input-group-addon"> <span class="glyphicon" ng-disabled="referraldata.freeze"> <img src="/nz-shd-stage/moduleResources/procedure-tracking-module/v2/images/clndr.png">
+                                 </span>
+                                 </span>
+                              </div>
+                              <input type="hidden" id="___cardiacsurgreviewdate" value="cardiacSurgieonReviewDate" autocomplete="off"> <span class="err-span-v2 ng-hide" ng-show="myForm.cardiacsurgreviewdate.$error.required">Date
+                              Required !</span>
+                           </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="min-height: 70px;">
+                           <div>
+                              Echocardiography <span style="color: red">*</span>
+                              &nbsp;&nbsp;&nbsp; <!-- ngRepeat: f in uploadedFiles | filter: {sectionid : 9} : true -->
+                           </div>
+                           <div class="col-xs-4" style="padding: 0">
+                              <select class="in-field ng-pristine ng-untouched ng-valid ng-not-empty" ng-model="referraldata.echoCardio" ng-init="referraldata.echoCardio = refNo" ng-disabled="referraldata.freeze" ng-change="makeDateFieldNull('echoCardioDate',referraldata.echoCardio)">
+                                 <option value="5de50025-8350-4b05-a80e-47b8817f3f18" selected="selected">No</option>
+                                 <option value="7df1d84a-fab8-4051-a99e-3f238bd331af">Yes</option>
+                              </select>
+                           </div>
+                           <span class="his-icon-dat his-icon-eco-cradgphy" ng-click="showHistoryClicked($event,'REFERRAL_ECHOCARDIO_DATE,4')"><i class="fa fa-history" aria-hidden="true"></i></span><span class="com-icon-dat com-icon-eco-cradgphy" ng-click="showReferralCommentBox($event, 'referraldata.echocardComment')"><i class="fa fa-commenting" aria-hidden="true"></i></span><span class="com-icon-dat com-icon-eco-cradgphy" ng-click="showReferralCommentBox($event, 'referraldata.echocardComment')"><i class="fa fa-commenting" aria-hidden="true"></i></span>
+                           <span class="att-icon1" data-toggle="modal" data-target="#myModal1" ng-click="showSectionId = 6; referralFileUploadInit()"><i class="fa fa-paperclip" aria-hidden="true"></i></span>
+                           <div class="col-xs-8" style="padding: 0;">
+                              <div class="input-group date date-picker-bg" id="_echodate">
+                                 <input class="in-field ng-pristine ng-untouched ng-valid ng-empty ng-valid-required" id="echodate" name="echodate" ng-model="referraldata.echoCardioDate" placeholder="yyyy-mm-dd" type="text" ng-disabled="referraldata.freeze || referraldata.echoCardio == refNo" ng-required="referraldata.echoCardio == refYes" disabled="">
+                                 <!-- ngIf: referraldata.echoCardioDate -->
+                                 <span style="border: 1px solid #CCCCCC;" class="input-group-addon"> <span class="glyphicon" ng-disabled="referraldata.freeze"> <img src="/nz-shd-stage/moduleResources/procedure-tracking-module/v2/images/clndr.png">
+                                 </span>
+                                 </span>
+                              </div>
+                              <input type="hidden" id="___echodate" value="echoCardioDate" autocomplete="off"> <span class="err-span-v2 ng-hide" ng-show="myForm.echodate.$error.required">Date
+                              Required !</span>
+                           </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="min-height: 70px;">
+                           <div>
+                              Heart Team Meeting &nbsp;&nbsp;&nbsp;
+                              <!-- ngRepeat: f in uploadedFiles | filter: {sectionid : 4} : true -->
+                           </div>
+                           <div class="col-xs-4" style="padding: 0">
+                              <select class="in-field ng-pristine ng-untouched ng-valid ng-not-empty" ng-model="referraldata.heartTeamMeeting" ng-init="referraldata.heartTeamMeeting = refNo" ng-disabled="referraldata.freeze" ng-change="makeDateFieldNull('heartTeamMeetingDate',referraldata.heartTeamMeeting)">
+                                 <option value="5de50025-8350-4b05-a80e-47b8817f3f18" selected="selected">No</option>
+                                 <option value="7df1d84a-fab8-4051-a99e-3f238bd331af">Yes</option>
+                              </select>
+                           </div>
+                           <span class="his-icon-dat his-icon-hrt-tm-mtng" ng-click="showHistoryClicked($event,'')"><i class="fa fa-history" aria-hidden="true"></i></span><span class="com-icon-dat com-icon-hrt-tm-mtng" ng-click="showReferralCommentBox($event, 'referraldata.htmeetComment')"><i class="fa fa-commenting" aria-hidden="true"></i></span>
+                           <span class="att-icon1" data-toggle="modal" data-target="#myModal1" ng-click="showSectionId = 7; referralFileUploadInit()"><i class="fa fa-paperclip" aria-hidden="true"></i></span>
+                           <div class="col-xs-8" style="padding: 0;">
+                              <div class="input-group date date-picker-bg" id="_heartteammeetdate">
+                                 <input class="in-field ng-pristine ng-untouched ng-valid ng-empty ng-valid-required" id="heartteammeetdate" name="heartteammeetdate" ng-model="referraldata.heartTeamMeetingDate" placeholder="yyyy-mm-dd" type="text" ng-disabled="referraldata.freeze || referraldata.heartTeamMeeting == refNo" ng-required="referraldata.heartTeamMeeting == refYes" disabled="">
+                                 <!-- ngIf: referraldata.heartTeamMeetingDate -->
+                                 <span style="border: 1px solid #CCCCCC;" class="input-group-addon"> <span class="glyphicon" ng-disabled="referraldata.freeze"> <img src="/nz-shd-stage/moduleResources/procedure-tracking-module/v2/images/clndr.png">
+                                 </span>
+                                 </span>
+                              </div>
+                              <input type="hidden" id="___heartteammeetdate" value="heartTeamMeetingDate" autocomplete="off">
+                              <span class="err-span-v2 ng-hide" ng-show="myForm.heartteammeetdate.$error.required">Date
+                              Required !</span>
+                           </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="min-height: 70px;">
+                           <div>
+                              Spirometry &nbsp;&nbsp;&nbsp; <!-- ngRepeat: f in uploadedFiles | filter: {sectionid : 10} : true -->
+                           </div>
+                           <div class="col-xs-4" style="padding: 0">
+                              <select class="in-field ng-pristine ng-untouched ng-valid ng-not-empty" ng-model="referraldata.spirometry" ng-init="referraldata.spirometry = refNo" ng-disabled="referraldata.freeze" ng-change="makeDateFieldNull('spirometrydt',referraldata.spirometry)">
+                                 <option value="5de50025-8350-4b05-a80e-47b8817f3f18" selected="selected">No</option>
+                                 <option value="7df1d84a-fab8-4051-a99e-3f238bd331af">Yes</option>
+                              </select>
+                           </div>
+                           <span class="his-icon-dat his-icon-sprmtry" ng-click="showHistoryClicked($event,'REFERRAL_SPIROMETRYDATE,4')"><i class="fa fa-history" aria-hidden="true"></i></span><span class="com-icon-dat com-icon-sprmtry" ng-click="showReferralCommentBox($event, 'referraldata.spirometryComment')"><i class="fa fa-commenting" aria-hidden="true"></i></span>
+                           <span class="att-icon1" data-toggle="modal" data-target="#myModal1" ng-click="showSectionId = 8; referralFileUploadInit()"><i class="fa fa-paperclip" aria-hidden="true"></i></span>
+                           <div class="col-xs-8" style="padding: 0;">
+                              <div class="input-group date date-picker-bg" id="_spirometrydate">
+                                 <input class="in-field ng-pristine ng-untouched ng-valid ng-empty ng-valid-required" id="spirometrydate" name="spirometrydate" ng-model="referraldata.spirometrydt" placeholder="yyyy-mm-dd" type="text" ng-disabled="referraldata.freeze || referraldata.spirometry == refNo" ng-required="referraldata.spirometry == refYes" disabled="">
+                                 <!-- ngIf: referraldata.spirometrydt -->
+                                 <span style="border: 1px solid #CCCCCC;" class="input-group-addon"> <span class="glyphicon" ng-disabled="referraldata.freeze"> <img src="/nz-shd-stage/moduleResources/procedure-tracking-module/v2/images/clndr.png">
+                                 </span>
+                                 </span>
+                              </div>
+                              <input type="hidden" id="___spirometrydate" value="spirometrydt" autocomplete="off">
+                              <span class="err-span-v2 ng-hide" ng-show="myForm.spirometrydate.$error.required">Date
+                              Required !</span>
+                           </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="min-height: 70px;">
+                           Frailty Score
+                           &nbsp;&nbsp;&nbsp;
+                           <span class="his-icon" ng-click="showHistoryClicked($event,'REFERRAL_FRACTILITY,3')"><i class="fa fa-history" aria-hidden="true"></i></span>
+                           <span class="att-icon" data-toggle="modal" data-target="#myModal1" ng-click="showSectionId = 9; referralFileUploadInit()"><i class="fa fa-paperclip" aria-hidden="true"></i></span>
+                           <!-- ngRepeat: f in uploadedFiles | filter: {sectionid : 5} : true -->
+                           <select class="in-field ng-pristine ng-untouched ng-valid ng-not-empty" ng-model="referraldata.frailty" ng-init="referraldata.frailty = '0'" ng-disabled="referraldata.freeze">
+                              <option value="0" selected="selected">Select</option>
+                              <option value="86fba344-f170-4be5-8d7d-fb805d0bec9a">No frailty</option>
+                              <option value="e8d8e743-471f-45db-b332-f12312cd74bc">Mild</option>
+                              <option value="2dd97f55-de2d-4fa5-aa77-ce6266373c0b">Moderate</option>
+                              <option value="c5e775a5-aeb6-4d2a-a499-4cc7ca6dc6f2">Severe</option>
+                           </select>
+                           <span class="com-icon" ng-click="showReferralCommentBox($event, 'referraldata.frailtyscoreComment')"><i class="fa fa-commenting" aria-hidden="true"></i></span>
+                        </div>
+                        <!-- latest fields start here -->
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="min-height: 70px;">
+                           <div>
+                              Carotid artery ultrasound scan &nbsp;&nbsp;&nbsp; <!-- ngRepeat: f in uploadedFiles | filter: {sectionid : 11} : true -->
+                           </div>
+                           <div class="col-xs-4" style="padding: 0">
+                              <select class="in-field ng-pristine ng-untouched ng-valid ng-not-empty" ng-model="referraldata.ultrascan" ng-init="referraldata.ultrascan = refNo" ng-disabled="referraldata.freeze" ng-change="makeDateFieldNull('ultrascandt',referraldata.ultrascan)">
+                                 <option value="5de50025-8350-4b05-a80e-47b8817f3f18" selected="selected">No</option>
+                                 <option value="7df1d84a-fab8-4051-a99e-3f238bd331af">Yes</option>
+                              </select>
+                           </div>
+                           <span class="his-icon-dat his-icon-ultrascandt" ng-click="showHistoryClicked($event,'REFERRAL_ULTRASOUNDDATE,4')"><i class="fa fa-history" aria-hidden="true"></i></span><span class="com-icon-dat com-icon-ultrascandt" ng-click="showReferralCommentBox($event, 'referraldata.ultrasscanComment')"><i class="fa fa-commenting" aria-hidden="true"></i></span>
+                           <span class="att-icon1" data-toggle="modal" data-target="#myModal1" ng-click="showSectionId = 10; referralFileUploadInit()"><i class="fa fa-paperclip" aria-hidden="true"></i></span>
+                           <div class="col-xs-8" style="padding: 0;">
+                              <div class="input-group date date-picker-bg" id="_ultrascandate">
+                                 <input class="in-field ng-pristine ng-untouched ng-valid ng-empty ng-valid-required" id="ultrascandate" name="ultrascandate" ng-model="referraldata.ultrascandt" placeholder="yyyy-mm-dd" type="text" ng-disabled="referraldata.freeze || referraldata.ultrascan == refNo" ng-required="referraldata.ultrascan == refYes" disabled="">
+                                 <!-- ngIf: referraldata.ultrascandt -->
+                                 <span style="border: 1px solid #CCCCCC;" class="input-group-addon"> <span class="glyphicon" ng-disabled="referraldata.freeze"> <img src="/nz-shd-stage/moduleResources/procedure-tracking-module/v2/images/clndr.png">
+                                 </span>
+                                 </span>
+                              </div>
+                              <input type="hidden" id="___ultrascandate" value="ultrascandt" autocomplete="off">
+                              <span class="err-span-v2 ng-hide" ng-show="myForm.ultrascandate.$error.required">Date
+                              Required !</span>
+                           </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="min-height: 70px;">
+                           CPAC Score
+                           <span style="color: red">**</span> &nbsp;&nbsp;&nbsp;
+                           <span class="his-icon" ng-click="showHistoryClicked($event,'REFERRAL_CPAC,3')"><i class="fa fa-history" aria-hidden="true"></i></span>
+                           <span class="att-icon" data-toggle="modal" data-target="#myModal1" ng-click="showSectionId = 11; referralFileUploadInit()"><i class="fa fa-paperclip" aria-hidden="true"></i></span>
+                           <!-- ngRepeat: f in uploadedFiles | filter: {sectionid : 6} : true -->
+                           <select class="in-field ng-pristine ng-untouched ng-valid ng-empty" ng-model="referraldata.cpacScore" ng-disabled="referraldata.freeze">
+                              <option value="" selected="selected">Select</option>
+                              <option value="b3c9f0ad-894d-4342-8b3c-75ef76c2a5b3">Routine</option>
+                              <option value="f6d2bbe1-b51f-474a-9163-075777abb653">Emergent</option>
+                              <option value="96e22135-ebe0-4729-af4b-2948a0a53ce3">Urgent</option>
+                           </select>
+                           <span class="com-icon" ng-click="showReferralCommentBox($event, 'referraldata.cpacComment')"><i class="fa fa-commenting" aria-hidden="true"></i></span>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="min-height: 70px;">
+                           <div>
+                              Dental review &nbsp;&nbsp;&nbsp; <!-- ngRepeat: f in uploadedFiles | filter: {sectionid : 12} : true -->
+                           </div>
+                           <div class="col-xs-4" style="padding: 0">
+                              <select class="in-field ng-pristine ng-untouched ng-valid ng-not-empty" ng-model="referraldata.dentalrev" ng-init="referraldata.dentalrev = naUuid" ng-disabled="referraldata.freeze" ng-change="makeDateFieldNull('dentalrevdt',referraldata.dentalrev)">
+                                 <option value="5e343bf6-9878-ssss-2222-86239ed42bd9" selected="selected">Not Applicable</option>
+                                 <option value="5e343bf6-9878-dddd-1111-86239ed42bd9">Requested</option>
+                                 <option value="7df1d84a-fab8-4051-a99e-3f238bd331af">Yes</option>
+                              </select>
+                           </div>
+                           <span class="his-icon-dat his-icon-dntl-rev" ng-click="showHistoryClicked($event,'REFERRAL_DENTAL_REVIEWDATE,4')"><i class="fa fa-history" aria-hidden="true"></i></span><span class="com-icon-dat com-icon-dntl-rev" ng-click="showReferralCommentBox($event, 'referraldata.dentreviewComment')"><i class="fa fa-commenting" aria-hidden="true"></i></span>
+                           <span class="att-icon1" data-toggle="modal" data-target="#myModal1" ng-click="showSectionId = 12; referralFileUploadInit()"><i class="fa fa-paperclip" aria-hidden="true"></i></span>
+                           <div class="col-xs-8" style="padding: 0;">
+                              <div class="input-group date date-picker-bg" id="_dentalreviewdate">
+                                 <input class="in-field ng-pristine ng-untouched ng-valid ng-empty ng-valid-required" id="dentalreviewdate" name="dentalreviewdate" ng-model="referraldata.dentalrevdt" placeholder="yyyy-mm-dd" type="text" ng-disabled="referraldata.freeze || referraldata.dentalrev == naUuid" ng-required="referraldata.dentalrev != naUuid" disabled="">
+                                 <!-- ngIf: referraldata.dentalrevdt -->
+                                 <span style="border: 1px solid #CCCCCC;" class="input-group-addon"> <span class="glyphicon" ng-disabled="referraldata.freeze"> <img src="/nz-shd-stage/moduleResources/procedure-tracking-module/v2/images/clndr.png">
+                                 </span>
+                                 </span>
+                              </div>
+                              <input type="hidden" id="___dentalreviewdate" value="dentalrevdt" autocomplete="off">
+                              <span class="err-span-v2 ng-hide" ng-show="myForm.dentalreviewdate.$error.required">Date
+                              Required !</span>
+                           </div>
+                        </div>
+                        <!-- *********************************** wait period start time ****************************************** -->
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="min-height: 70px;">
+                           <div>
+                              Wait period start (Optional)&nbsp;&nbsp;&nbsp;
+                           </div>
+                           <span class="his-icon-dat his-icon-eco-cradgphy" ng-click="showHistoryClicked($event,'REFERRAL_WAITTIME_START_DATE,4')"><i class="fa fa-history" aria-hidden="true"></i></span><span class="com-icon-dat com-icon-eco-cradgphy" ng-click="showReferralCommentBox($event, 'referraldata.echocardComment')"><i class="fa fa-commenting" aria-hidden="true"></i></span><span class="com-icon-dat com-icon-eco-cradgphy" ng-click="showReferralCommentBox($event, 'referraldata.echocardComment')"><i class="fa fa-commenting" aria-hidden="true"></i></span>
+                           <div class="col-xs-8" style="padding: 0;">
+                              <div class="input-group date date-picker-bg" id="_waittimedate">
+                                 <input class="in-field ng-pristine ng-untouched ng-valid ng-empty" id="waittimedate" name="waittimedate" ng-model="referraldata.waitTimeDate" placeholder="yyyy-mm-dd" type="text" ng-disabled="referraldata.freeze">
+                                 <!-- ngIf: referraldata.waitTimeDate -->
+                                 <span style="border: 1px solid #CCCCCC;" class="input-group-addon"> <span class="glyphicon" ng-disabled="referraldata.freeze"> <img src="/nz-shd-stage/moduleResources/procedure-tracking-module/v2/images/clndr.png">
+                                 </span>
+                                 </span>
+                              </div>
+                              <input type="hidden" id="___waittimedate" value="waitTimeDate" autocomplete="off">
+                           </div>
+                        </div>
+                        <!-- ********************************** end of wait period start time ************************************ -->
+                        <!-- Button trigger modal -->
+                        <!-- <button style="float: right; margin-right: 16px;"
+                           class="btn btn-primary btn-md" data-toggle="modal"
+                           data-target="#myModal1" ng-click="referralFileUploadInit()">Attach Documents</button> -->
+                        <!-- ngIf: mode == 'REF_EDIT' && !isProcedureStarted  -->
+                        <!-- ------------------------------------------------------------------------------------------------------------------------- -->
+                        <!-- -----------------------------------------------------Death popup content------------------------------------------------- -->
+                        <!-- ------------------------------------------------------------------------------------------------------------------------- -->
+                        <div class="modal" id="myModaldeath">
+                           <div style="height: auto !important; width: 70%;" class="modal-dialog">
+                              <div class="modal-content">
+                                 <div class="modal-header">
+                                    <i style="font-size: 15px;" class="btn_close close fa fa-close" ng-click="hideDeathDataPopup()"></i>
+                                    <h4 class="modal-title" id="myModalLabel">
+                                       Report Death <br> <!-- ngIf:  !referraldata.ispreferred && deathModel.dateOfDeath == undefined  --><span ng-if=" !referraldata.ispreferred &amp;&amp; deathModel.dateOfDeath == undefined " style="color: red; font-size: 12px; text-transform: initial; font-weight: 200;" class="ng-scope">(Please
+                                       update death information in the latest referral)</span><!-- end ngIf:  !referraldata.ispreferred && deathModel.dateOfDeath == undefined  -->
+                                    </h4>
+                                 </div>
+                                 <div style="height: auto;" class="pad-0 modal-body">
+                                    <div class="col-xs-12" style="padding: 20px 10px;">
+                                       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top: 20px;" id="deathInfo">
+                                          <div class="col-xs-12" style="background: #FFFFFF; padding-top: 10px; padding-bottom: 8px;">
+                                             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 pad5 mi-hgt-err">
+                                                Date of death  
+                                                <!-- <span class="his-icon"
+                                                   ng-click="showHistoryClicked($event,'REFERRAL_DATEOFDEATH,4')"><i
+                                                   class="fa fa-history" aria-hidden="true"></i></span> -->
+                                                <div class="input-group date date-picker-bg" id="_dateofdeath">
+                                                   <input class="in-field ng-pristine ng-untouched ng-valid ng-empty" id="_dateofdeath" name="dateofdeath" ng-model="deathModel.dateOfDeath" placeholder="yyyy-mm-dd" type="text" ng-disabled="referraldata.freeze || isPatientDead || !referraldata.ispreferred " disabled="">
+                                                   <!-- ngIf: deathModel.dateOfDeath && !(referraldata.freeze || isPatientDead || !referraldata.ispreferred) -->
+                                                   <span style="border: 1px solid #CCCCCC;" class="input-group-addon"> <span class="glyphicon" ng-disabled="referraldata.freeze || isPatientDead || !referraldata.ispreferred" disabled="disabled">
+                                                   <img src="/nz-shd-stage/moduleResources/procedure-tracking-module/v2/images/clndr.png">
+                                                   </span>
+                                                   </span>
+                                                </div>
+                                                <input type="hidden" id="___dateofdeath" value="dateOfDeath" autocomplete="off">
+                                                <!--  <span class="com-icon"
+                                                   ng-click="showReferralCommentBox($event, 'deathModel.dateOfDeathCmnt')"><i
+                                                   class="fa fa-commenting" aria-hidden="true"></i></span> -->
+                                                <span class="err-span-v2 ng-hide" ng-show="myForm.dateofdeath.$error.required">Date
+                                                of death is mandatory!</span>
+                                             </div>
+                                             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 pad5 mi-hgt-err">
+                                                Autopsy done
+                                                <!-- <span class="his-icon"
+                                                   ng-click="showHistoryClicked($event,'REFERRAL_AUTOPSY,3')"><i
+                                                   class="fa fa-history" aria-hidden="true"></i></span> -->
+                                                <select class="in-field ng-pristine ng-untouched ng-valid ng-not-empty" ng-model="deathModel.autopsyDone" ng-init="deathModel.autopsyDone = '0'" ng-disabled="referraldata.freeze || !deathModel.dateOfDeath || isPatientDead || 
+                                                   !referraldata.ispreferred " disabled="disabled">
+                                                   <option value="0" selected="selected">Select</option>
+                                                   <option value="4cb0e43c-f914-4790-8dda-f9b4997243e1">No</option>
+                                                   <option value="8990738c-d815-4858-8e9e-7f889b1b7ea3">Yes</option>
+                                                </select>
+                                                <!-- <span class="com-icon"
+                                                   ng-click="showReferralCommentBox($event, 'deathModel.autopsyDoneCmnt')"><i
+                                                   class="fa fa-commenting" aria-hidden="true"></i></span> -->
+                                             </div>
+                                             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 pad5 mi-hgt-err">
+                                                Death Related to
+                                                <!-- <span class="his-icon"
+                                                   ng-click="showHistoryClicked($event,'REFERRAL_DEATH_RTO,3')"><i
+                                                   class="fa fa-history" aria-hidden="true"></i></span> -->
+                                                <select class="in-field ng-pristine ng-untouched ng-valid ng-not-empty" ng-model="deathModel.deathrelto" ng-init="deathModel.deathrelto = '0'" ng-disabled="referraldata.freeze || !deathModel.dateOfDeath || isPatientDead || !referraldata.ispreferred" disabled="disabled">
+                                                   <option value="0" selected="selected">Select</option>
+                                                   <option value="59e8ee29-d259-442a-a851-73d74223db0c">TAVI</option>
+                                                   <option value="dd63baaa-2de6-4ad7-86d7-e34f41fcdb62">Procedure</option>
+                                                   <option value="e70fe98c-65f2-463f-b5b9-719dc78118e2">TAVI and Procedure</option>
+                                                   <option value="a65ec5d7-ef80-47ca-93e0-da786cce6024">Not TAVI and Procedure</option>
+                                                   <option value="952d3a21-80b0-4be1-840a-724dd977867d">Unknown</option>
+                                                </select>
+                                                <!--  <span class="com-icon"
+                                                   ng-click="showReferralCommentBox($event, 'deathModel.deathRelatedToCmnt')"><i
+                                                   class="fa fa-commenting" aria-hidden="true"></i></span> -->
+                                             </div>
+                                             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 pad5 mi-hgt-err">
+                                                Cause of death
+                                                <!-- <span class="his-icon"
+                                                   ng-click="showHistoryClicked($event,'REFERRAL_CAUSEOFDEATH,3')"><i
+                                                   class="fa fa-history" aria-hidden="true"></i></span> -->
+                                                <select class="in-field ng-pristine ng-untouched ng-valid ng-not-empty" ng-model="deathModel.causeofd" ng-init="deathModel.causeofd = '0'" ng-disabled="referraldata.freeze || !deathModel.dateOfDeath || isPatientDead || !referraldata.ispreferred" disabled="disabled">
+                                                   <option value="0" selected="selected">Select</option>
+                                                   <option value="28520816-010b-4048-93e0-3aae34ae804a">AMI</option>
+                                                   <option value="888fa5bb-d3e5-4b05-9036-427314014900">AnnulDisct</option>
+                                                   <option value="a2561931-9753-4ae5-b9d5-8442f876da92">AortDiscet</option>
+                                                   <option value="576ce669-5e94-449b-a3a9-f6a5fa2444ca">Arrhythmia</option>
+                                                   <option value="7311e695-f5d3-4bab-a1fd-e937573c1e8b">Bleeding</option>
+                                                   <option value="ee4b2a2d-e821-41cb-b927-0af384ba6519">Cancer</option>
+                                                   <option value="3c5dd80a-35e9-4aca-93ee-0df3954b07b1">CHF</option>
+                                                   <option value="78e3f00d-4caa-4ad5-8898-e2185ba2dc77">Glcomp</option>
+                                                   <option value="9a56c898-bd1b-452a-87ab-88fa14f28e7c">Hert Bloc</option>
+                                                   <option value="4d58a19c-660a-4637-90c5-6b14f5fb50cb">Infect</option>
+                                                   <option value="882c89b7-7a0b-46d8-a24f-d8a2cd0f0b3a">MutiOrganFail</option>
+                                                   <option value="682dd355-b835-4377-8aca-f1e8061ab97e">PE</option>
+                                                   <option value="4c34379b-7fa9-45f2-bbfa-7857d4f1bba6">PUO</option>
+                                                   <option value="ae6971d8-832c-497c-946d-77532323cb24">RenFail</option>
+                                                   <option value="003bfb84-6751-43dd-9a9e-7b35a0af271a">ResFAIL</option>
+                                                   <option value="d2fb3301-ccce-4ce4-a00d-697839373d56">SBE</option>
+                                                   <option value="fadda87e-9b2d-4ddc-b8df-da37280c679d">STROKE(EMBO)</option>
+                                                   <option value="45262d72-2446-4c8c-9355-8003c9d6a882">STROKE(Hem)</option>
+                                                   <option value="4039f3df-25e4-4de7-8f0b-531158596680">SuddenDeath</option>
+                                                   <option value="c7570abc-20ac-42e2-a1c0-fcae0d402fff">Temonade</option>
+                                                   <option value="952d3a21-80b0-4be1-840a-724dd977867d">Unknown</option>
+                                                   <option value="d93ff5d0-1de8-407e-b391-ff8a7b27c136">V(NSVD)</option>
+                                                   <option value="e258bfa1-0196-4310-9510-8779d319aa5d">V(SVD)</option>
+                                                   <option value="2ef1e46c-a62d-4ae0-abb4-32227ff299d4">VReg</option>
+                                                   <option value="8bc7cef8-5850-4d51-be81-0d1690ddc904">V_AcSt</option>
+                                                   <option value="51ca233d-a22d-4dc8-b0db-6738f3a3e568">V_NAcSt</option>
+                                                   <option value="3a3626c5-7e91-4b59-a387-21b1f80d8dc3">Other</option>
+                                                </select>
+                                                <!-- <span class="com-icon"
+                                                   ng-click="showReferralCommentBox($event, 'deathModel.causeofDeathCmnt')"><i
+                                                    class="fa fa-commenting" aria-hidden="true"></i></span> -->
+                                             </div>
+                                             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 pad5 mi-hgt-err">
+                                                Cause of death determined
+                                                <!-- <span class="his-icon"
+                                                   ng-click="showHistoryClicked($event,'REFERRAL_CAUSEOFDEATH_DETERMINED,3')"><i
+                                                   class="fa fa-history" aria-hidden="true"></i></span> -->
+                                                <select class="in-field ng-pristine ng-untouched ng-valid ng-not-empty" ng-model="deathModel.causdeathdet" ng-init="deathModel.causdeathdet = '0'" ng-disabled="referraldata.freeze || !deathModel.dateOfDeath || isPatientDead || !referraldata.ispreferred" disabled="disabled">
+                                                   <option value="0" selected="selected">Select</option>
+                                                   <option value="dbbbf511-321f-4675-9439-b295d18ba195">Study Investigator</option>
+                                                   <option value="0654253a-d641-45e4-bb74-86bca90c5285">Hospital Physician</option>
+                                                   <option value="0d10e049-b7c4-4702-8ad9-cca246c03433">General Practitioner</option>
+                                                   <option value="3a3626c5-7e91-4b59-a387-21b1f80d8dc3">Other</option>
+                                                </select>
+                                                <!--  <span class="com-icon"
+                                                   ng-click="showReferralCommentBox($event, 'deathModel.cuseOfDeathDeterminedCmnt')"><i
+                                                    class="fa fa-commenting" aria-hidden="true"></i></span> -->
+                                             </div>
+                                             <!-- <div
+                                                class="col-xs-12 col-sm-6 col-md-6 col-lg-6 pad5 mi-hgt-err">
+                                                
+                                                   Days to death <input type="number"
+                                                      class="in-field" ng-model="deathModel.daystod"
+                                                      ng-disabled="true">
+                                                
+                                                </div> -->
+                                             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 pad5 mi-hgt-err">
+                                                Comment about death <textarea class="txtarea-new-des-demo ng-pristine ng-untouched ng-valid ng-empty" ng-model="deathModel.deathcomm" ng-disabled="referraldata.freeze || !deathModel.dateOfDeath || isPatientDead || !referraldata.ispreferred" disabled="disabled"></textarea>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
+                        <!-- ------------------------------------------------------------End of death popup content--------------------------------------- -->
+                        <!-- ----------------------------------------------------------------------------------------------------------------------------- -->
+                     </div>
+                  </div>
+               </div>
+               <!-- Referral check list ui ends -->
+               <style>
+                  .tooltip {
+                  position: relative;
+                  display: inline-block;
+                  border-bottom: 1px dotted black;
+                  cursor:pointer;
+                  width:100%;
+                  }
+                  .tooltip .tooltiptext {
+                  visibility: hidden;
+                  width:auto;
+                  background-color: black;
+                  color: #fff;
+                  text-align: center;
+                  border-radius: 6px;
+                  padding: 5px 5px;
+                  /* Position the tooltip */
+                  position: absolute;
+                  z-index: 1;
+                  }
+                  .tooltip:hover .tooltiptext {
+                  visibility: visible;
+                  }
+                  .err-span-v2{display:none;}
+
+                  #tooltip {
+	position:absolute;
+	background:#DB2A64;
+	color:#ffffff;
+	padding:8px;
+	z-index:999;
+}
+
+#tooltip.alt-tooltip {
+	background:black;
+	color:#fff;
+}
+               </style>
+               <div class="col-xs-12" style="margin-top: 10px; padding: 0">
+                  <div class="col-xs-12" style="margin-top: 10px; margin-bottom: 20px;">
+
+
+
+
+
+
+
+
+<style>
+    .tooltips {
+        position: relative;
+        display: inline;
+        font-size:18px;
+        cursor: pointer;
+        color: #008cfb;
+    }
+
+        .tooltips .tool-text {
+            position: absolute;
+            width: 200px;
+            color: #FFFFFF;
+            background: #4daaf5;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            visibility: hidden;
+            border-radius: 6px;
+        }
+
+            .tooltips .tool-text:after {
+                content: '';
+                position: absolute;
+                top: 100%;
+                left: 35%;
+                margin-left: -8px;
+                width: 0;
+                height: 0;
+                border-top: 8px solid #4daaf5;
+                border-right: 8px solid transparent;
+                border-left: 8px solid transparent;
+            }
+
+    .tooltips:hover.tooltips .tool-text {
+        visibility: visible;
+        opacity: 0.8;
+        bottom: 30px;
+        left: 50%;
+        margin-left: -76px;
+        z-index: 999;
+    }
+    .tool-text{
+      font-size: 12px;
+    }
+</style>
+
+
+
+
+
+
+
+
+
+
+                     <!-- <div class="tooltip">Hover over me
+                        <span class="tooltiptext">Note that the position of the tooltip text isn't very good. Go back to the tutorial and continue reading on how to position the tooltip in a<br> <i>ggggg</i>  desirable way.
+
+
+
+
+
+
+                        </span>
+
+                     </div> -->
+
+                     <p>
+    Note that the position of the tooltip text isn't very good. Go back to the tutorial and continue reading on how to position how to position how to position how to position how to position howposition
+
+   <span class="tooltips">&#x1f6c8;
+      <span class="tool-text">Text Area</span>
+   </span>
+
+</p>
+
+<style>
+   .right-side-new-des{overflow-x:hidden;}
+</style>
+
+
+                     <!-- <p>Note that the position of the tooltip text isn't very good. Go back to the tutorial and continue reading on how to position the tooltip in a desirable way.
+						<span data-tooltip="{ 'offset': 30, 'class': 'alt-tooltip' }" title="I'm another tooltip<br> <i>ggggg</i> text" class="cursor">Tooltip demo 2 (hover here)</span>
+					</p> -->
+                     <div class="col-xs-12" style="background: #FFFFFF; padding-top: 20px; padding-bottom: 20px;">
+                        <!-- ngIf: mode != 'PAT_EDIT' -->
+                        <!-- ngIf: mode == 'PAT_EDIT' -->
+                        <div style="float: left;" ng-if="mode == 'PAT_EDIT'" class="ng-scope">
+                           <button class="btn-sav-new-des1" tabindex="22" ng-disabled="!patientdata.gender  || !patientdata.fname || !patientdata.lname
+                              ||!patientdata.mrn || !patientdata.tel  || !patientdata.dob" ng-click="editPatientBasicInfo();">
+                           Save<span class="sa1-ca-icon-bl1"><img src="save-cancel-orl.png"></span><span class="sa-ca-icon-wt1"><img src="save-cancel-wt.png"></span>
+                           </button>
+                        </div>
+                        <!-- end ngIf: mode == 'PAT_EDIT' -->
+                        <div style="float: left;">
+                           <button class="btn-sav-new-des1" ng-click="clearform();">
+                           Cancel<span class="sa1-ca-icon-bl1"><img src="save-cancel-orl.png"></span><span class="sa-ca-icon-wt1"><img src="save-cancel-wt.png"></span>
+                           </button>
+                           <!-- <button class="btn-can-new-des" ng-click="clearform();">Cancel</button> -->
+                        </div>
+                        <!-- ngIf: referraldata.refLetterDate	
+                           && referraldata.echoCardioDate
+                           && referraldata.coronaryAngioDate
+                           && referraldata.ctTaviProtocolDate
+                           && referraldata.cardiacSurgieonReviewDate
+                           && referraldata.cpacScore
+                           && referraldata.rstatus == 'READYSUBMIT' && !isDeathReported && !isPatientDead -->
+                        <!-- ngIf: referraldata.rstatus == 'SUBMITTED' -->
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <!-- ngIf: mode=='REF_EDIT' -->
+         </div>
+      </div>
+<script src="js/Tooltip.js" type="text/javascript"></script>
+</body>
+</html>

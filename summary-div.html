@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+    <style>
+    	.section-table{
+    		width:100%;
+    		display: flex;
+    	}
+    	.section-table-left{
+    		align-items: center;
+    		width: 20%;
+    		background: #ddd;
+    		display: flex;
+    		justify-content: center;
+    	}
+    	.section-table-right{
+    		width:80%;
+    	}
+    	.section-table-tr{
+    		background:#ddd9c4;
+    		display: flex;
+    		flex-wrap: wrap;
+    	}
+    	.section-table-td{
+    		width: calc(50% - 10px);
+    		float:left;
+    		padding:5px;
+    	}
+    </style>
+    <div class="section-table">
+    	<div class="section-table-left">
+    		Suitable valves
+    	</div>
+    	<div class="section-table-right">
+    		<div class="section-table-tr">
+		        <div class="section-table-td">
+		            <span class="input-label">Jena</span>
+		            <%=  getCheckBoxContent("_jena_jena23mm_PPLAN_23mm",request) %>
+		            <span class="input-label">23mm</span>
+		            <%=  getCheckBoxContent("_jena_jena23mm_PPLAN_25mm",request) %>
+		            <span class="input-label">25mm</span>
+		            <%=  getCheckBoxContent("_jena_jena23mm_PPLAN_27mm",request) %>
+		            <span class="input-label">27mm</span>
+		        </div>
+		        <div class="section-table-td">
+		            <span class="input-label">Acurate Neo2</span>
+		            <%=  getCheckBoxContent("_hydra_hydra22mm_PPLAN_22mm",request) %>
+		            <span class="input-label">22mm</span>
+		            <%=  getCheckBoxContent("_hydra_hydra22mm_PPLAN_26mm",request) %>
+		            <span class="input-label">26mm</span>
+		            <%=  getCheckBoxContent("_hydra_hydra22mm_PPLAN_30mm",request) %>
+		            <span class="input-label">30mm</span>
+		        </div>
+		        <div class="section-table-td">
+		            <span class="input-label">Acurate Neo2</span>
+		            <%=  getCheckBoxContent("_hydra_hydra22mm_PPLAN_22mm",request) %>
+		            <span class="input-label">22mm</span>
+		            <%=  getCheckBoxContent("_hydra_hydra22mm_PPLAN_26mm",request) %>
+		            <span class="input-label">26mm</span>
+		            <%=  getCheckBoxContent("_hydra_hydra22mm_PPLAN_30mm",request) %>
+		            <span class="input-label">30mm</span>
+		        </div>
+    		</div>
+    	</div>
+    </div>
+</body>
+</html>

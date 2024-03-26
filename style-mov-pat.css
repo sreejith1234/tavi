@@ -1,0 +1,160 @@
+         .waitinglistpatient{
+         padding: 10px;
+         background:#3888d3;
+         text-align: left;
+         color: #FFF;
+         cursor: pointer;
+         opacity: 50%;
+         }
+         .waitinglistpatient:hover{
+         opacity: 100%;
+         }
+         .waitinglistpatient-active{
+         padding: 10px;
+         background:#3888d3;
+         text-align: left;
+         color: #FFF;
+         cursor: pointer;
+         }
+         .waitinglistpatient-active:after {
+         border-top-color: #3888d3 !important;
+         border-width: 10px !important;
+         margin-bottom: 0px;
+         }
+         .waitinglistpatient-active:after, .waitinglistpatient-active:before {
+         top: 100%;
+         bottom: 0px;
+         left: 10%;
+         border: solid transparent;
+         content: " ";
+         height: 0;
+         width: 0;
+         position: absolute;
+         pointer-events: none;
+         }
+         .pausedlistpatient{
+         padding: 10px;
+         background:#34495e;
+         text-align: left;
+         color: #FFF;
+         cursor: pointer;
+         opacity: 50%;
+         }
+         .pausedlistpatient:hover{
+         opacity: 100%;
+         }
+         .pausedlistpatient-active{
+         padding: 10px;
+         background:#34495e;
+         text-align: left;
+         color: #FFF;
+         cursor: pointer;
+         }
+         .pausedlistpatient-active:after {
+         border-top-color: #34495e !important;
+         border-width: 10px !important;
+         margin-bottom: 0px;
+         }
+         .pausedlistpatient-active:after, .pausedlistpatient-active:before {
+         top: 100%;
+         bottom: 0px;
+         left: 10%;
+         border: solid transparent;
+         content: " ";
+         height: 0;
+         width: 0;
+         position: absolute;
+         pointer-events: none;
+         }
+         .onholdlistpatient{
+         padding: 10px;
+         background:#f9b54b;
+         text-align: left;
+         color: #FFF;
+         cursor: pointer;
+         opacity: 50%;
+         }
+         .onholdlistpatient:hover{
+         opacity: 100%;
+         }
+         .onholdlistpatient-active{
+         padding: 10px;
+         background:#f9b54b;
+         text-align: left;
+         color: #FFF;
+         cursor: pointer;
+         }
+         .onholdlistpatient-active:after {
+         border-top-color: #f9b54b !important;
+         border-width: 10px !important;
+         margin-bottom: 0px;
+         }
+         .onholdlistpatient-active:after, .onholdlistpatient-active:before {
+         top: 100%;
+         bottom: 0px;
+         left: 10%;
+         border: solid transparent;
+         content: " ";
+         height: 0;
+         width: 0;
+         position: absolute;
+         pointer-events: none;
+         }
+         .mov-pat-btn span{
+         padding: 0px 5px; color: #fff;
+         }
+         .mov-pat-btn{
+         padding: 2px 5px !important;
+         margin-top: 5px !important;
+         text-decoration: none;
+         color: #fff;
+         font-size: 12px;
+         cursor: pointer;
+         }
+         .mov-paused{
+         background: #34495e;
+         }
+         .mov-onhold{
+         background: #f9b54b;
+         }
+         .mov-waiting{
+         background: #3888d3;
+         }
+         .mov-pat-btn:hover{
+         color: #fff;
+         }
+         .pat-listbox {
+         background: #FFFFFF!important;
+         min-height: 440px !important;
+         height:auto;
+         margin-top: 20px;
+         }
+         .mov-pat-srch-box{
+         background: #FFFFFF!important;
+         height:auto;
+         margin-top: 10px;
+         margin-bottom: 20px;
+         }
+         .mov-srch-icon i, .mov-srch-icon i:hover{
+         color:#fff;
+         cursor: pointer;
+         }
+         .p-20{
+         padding:20px;
+         }
+         .mov-pat-srch-popup{
+         display: none;
+         position: fixed;
+         top: 50%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+         width: 50%;
+         margin: 0 auto;
+         background: #FFFFFF;
+         min-height: 250px!important;
+         z-index: 500!important;
+         position: absolute!important;
+         -webkit-box-shadow: 0px 0px 50px 11px #cccccc;
+         -moz-box-shadow: 0px 0px 50px 11px #CCCCCC;
+         box-shadow: 0px 0px 50px 11px rgb(35 84 132 / 24%);
+         }

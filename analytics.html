@@ -1,0 +1,936 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html ng-app="AhimsaApp">
+   <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+      <title>..:: Procedure Tracking ::..</title>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="bootstrap.css" />
+      <link rel="stylesheet" href="style.css" />
+      
+  </style>
+   </head>
+   <body style="background: #eeeeee">
+      <div class="left-menu-new-des leftMenu">
+         <a ui-sref="postlogin" href="#!/postlogin">
+            <div class="logo-new-des">
+               <img src="newlogo_ap22.png">
+               <div>
+                  <span class="vers-aftr-login">Ver. 2.5</span>
+               </div>
+            </div>
+         </a>
+         <div class="col-xs-12 pro-pic">
+            <a ui-sref="my_profile({user: 'bd79d5b0-8377-474a-96fe-41bb879fccdb', ct: 1594031716432})" title="Edit Profile" href="#!/myprofile/bd79d5b0-8377-474a-96fe-41bb879fccdb/1594031716432">
+               <div class="col-xs-12">
+                  <span><img src="pro33.png"></span>
+               </div>
+            </a>
+            <div class="col-xs-12" style="margin-top: 10px;">
+               <span class="pro-name"> Txxxxxxxxn 
+               </span>
+            </div>
+         </div>
+         <div class="col-xs-12" style="margin-top: 50px; padding: 0;">
+            <a id="dashlink" ui-sref="delegate_dashboard({ruuid : '0', wtype : 'WAITING'})" data-it-mark="_headerlink" href="#!/delegate_dashboard/?ruuid=0&amp;wtype=WAITING">
+               <div class="col-xs-12 nav-newdes DASHBOARD">
+                  <span class="nav-icon"><img src="home3.png"></span><span class="nav-txt-newdes">Dashboard</span>
+               </div>
+            </a>
+            <!----------------------------------------- Analytics link ----------------------------------------------- -->
+            <a id="analink" data-it-mark="_headerlink">
+               <div class="col-xs-12 nav-newdes ANALYTICS nav-newdes-over" ng-click="redirectToAnalysis(); analyticsSubMenu = 'MORTALITY' ">
+                  <span class="nav-icon"><i class="fa fa-line-chart" style="font-size:24px; font-weight: 50; padding-left: 4px;"></i></span><span class="nav-txt-newdes">Analytics</span>
+               </div>
+               <div id="analiticsSubmenu" style="display: none;">
+                  <div class="anly-submenu col-xs-12 MORTALITY" ng-class="{'anly-submenu-active12' : analyticsSubMenu == 'MORTALITY'}" ng-click="redirectToAnalysis();analyticsSubMenu = 'MORTALITY'">
+                     <span>Mortality</span>
+                  </div>
+                  <div class="anly-submenu col-xs-12 MAJORCOMPLICATION" ng-class="{'anly-submenu-active12' : analyticsSubMenu == 'MAJORCOMPLICATION'}" ng-click="redirectToMajorComplication();analyticsSubMenu = 'MAJORCOMPLICATION'">
+                     <span>Major Complications</span>
+                  </div>
+                  <div class="anly-submenu col-xs-12 COSTANALYSIS" ng-class="{'anly-submenu-active12' : analyticsSubMenu == 'COST'}" ng-click="redirectToCostAnalysis();analyticsSubMenu = 'COST'">
+                     <span>Cost Analysis</span>
+                  </div>
+               </div>
+            </a>
+            <!--------------------------------------------- Analytics link End ---------------------------------------- -->
+            <a id="patlink" data-it-mark="_headerlink" ng-click="patientLinkClicked()">
+               <div class="col-xs-12 nav-newdes PATIENTDETAILS">
+                  <span class="nav-icon"><img src="patient2.png"></span><span class="nav-txt-newdes">Patient</span>
+               </div>
+            </a>
+            <a id="patlink" ng-click="adminLinkClicked()" data-it-mark="_headerlink">
+               <div class="col-xs-12 nav-newdes ADMINPAGE">
+                  <span class="nav-icon"><img src="admin2.png"></span><span class="nav-txt-newdes">Admin</span>
+               </div>
+            </a>
+         </div>
+         <div class="col-xs-12 footer-new-des">© Cirakas 2019 | <span><a style="cursor:pointer;text-decoration:underline !important;font-size:12px;" onclick="loadTermsAndConditions()">Privacy Policy</a></span></div>
+      </div>
+      
+<div class="right-side-new-des">
+   
+      <!-- 
+     <div class="col-xs-6" style="margin-top: 10px;">
+        <a href="#!/delegate_dashboard/?ruuid=0&wtype=WAITING">
+           <div class="col-xs-1" style="float: left; cursor: pointer; color: #4cc6bb; font-weight: bold;padding-top: 2px;">
+              <img style="height:30px; width:30px;" src="${pageContext.request.contextPath}/moduleResources/procedure-tracking-module/v2/images/b2.png"> 
+           </div>
+        </a>
+        <div class="col-xs-6 heading" style="margin-top:6px;">analytics</div>
+     </div> -->
+      <div class="col-md-12">
+         <div class="menu-bg">
+
+            <!-- <div class="menu-db" ng-click="redirectToDashboard()">
+               <img
+                  src="${pageContext.request.contextPath}/moduleResources/procedure-tracking-module/v2/images/db-1.png" />
+               <p>Dashboard</p>
+            </div> -->
+
+            <!-- <div class="menu-db menu-db-active">
+               <img
+                  src="${pageContext.request.contextPath}/moduleResources/procedure-tracking-module/v2/images/db-2.png" />
+               <p>Mortality </p>
+            </div>
+
+            <div class="menu-db"
+               ng-click="redirectToMajorComplications()">
+               <img
+                  src="${pageContext.request.contextPath}/moduleResources/procedure-tracking-module/v2/images/db-2.png" />
+               <p>Major Complications</p>
+            </div>
+
+            <div class="menu-db"
+               ng-click="redirectToNormalUserExpenseAnalysis()">
+               <img
+                  src="${pageContext.request.contextPath}/moduleResources/procedure-tracking-module/v2/images/db-2.png" />
+               <p>Cost Analysis</p>
+            </div> -->
+
+            <div class="anly-proc-type-bd">
+               <div class="anly-proc-type-txt">PROCEDURE TYPE</div>
+               <div class="anly-proc-type-select-bd" style="">
+                  <select class="in-field"
+                     ng-options="x.name disable when x.disable for x in procedureTypes track by x.uuid"
+                     ng-model="procedureType"></select>
+               </div>
+            </div>
+
+            <div class="menu-db " ng-click="redirectToDeathAnalysis()">
+               <img
+                  src="images/db-3.png" />
+               <p>Public</p>
+            </div>
+            <div class="menu-db " ng-click="redirectToDeathAnalysis()">
+               <img
+                  src="images/db-4.png" />
+               <p>Private</p>
+            </div>
+
+         </div>
+      </div>
+
+
+
+
+
+
+      <!-- 
+
+
+
+
+                <div class="col-md-12" style="margin-top: 5px;margin-bottom:5px;padding-left:5px;padding-right:5px;"> -->
+      <!-- <div class="db-icon-pub">
+           <div class="db-icon-div public_div" ng-click="hospitalType = 'PUBLIC' ; locationMode='WORLDWIDE' ; fetchRegions()">
+              <div class="db-icon-txt">PUBLIC</div>
+              <div class="db-icon-img">
+                <img src="${pageContext.request.contextPath}/moduleResources/procedure-tracking-module/v2/images/pri-pubv2.png"/>
+              </div>
+           </div>
+           <div ng-if="hospitalType == 'PUBLIC'" class="col-xs-12 act-pub"></div>
+        </div>
+        <div class="db-icon-pri private_div" ng-click="hospitalType = 'PRIVATE' ; locationMode='WORLDWIDE' ;fetchRegions() ">
+          <div class="db-icon-div">
+            <div class="db-icon-txt">PRIVATE</div>
+            <div class="db-icon-img">
+              <img src="${pageContext.request.contextPath}/moduleResources/procedure-tracking-module/v2/images/pri-pub1-v2.png"/>
+            </div>
+          </div>
+          <div class="col-xs-12 act-priv private-act-div" ng-if="hospitalType == 'PRIVATE'"></div>
+        </div> -->
+      <!--  <div class="db-drp-dwn">
+                        <div class="db-icon-div">
+                            <b><div class="db-drp-txt">PROCEDURE TYPE</div></b>
+                            <div class="">
+                                <select class="in-field" ng-options="x.name disable when x.disable for x in procedureTypes track by x.uuid" ng-model="procedureType"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="db-dsb">
+                       
+                        <a ng-click="redirectToDashboard()">
+                            <div class="db-icon-div">
+                                <div class="db-icon-txt">DASHBOARD</div>
+                                <div class="db-icon-img">
+                                    <img src="${pageContext.request.contextPath}/moduleResources/procedure-tracking-module/v2/images/db-v2-1.png" />
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+
+                </div>
+
+ -->
+
+      <script>
+         $(document).ready(function() {
+
+            $("#filterhide").click(function() {
+               $("#popup-option").hide();
+            });
+
+            $("#m-submit").click(function() {
+               $("#popup-option").hide();
+            });
+
+            $("#filter-options").click(function() {
+               $("#popup-option").show();
+            });
+
+         });
+      </script>
+   <style>
+          .procom-indi img {
+          padding: 6px;
+          height: 30px;
+      }
+          .pro-mor{
+            background:#ff5c00 !important;
+            
+          }
+          .pro-mor:after {
+          border-top-color:#ff5c00 !important;
+
+      }
+      .watng-mor{
+         background:#737272 !important;
+      }
+      .watng-mor:after {
+          border-top-color:#737272 !important;
+      }
+      .hold-mor{
+         background:#737272 !important;
+      }
+      .hold-mor:after {
+          border-top-color:#737272 !important;
+      }
+    </style>
+
+      
+
+
+
+      <div class="anly-left-pane col-md-3">
+         <div class="anly-left-pane-inner">
+
+            <div class="db-cal">
+               <div class="col-md-12 cal-bd">
+                  <div class='input-group date date-picker-bg' id='datetimepicker9'>
+                     <input type='text' id='_datetimepicker9' class="in-field"
+                        placeholder="from year (yyyy)" ng-model="fromDate" />
+                     <div id="from" ng-if="fromDate" class="close-date" type="reset"
+                        ng-click="clearDate('fromDate')"></div>
+                     <span class="input-group-addon"
+                        style="border: 1px solid #CCCCCC;"> <span
+                        class="glyphicon"><img
+                           src="images/clndr.png" /></span>
+                     </span>
+                  </div>
+               </div>
+               <div class="col-md-12 cal-bd">
+                  <div class='input-group date date-picker-bg' id='datetimepicker10'>
+                     <input type='text' id='_datetimepicker10' class="in-field"
+                        placeholder="to year (yyyy)" ng-model="toDate" />
+                     <div id="to" ng-if="toDate" class="close-date" type="reset"
+                        ng-click="clearDate('toDate')"></div>
+                     <span class="input-group-addon"
+                        style="border: 1px solid #CCCCCC;"> <span
+                        class="glyphicon"><img
+                           src="images/clndr.png" /></span>
+                     </span>
+                  </div>
+               </div>
+               <div class="col-md-12 cal-bd">
+                  <select class="in-field">
+                     <option value="">---Valve Name---</option>
+                     <option value="">Name 1</option>
+                     <option value="">Name 2</option>
+                  </select>       
+               </div>
+               <div class="col-xs-12" style="padding:5px;" ng-click="startPlotGraphs()">
+                  <button style="margin-top: 5px;" class="themeBtn-search-analytics" ng-click="drawProcedureGraph()"> Search </button>
+               </div> 
+
+
+            </div>
+
+
+         </div>
+      </div>
+      <div class="anly-graph-bd col-md-6">
+         
+         
+         <!-- <span style="position:absolute;z-index:1500;color:green;margin-left: 500px;margin-top: 10px;"> Procedures completed</span> -->  
+
+            <div id="secondary_container" class="col-md-12">
+               <svg version="1.1" style="font-family: Roboto; font-size: 12px;" xmlns="http://www.w3.org/2000/svg" width="660" height="370" viewBox="0 0 660 370" aria-hidden="false" aria-label="Interactive chart"><defs aria-hidden="true"><clipPath ><rect x="0" y="0" width="582" height="249" fill="none"></rect></clipPath><clipPath ><rect x="0" y="0" width="582" height="249" fill="none"></rect></clipPath></defs><rect fill="#ffffff" x="0" y="0" width="660" height="370" rx="0" ry="0" aria-hidden="true"></rect><rect fill="none" x="68" y="47" width="582" height="249" aria-hidden="true"></rect><g data-z-index="0" aria-hidden="true"></g><rect fill="none" data-z-index="1" x="68" y="47" width="582" height="249" aria-hidden="true"></rect><g data-z-index="1" aria-hidden="true"><path fill="none" stroke-dasharray="none" data-z-index="1" d="M 164.5 47 L 164.5 296" opacity="1"></path><path fill="none" stroke-dasharray="none" data-z-index="1" d="M 261.5 47 L 261.5 296" opacity="1"></path><path fill="none" stroke-dasharray="none" data-z-index="1" d="M 358.5 47 L 358.5 296" opacity="1"></path><path fill="none" stroke-dasharray="none" data-z-index="1" d="M 455.5 47 L 455.5 296" opacity="1"></path><path fill="none" stroke-dasharray="none" data-z-index="1" d="M 552.5 47 L 552.5 296" opacity="1"></path><path fill="none" stroke-dasharray="none" data-z-index="1" d="M 649.5 47 L 649.5 296" opacity="1"></path><path fill="none" stroke-dasharray="none" data-z-index="1" d="M 67.5 47 L 67.5 296" opacity="1"></path></g><g data-z-index="1" aria-hidden="true"><path fill="none" stroke="#e6e6e6" stroke-width="1" stroke-dasharray="none" data-z-index="1" d="M 68 46.5 L 650 46.5" opacity="1"></path><path fill="none" stroke="#e6e6e6" stroke-width="1" stroke-dasharray="none" data-z-index="1" d="M 68 296.5 L 650 296.5" opacity="1"></path><path fill="none" stroke="#e6e6e6" stroke-width="1" stroke-dasharray="none" data-z-index="1" d="M 68 234.5 L 650 234.5" opacity="1"></path><path fill="none" stroke="#e6e6e6" stroke-width="1" stroke-dasharray="none" data-z-index="1" d="M 68 172.5 L 650 172.5" opacity="1"></path><path fill="none" stroke="#e6e6e6" stroke-width="1" stroke-dasharray="none" data-z-index="1" d="M 68 109.5 L 650 109.5" opacity="1"></path></g><g data-z-index="2" aria-hidden="true"><path fill="none" stroke="#ccd6eb" stroke-width="1" data-z-index="7" d="M 68 296.5 L 650 296.5"></path></g><g data-z-index="2" aria-hidden="true"><text font-family='Roboto-Regular,Roboto' x="24.246484756469727" data-z-index="7" text-anchor="middle" transform="translate(0,0) rotate(270 24.246484756469727 171.5)" style="color: rgb(102, 102, 102); fill: rgb(102, 102, 102);" y="171.5">Value</text><path fill="none" data-z-index="7" d="M 68 47 L 68 296"></path></g><g data-z-index="3" aria-hidden="false"><g data-z-index="0.1" opacity="1" transform="translate(68,47) scale(1 1)" clip-path="url(#highcharts-82xvbfr-784-)" aria-hidden="true"><path fill="none" d="M 48.5 0 C 48.5 0 106.7 0 145.5 0 C 184.3 0 203.7 0 242.5 0 C 281.3 0 300.7 0 339.5 0 C 378.3 0 397.7 0 436.5 0 C 475.3 0 533.5 0 533.5 0" data-z-index="1" stroke="#6f58e9" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path><path fill="none" d="M 48.5 0 C 48.5 0 106.7 0 145.5 0 C 184.3 0 203.7 0 242.5 0 C 281.3 0 300.7 0 339.5 0 C 378.3 0 397.7 0 436.5 0 C 475.3 0 533.5 0 533.5 0" data-z-index="2" stroke-linecap="round" stroke-linejoin="round" stroke="rgba(192,192,192,0.0001)" stroke-width="22" style="cursor: pointer;"></path></g><g data-z-index="0.1" opacity="1" transform="translate(68,47) scale(1 1)" clip-path="none" style="cursor: pointer; outline: none;" aria-hidden="false" role="region" tabindex="-1" aria-label="valve size 1, line 1 of 3 with 6 data points."><path fill="#6f58e9" d="M 48 4 A 4 4 0 1 1 48.00399999933334 3.9999980000001667 Z" opacity="1" tabindex="-1" role="img" aria-label="2014, 98. valve size 1." style="outline: none;"></path><path fill="#6f58e9" d="M 145 4 A 4 4 0 1 1 145.00399999933333 3.9999980000001667 Z" opacity="1" tabindex="-1" role="img" aria-label="2016, 72. valve size 1." style="outline: none;"></path><path fill="#6f58e9" d="M 242 4 A 4 4 0 1 1 242.00399999933333 3.9999980000001667 Z" opacity="1" tabindex="-1" role="img" aria-label="2018, 73. valve size 1." style="outline: none;"></path><path fill="#6f58e9" d="M 339 4 A 4 4 0 1 1 339.00399999933336 3.9999980000001667 Z" opacity="1" tabindex="-1" role="img" aria-label="2020, 49. valve size 1." style="outline: none;"></path><path fill="#6f58e9" d="M 436 4 A 4 4 0 1 1 436.00399999933336 3.9999980000001667 Z" opacity="1" tabindex="-1" role="img" aria-label="2022, 78. valve size 1." style="outline: none;"></path><path fill="#6f58e9" d="M 533 4 A 4 4 0 1 1 533.0039999993334 3.9999980000001667 Z" opacity="1" tabindex="-1" role="img" aria-label="2024, 49. valve size 1." style="outline: none;"></path></g><g data-z-index="0.1" opacity="1" transform="translate(68,47) scale(1 1)" clip-path="url(#highcharts-82xvbfr-784-)" aria-hidden="true"><path fill="none" d="M 48.5 117.31730769231001 C 48.5 117.31730769231001 106.7 148.1652892562 145.5 148.1652892562 C 184.3 148.1652892562 203.7 95.16753926702 242.5 95.16753926702 C 281.3 95.16753926702 300.7 118.45631067961 339.5 118.45631067961 C 378.3 118.45631067961 397.7 114.792594779212 436.5 109.72881355932 C 475.3 104.665032339428 533.5 93.13740458014999 533.5 93.13740458014999" data-z-index="1" stroke="#ff5c00" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path><path fill="none" d="M 48.5 117.31730769231001 C 48.5 117.31730769231001 106.7 148.1652892562 145.5 148.1652892562 C 184.3 148.1652892562 203.7 95.16753926702 242.5 95.16753926702 C 281.3 95.16753926702 300.7 118.45631067961 339.5 118.45631067961 C 378.3 118.45631067961 397.7 114.792594779212 436.5 109.72881355932 C 475.3 104.665032339428 533.5 93.13740458014999 533.5 93.13740458014999" data-z-index="2" stroke-linecap="round" stroke-linejoin="round" stroke="rgba(192,192,192,0.0001)" stroke-width="22" style="cursor: pointer;"></path></g><g data-z-index="0.1" opacity="1" transform="translate(68,47) scale(1 1)" clip-path="none" style="cursor: pointer; outline: none;" aria-hidden="false" role="region" tabindex="-1" aria-label="valve size 2, line 2 of 3 with 6 data points."><path fill="#ff5c00" d="M 48 113.31730769231001 L 52 117.31730769231001 L 48 121.31730769231001 L 44 117.31730769231001 Z" opacity="1" tabindex="-1" role="img" aria-label="2014, 32. valve size 2." style="outline: none;"></path><path fill="#ff5c00" d="M 145 144.1652892562 L 149 148.1652892562 L 145 152.1652892562 L 141 148.1652892562 Z" opacity="1" tabindex="-1" role="img" aria-label="2016, 32. valve size 2." style="outline: none;"></path><path fill="#ff5c00" d="M 242 91.16753926702 L 246 95.16753926702 L 242 99.16753926702 L 238 95.16753926702 Z" opacity="1" tabindex="-1" role="img" aria-label="2018, 78. valve size 2." style="outline: none;"></path><path fill="#ff5c00" d="M 339 114.45631067961 L 343 118.45631067961 L 339 122.45631067961 L 335 118.45631067961 Z" opacity="1" tabindex="-1" role="img" aria-label="2020, 29. valve size 2." style="outline: none;"></path><path fill="#ff5c00" d="M 436 105.72881355932 L 440 109.72881355932 L 436 113.72881355932 L 432 109.72881355932 Z" opacity="1" tabindex="-1" role="img" aria-label="2022, 70. valve size 2." style="outline: none;"></path><path fill="#ff5c00" d="M 533 89.13740458014999 L 537 93.13740458014999 L 533 97.13740458014999 L 529 93.13740458014999 Z" opacity="1" tabindex="-1" role="img" aria-label="2024, 35. valve size 2." style="outline: none;"></path></g><g data-z-index="0.1" opacity="1" transform="translate(68,47) scale(1 1)" clip-path="url(#highcharts-82xvbfr-784-)" aria-hidden="true"><path fill="none" d="M 48.5 155.625 C 48.5 155.625 106.7 214.016528925619 145.5 214.016528925619 C 184.3 214.016528925619 203.7 201.94408756726241 242.5 196.853403141362 C 281.3 191.7627187154616 300.7 188.56310679611698 339.5 188.56310679611698 C 378.3 188.56310679611698 397.7 208.20338983051 436.5 208.20338983051 C 475.3 208.20338983051 533.5 159.66412213740398 533.5 159.66412213740398" data-z-index="1" stroke="#1e6788" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path><path fill="none" d="M 48.5 155.625 C 48.5 155.625 106.7 214.016528925619 145.5 214.016528925619 C 184.3 214.016528925619 203.7 201.94408756726241 242.5 196.853403141362 C 281.3 191.7627187154616 300.7 188.56310679611698 339.5 188.56310679611698 C 378.3 188.56310679611698 397.7 208.20338983051 436.5 208.20338983051 C 475.3 208.20338983051 533.5 159.66412213740398 533.5 159.66412213740398" data-z-index="2" stroke-linecap="round" stroke-linejoin="round" stroke="rgba(192,192,192,0.0001)" stroke-width="22" style="cursor: pointer;"></path></g><g data-z-index="0.1" opacity="1" transform="translate(68,47) scale(1 1)" clip-path="none" style="cursor: pointer; outline: none;" aria-hidden="false" role="region" tabindex="-1" aria-label="valve size 3, line 3 of 3 with 6 data points."><path fill="#1e6788" d="M 44 151.625 L 52 151.625 L 52 159.625 L 44 159.625 Z" opacity="1" tabindex="-1" role="img" aria-label="2014, 78. valve size 3." style="outline: none;"></path><path fill="#1e6788" d="M 141 210.016528925619 L 149 210.016528925619 L 149 218.016528925619 L 141 218.016528925619 Z" opacity="1" tabindex="-1" role="img" aria-label="2016, 17. valve size 3." style="outline: none;"></path><path fill="#1e6788" d="M 238 192.853403141362 L 246 192.853403141362 L 246 200.853403141362 L 238 200.853403141362 Z" opacity="1" tabindex="-1" role="img" aria-label="2018, 40. valve size 3." style="outline: none;"></path><path fill="#1e6788" d="M 335 184.56310679611698 L 343 184.56310679611698 L 343 192.56310679611698 L 335 192.56310679611698 Z" opacity="1" tabindex="-1" role="img" aria-label="2020, 25. valve size 3." style="outline: none;"></path><path fill="#1e6788" d="M 432 204.20338983051 L 440 204.20338983051 L 440 212.20338983051 L 432 212.20338983051 Z" opacity="1" tabindex="-1" role="img" aria-label="2022, 29. valve size 3." style="outline: none;"></path><path fill="#1e6788" d="M 529 155.66412213740398 L 537 155.66412213740398 L 537 163.66412213740398 L 529 163.66412213740398 Z" opacity="1" tabindex="-1" role="img" aria-label="2024, 47. valve size 3." style="outline: none;"></path></g></g><g data-z-index="3" aria-hidden="true"><g stroke-linecap="round" style="cursor: pointer;" transform="translate(626,10)"><title>Chart context menu</title><rect fill="#ffffff" x="0.5" y="0.5" width="24" height="22" rx="2" ry="2" stroke="none" stroke-width="1"></rect><text font-family='Roboto-Regular,Roboto' x="0" data-z-index="1" y="15.5" style="color: rgb(51, 51, 51); font-weight: normal; fill: rgb(51, 51, 51);"></text></g></g><text font-family='Roboto-Regular,Roboto' x="330" text-anchor="middle" data-z-index="4" style="color: rgb(51, 51, 51); font-size: 18px; fill: rgb(51, 51, 51);" y="24" aria-hidden="true">Valve</text><text font-family='Roboto-Regular,Roboto' x="330" text-anchor="middle" data-z-index="4" style="color: rgb(102, 102, 102); fill: rgb(102, 102, 102);" y="46" aria-hidden="true"></text><text font-family='Roboto-Regular,Roboto' x="10" text-anchor="start" data-z-index="4" style="color: rgb(102, 102, 102); fill: rgb(102, 102, 102);" y="367" aria-hidden="true"></text><g data-z-index="7" aria-hidden="true" transform="translate(176,329)"><rect fill="none" rx="0" ry="0" x="0" y="0" width="307" height="26"></rect><g data-z-index="1"><g><g data-z-index="1" transform="translate(8,3)"><path fill="none" d="M 0 11 L 16 11" stroke="#6f58e9" stroke-width="2"></path><path fill="#6f58e9" d="M 8 15 A 4 4 0 1 1 8.003999999333336 14.999998000000167 Z" opacity="1"></path><text font-family='Roboto-Regular,Roboto' x="21" text-anchor="start" data-z-index="2" y="15" style="color: rgb(51, 51, 51); cursor: pointer; font-size: 12px; font-weight: bold; fill: rgb(51, 51, 51);">valve size 1</text></g><g data-z-index="1" transform="translate(111.85000228881836,3)"><path fill="none" d="M 0 11 L 16 11" stroke="#ff5c00" stroke-width="2"></path><path fill="#ff5c00" d="M 8 7 L 12 11 L 8 15 L 4 11 Z" opacity="1"></path><text font-family='Roboto-Regular,Roboto' x="21" y="15" text-anchor="start" data-z-index="2" style="color: rgb(51, 51, 51); cursor: pointer; font-size: 12px; font-weight: bold; fill: rgb(51, 51, 51);">valve size 2</text></g><g data-z-index="1" transform="translate(215.70000457763672,3)"><path fill="none" d="M 0 11 L 16 11" stroke="#1e6788" stroke-width="2"></path><path fill="#1e6788" d="M 4 7 L 12 7 L 12 15 L 4 15 Z" opacity="1"></path><text font-family='Roboto-Regular,Roboto' x="21" y="15" text-anchor="start" data-z-index="2" style="color: rgb(51, 51, 51); cursor: pointer; font-size: 12px; font-weight: bold; fill: rgb(51, 51, 51);">valve size 3</text></g></g></g></g><g data-z-index="7" aria-hidden="true"><text font-family='Roboto-Regular,Roboto' x="116.5" style="color: rgb(102, 102, 102); cursor: default; font-size: 11px; fill: rgb(102, 102, 102);" text-anchor="middle" transform="translate(0,0)" y="315" opacity="1">2014</text><text font-family='Roboto-Regular,Roboto' x="213.5" text-anchor="middle" transform="translate(0,0)" style="color: rgb(102, 102, 102); cursor: default; font-size: 11px; fill: rgb(102, 102, 102);" y="315" opacity="1">2016</text><text font-family='Roboto-Regular,Roboto' x="310.5" text-anchor="middle" transform="translate(0,0)" style="color: rgb(102, 102, 102); cursor: default; font-size: 11px; fill: rgb(102, 102, 102);" y="315" opacity="1">2018</text><text font-family='Roboto-Regular,Roboto' x="407.5" text-anchor="middle" transform="translate(0,0)" style="color: rgb(102, 102, 102); cursor: default; font-size: 11px; fill: rgb(102, 102, 102);" y="315" opacity="1">2020</text><text font-family='Roboto-Regular,Roboto' x="504.5" text-anchor="middle" transform="translate(0,0)" style="color: rgb(102, 102, 102); cursor: default; font-size: 11px; fill: rgb(102, 102, 102);" y="315" opacity="1">2022</text><text font-family='Roboto-Regular,Roboto' x="601.5" text-anchor="middle" transform="translate(0,0)" style="color: rgb(102, 102, 102); cursor: default; font-size: 11px; fill: rgb(102, 102, 102);" y="315" opacity="1">2024</text></g><g data-z-index="7" aria-hidden="true"><text font-family='Roboto-Regular,Roboto' x="53" style="color: rgb(102, 102, 102); cursor: default; font-size: 11px; fill: rgb(102, 102, 102);" text-anchor="end" transform="translate(0,0)" y="52" opacity="1">100</text><text font-family='Roboto-Regular,Roboto' x="53" style="color: rgb(102, 102, 102); cursor: default; font-size: 11px; fill: rgb(102, 102, 102);" text-anchor="end" transform="translate(0,0)" y="301" opacity="1">0</text><text font-family='Roboto-Regular,Roboto' x="53" text-anchor="end" transform="translate(0,0)" style="color: rgb(102, 102, 102); cursor: default; font-size: 11px; fill: rgb(102, 102, 102);" y="238" opacity="1">25</text><text font-family='Roboto-Regular,Roboto' x="53" text-anchor="end" transform="translate(0,0)" style="color: rgb(102, 102, 102); cursor: default; font-size: 11px; fill: rgb(102, 102, 102);" y="176" opacity="1">50</text><text font-family='Roboto-Regular,Roboto' x="53" text-anchor="end" transform="translate(0,0)" style="color: rgb(102, 102, 102); cursor: default; font-size: 11px; fill: rgb(102, 102, 102);" y="114" opacity="1">75</text></g></svg>
+            </div>
+         <!-- </div> -->
+         <!-- <div id="primary_container" class="col-md-6"></div> -->
+         <!-- Extended Analytics start -->
+
+         
+         
+         <!-- Extended Analytics end -->
+      </div>
+
+      <div class="anly-right-pane col-md-3">
+         <div class="anly-right-pane-inner">
+
+            <div class="cntrl-bnt-right">
+               <div class="contrl-anly">
+                  <i class="fa fa-bar-chart" aria-hidden="true"></i>
+               </div>
+               <!-- <div class="contrl-btn"
+                  ng-show=" procedureType.uuid == taviProcedureTypeUuid "> -->
+               <div class="contrl-btn" >
+
+                  <button ng-click="deathPeriodType = 'WAITING' ;" class="themeBtn themeBtn-act">KM Curve - During Procedure</button>
+                  <button ng-click="dType = 'WAITING';redirectToDeathAnalysis()" class="themeBtn ">Mortality - Waiting List Patients</button>
+                  <button ng-click="dType = 'ONHOLD';redirectToDeathAnalysis()" class="themeBtn ">Mortality - Onhold List Patients</button>
+
+                  <!-- <button ng-click=" graphType='kmcurve'; " class="themeBtn "
+                     ng-class="{'themeBtn-act':graphType=='kmcurve'}">KM-CURVE</button>
+                  <button ng-click=" graphType='death'  ;  " class="themeBtn"
+                     ng-class="{'themeBtn-act':graphType=='death'}">MORTALITY</button> -->
+                  <!-- <button ng-click=" graphType='paraValvularLeak'  ; "
+                     class="themeBtn"
+                     ng-class="{'themeBtn-act':graphType=='paraValvularLeak'}">
+                     PARA VALVULAR LEAK</button>
+                  <button ng-click=" graphType='stroke'  ; " class="themeBtn"
+                     ng-class="{'themeBtn-act':graphType=='stroke'}">STROKE</button>
+                  <button ng-click=" graphType='pacemaker'  ; " class="themeBtn"
+                     ng-class="{'themeBtn-act':graphType=='pacemaker'}">NEW
+                     PACEMAKER</button> -->
+               </div>
+               <!-- <div class="contrl-btn"
+                  ng-show=" procedureType.uuid == laaoProcedureTypeUuid ">
+                  <button ng-click=" graphType='stroke'  ; " class="themeBtn"
+                     ng-class="{'themeBtn-act':graphType=='stroke'}">STROKE</button>
+                  <button ng-click=" graphType='bleeding'  ; " class="themeBtn"
+                     ng-class="{'themeBtn-act':graphType=='bleeding'}">BLEEDING</button>
+               </div> -->
+
+
+            </div>
+
+            
+
+
+         </div>
+      </div>
+
+
+      <div id="popup-option" class="col-md-9 con-main"
+            ng-hide="procedureType.uuid == laaoProcedureTypeUuid ">
+
+            <div class="filter-close">
+               <i id="filterhide" class="fa fa-close"></i>
+            </div>
+            <div id="m-options" class="swtch-cntrl"
+               ng-hide="procedureType.uuid == laaoProcedureTypeUuid ">
+               <label class="opt">OPTIONS</label> <label class="switch"> <input
+                  id="disablecheckbox" ng-model="deselectAllFlag"
+                  ng-change="deselectAll()" type="checkbox"> <span
+                  class="slider round"></span> <span class="absolute-no">OFF</span>
+               </label>
+            </div>
+            <div class="con-list-1 card-list "
+               ng-class="{ 'disabled_analytics': !deselectAllFlag} ">
+               <div class="radio-chk-row">
+                  <div class="radio-chk-name-1">
+                     <div class="cap-fnt">
+                        <label for="AF">AF</label>
+                     </div>
+                  </div>
+                  <div class="radio-chk-option-1">
+                     <div class="check-list-row">
+                        <div class="form-inline">
+                           <div class="radio-chk">
+                              <label for="AF-Yes"> <input name="af" id="AF-Yes"
+                                 type="radio" ng-model="analysisParams.af" value="true">
+                                 Yes
+                              </label>
+                           </div>
+                           <div class="radio-chk">
+                              <label for="AF-No"> <input name="af" id="AF-No"
+                                 type="radio" ng-model="analysisParams.af" value="false">
+                                 No
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="radio-chk-na-1">
+                     <div class="">
+                        <div class="form-inline">
+                           <div class="radio-n-a">
+                              <label for="AF-N/A"> <input name="af" id="AF-N/A"
+                                 type="radio" ng-model="analysisParams.af" value="NA">N/A
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+               <procedure:procedure-layout
+                  id="6e1f83e3-d25a-45f8-8ee7-370350b0d9c0"
+                  section="TAVI_PREPHV_CT_MRI_SCAN_V1">
+                  <div class="radio-chk-row">
+                     <div class="radio-chk-name-1">
+                        <div class="label-name-bld">
+                           <label for="Porcelain">Porcelain Aorta </label>
+                        </div>
+                     </div>
+                     <div class="radio-chk-option-1">
+                        <div class="check-list-row">
+                           <div class="form-inline">
+                              <procedure:component id="_paorta">
+                                 <procedure:component-options>
+                                    <div class="radio-chk">
+                                       <label for="Porcelain-Yes"> <input type="radio"
+                                          name="porao" ng-model="analysisParams.porao"
+                                          value="${uuid}"> ${label}
+                                       </label>
+                                    </div>
+                                 </procedure:component-options>
+                              </procedure:component>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="radio-chk-na-1">
+                        <div class="">
+                           <div class="form-inline">
+                              <div class="radio-n-a">
+                                 <label for="Porcelain-N/A"> <input name="porao"
+                                    id="Porcelain-N/A" type="radio"
+                                    ng-model="analysisParams.porao" value="NA">N/A
+                                 </label>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </procedure:procedure-layout>
+
+               <div class="radio-chk-row">
+                  <div class="radio-chk-name-1">
+                     <div class="label-name-bld">
+                        <label for="Cardiac">Previous Cardiac Surgery</label>
+                     </div>
+                  </div>
+                  <div class="radio-chk-option-1">
+                     <div class="check-list-row">
+                        <div class="form-inline">
+                           <div class="radio-chk">
+                              <label for="PCS-Yes"> <input name="pcs" id="PCS-Yes"
+                                 type="radio" ng-model="analysisParams.pcs" value="true">
+                                 Yes
+                              </label>
+                           </div>
+                           <div class="radio-chk">
+                              <label for="PCS-No"> <input name="pcs" id="PCS-No"
+                                 type="radio" ng-model="analysisParams.pcs" value="false">
+                                 No
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="radio-chk-na-1">
+                     <div class="">
+                        <div class="form-inline">
+                           <div class="radio-n-a">
+                              <label for="PCS-N/A"> <input name="pcs" id="PCS-N/A"
+                                 type="radio" ng-model="analysisParams.pcs" value="NA">N/A
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="con-list-2 card-list"
+               ng-class="{ 'disabled_analytics': !deselectAllFlag}">
+               <div class="radio-chk-row">
+                  <div class="radio-chk-name-2">
+                     <div class="cap-fnt">
+                        <label for="AF">MEAN AORTIC VALVE GRADIENT </label>
+                     </div>
+                  </div>
+                  <div class="radio-chk-option-2">
+                     <div class="check-list-row">
+                        <div class="form-inline">
+                           <div class="radio-chk">
+                              <label for="MAVG-l40"> <input name="mavg"
+                                 id="MAVG-l40" type="radio" ng-model="analysisParams.mavg"
+                                 value="0-39"> <40
+                              </label>
+                           </div>
+                           <div class="radio-chk">
+                              <label for="MAVG-g40"> <input name="mavg"
+                                 id="MAVG-g40" type="radio" ng-model="analysisParams.mavg"
+                                 value="40-999"> >40
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="radio-chk-na-2">
+                     <div class="">
+                        <div class="form-inline">
+                           <div class="radio-n-a">
+                              <label for="MAVG-Na"> <input name="mavg" id="MAVG-Na"
+                                 type="radio" ng-model="analysisParams.mavg" value="NA">
+                                 N/A
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="radio-chk-row">
+                  <div class="radio-chk-name-2">
+                     <div class="cap-fnt">
+                        <label for="STS">STS SCORE </label>
+                     </div>
+                  </div>
+                  <div class="radio-chk-option-2">
+                     <div class="check-list-row">
+                        <div class="form-inline">
+                           <div class="radio-chk">
+                              <label for="STS-l3"> <input name="sts" id="STS-l3"
+                                 type="radio" ng-model="analysisParams.sts" value="0-2">
+                                 <3
+                              </label>
+                           </div>
+                           <div class="radio-chk">
+                              <label for="STS-g3"> <input name="sts" id="STS-g3"
+                                 type="radio" ng-model="analysisParams.sts" value="3-101">
+                                 >3
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="radio-chk-na-2">
+                     <div class="">
+                        <div class="form-inline">
+                           <div class="radio-n-a">
+                              <label for="STS-Na"> <input name="sts" id="STS-Na"
+                                 type="radio" ng-model="analysisParams.sts" value="NA">
+                                 N/A
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="radio-chk-row">
+                  <div class="radio-chk-name-2">
+                     <div class="cap-fnt">
+                        <label for="EURO-II">EURO SCORE II</label>
+                     </div>
+                  </div>
+                  <div class="radio-chk-option-2">
+                     <div class="check-list-row">
+                        <div class="form-inline">
+                           <div class="radio-chk">
+                              <label for="EURO-l3"> <input name="euro" id="EURO-l3"
+                                 type="radio" ng-model="analysisParams.euro" value="0-2">
+                                 <3
+                              </label>
+                           </div>
+                           <div class="radio-chk">
+                              <label for="EURO-g3"> <input name="euro" id="EURO-g3"
+                                 type="radio" ng-model="analysisParams.euro" value="3-101">
+                                 >3
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="radio-chk-na-2">
+                     <div class="">
+                        <div class="form-inline">
+                           <div class="radio-n-a">
+                              <label for="EURO-Na"> <input name="euro" id="EURO-Na"
+                                 type="radio" ng-model="analysisParams.euro" value="NA">
+                                 N/A
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+            <div class="con-list-3 card-list"
+               ng-class="{ 'disabled_analytics': !deselectAllFlag}">
+               <div class="radio-chk-row">
+                  <div class="radio-chk-name">
+                     <div class="cap-fnt">
+                        <label for="LVEF">LVEF</label>
+                     </div>
+                  </div>
+                  <div class="radio-chk-option">
+                     <div class="check-list-row">
+                        <div class="form-inline">
+                           <div class="radio-chk">
+                              <label for="LVEF<30"> <input name="LVEF" id="LVEF<30"
+                                 type="radio" ng-model="analysisParams.lvef" value="0-29">
+                                 < 30
+                              </label>
+                           </div>
+                           <div class="radio-chk">
+                              <label for="LVEF30-50"> <input name="LVEF" id="LVEF"
+                                 type="radio" ng-model="analysisParams.lvef" value="30-49">
+                                 30-50
+                              </label>
+                           </div>
+                           <div class="radio-chk">
+                              <label for="LVEF>50"> <input name="LVEF" id="LVEF>50"
+                                 type="radio" ng-model="analysisParams.lvef" value="50-9999">
+                                 > 50
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="radio-chk-na">
+                     <div class="">
+                        <div class="form-inline">
+                           <div class="radio-n-a">
+                              <label for="LVEF-N/A"> <input name="LVEF"
+                                 id="LVEF-N/A" type="radio" ng-model="analysisParams.lvef"
+                                 value="NA">N/A
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="radio-chk-row">
+                  <div class="radio-chk-name">
+                     <div class="label-name-bld">
+                        <label for="eGFR">eGFR</label>
+                     </div>
+                  </div>
+                  <div class="radio-chk-option">
+                     <div class="check-list-row">
+                        <div class="form-inline">
+                           <div class="radio-chk">
+                              <label for="eGFR<30"> <input name="eGFR" id="eGFR<30"
+                                 type="radio" ng-model="analysisParams.egfr" value="0-29">
+                                 < 30
+                              </label>
+                           </div>
+                           <div class="radio-chk">
+                              <label for="eGFR30-50"> <input name="eGFR" id="eGFR"
+                                 type="radio" ng-model="analysisParams.egfr" value="30-59">
+                                 30-60
+                              </label>
+                           </div>
+                           <div class="radio-chk">
+                              <label for="eGFR>50"> <input name="eGFR" id="eGFR>50"
+                                 type="radio" ng-model="analysisParams.egfr" value="60-9999">
+                                 > 60
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="radio-chk-na">
+                     <div class="">
+                        <div class="form-inline">
+                           <div class="radio-n-a">
+                              <label for="eGFR-N/A"> <input name="eGFR"
+                                 id="eGFR-N/A" type="radio" ng-model="analysisParams.egfr"
+                                 value="NA">N/A
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="radio-chk-row">
+                  <div class="radio-chk-name">
+                     <div class="cap-fnt">
+                        <label for="ANL-SIZ">ANNULUS-SIZE</label>
+                     </div>
+                  </div>
+                  <div class="radio-chk-option">
+                     <div class="check-list-row">
+                        <div class="form-inline">
+                           <div class="radio-chk">
+                              <label for="ANL-SIZ<21"> <input name="ANL-SIZ"
+                                 id="ANL-SIZ<21" type="radio" type="radio"
+                                 ng-model="analysisParams.anlsi" value="0-20"> < 21
+                              </label>
+                           </div>
+                           <div class="radio-chk">
+                              <label for="ANL-SIZ21-26"> <input name="ANL-SIZ"
+                                 id="ANL-SIZ21-26" type="radio" type="radio"
+                                 ng-model="analysisParams.anlsi" value="21-25"> 21-26
+                              </label>
+                           </div>
+                           <div class="radio-chk">
+                              <label for="ANL-SIZ26-29"> <input name="ANL-SIZ"
+                                 id="ANL-SIZ26-29" type="radio" type="radio"
+                                 ng-model="analysisParams.anlsi" value="26-28"> 26-29
+                              </label>
+                           </div>
+                           <div class="radio-chk">
+                              <label for="ANL-SIZ>29"> <input name="ANL-SIZ"
+                                 id="ANL-SIZ>29" type="radio" type="radio"
+                                 ng-model="analysisParams.anlsi" value="29-9999"> > 29
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="radio-chk-na">
+                     <div class="">
+                        <div class="form-inline">
+                           <div class="radio-n-a">
+                              <label for="ANL-SIZ-N/A"> <input name="ANL-SIZ"
+                                 id="ANL-SIZ-N/A" type="radio" ng-model="analysisParams.anlsi"
+                                 value="NA">N/A
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <procedure:procedure-layout
+                  id="6e1f83e3-d25a-45f8-8ee7-370350b0d9c0"
+                  section="TAVI_PREPHV_CT_MRI_SCAN_V1">
+                  <div class="radio-chk-row">
+                     <div class="radio-chk-name">
+                        <div class="cap-fnt">
+                           <label for="lvot">LVOT CALCIUM</label>
+                        </div>
+                     </div>
+                     <div class="radio-chk-option">
+                        <div class="check-list-row">
+                           <div class="form-inline">
+                              <procedure:component id="_lvotcalcium">
+                                 <procedure:component-options>
+                                    <div class="radio-chk">
+                                       <label for="LVOT-cal"> <input type="radio"
+                                          name="lvot" ng-model="analysisParams.lvot" value="${uuid}">
+                                          ${label}
+                                       </label>
+                                    </div>
+                                 </procedure:component-options>
+                              </procedure:component>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="radio-chk-na">
+                        <div class="">
+                           <div class="form-inline">
+                              <div class="radio-n-a">
+                                 <label for="LVOT-cal"> <input name="lvot"
+                                    type="radio" ng-model="analysisParams.lvot" value="NA">N/A
+                                 </label>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </procedure:procedure-layout>
+            </div>
+            <div class="con-list-4 card-list"
+               ng-class="{ 'disabled_analytics': !deselectAllFlag}">
+               <procedure:procedure-layout
+                  id="5bb3b1e5-6fce-4178-a372-cb2d0dd67d03" section="TAVI_REFERRAL">
+                  <div class="radio-chk-row">
+                     <div class="radio-chk-name">
+                        <div class="cap-fnt">
+                           <label for="FFrALITY">FRAILITY</label>
+                        </div>
+                     </div>
+                     <div class="radio-chk-option">
+                        <div class="check-list-row">
+                           <div class="form-inline">
+                              <div class="radio-chk">
+                                 <label for="FRATILITY_"> <input type="radio"
+                                    name="fraility" ng-model="analysisParams.fraility"
+                                    value="${uuid}"> ${label}
+                                 </label>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="radio-chk-na">
+                        <div class="">
+                           <div class="form-inline">
+                              <div class="radio-n-a">
+                                 <label for="FRATILITY_N/A"> <input name="fraility"
+                                    type="radio" ng-model="analysisParams.fraility" value="NA">N/A
+                                 </label>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </procedure:procedure-layout>
+               <procedure:procedure-layout
+                  id="f0ac69e1-e235-4651-ba4c-a7643136ef27"
+                  section="TAVI_PREPHV_ECHO_CARDIOGRAPHY">
+
+                  <div class="radio-chk-row">
+                     <div class="radio-chk-name">
+                        <div class="cap-fnt">
+                           <label for="PRE-Ex-Ar">PRE EXISTING AR</label>
+                        </div>
+                     </div>
+                     <div class="radio-chk-option">
+                        <div class="check-list-row">
+                           <div class="form-inline">
+                              <div class="radio-chk">
+                                 <label for="PREEXIAR_"> <input type="radio"
+                                    name="prear" ng-model="analysisParams.prear" value="0">
+                                    None
+                                 </label>
+                              </div>
+                              <div class="radio-chk">
+                                 <label for="PREEXIAR_"> <input type="radio"
+                                    name="prear" ng-model="analysisParams.prear"
+                                    value="${uuid}"> ${displayName}
+                                 </label>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="radio-chk-na">
+                        <div class="">
+                           <div class="form-inline">
+                              <div class="radio-n-a">
+                                 <label for="PREEXIAR_N/A"> <input name="prear"
+                                    type="radio" ng-model="analysisParams.prear" value="NA">N/A
+                                 </label>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="radio-chk-row">
+                     <div class="radio-chk-name">
+                        <div class="cap-fnt">
+                           <label for="PRE-Ex-Mr">PRE EXISTING MR</label>
+                        </div>
+                     </div>
+                     <div class="radio-chk-option">
+                        <div class="check-list-row">
+                           <div class="form-inline">
+                                 <div class="radio-chk">
+                                    <label for="PREEXIMR_"> <input type="radio"
+                                       name="premr" ng-model="analysisParams.premr" value="0">
+                                       None
+                                    </label>
+                                 </div>
+                                 <div class="radio-chk">
+                                    <label for="PREEXIMR_"> <input type="radio"
+                                       name="premr" ng-model="analysisParams.premr"
+                                       value="${uuid}"> ${displayName}
+                                    </label>
+                                 </div>
+                              
+                           </div>
+                        </div>
+                     </div>
+                     <div class="radio-chk-na">
+                        <div class="">
+                           <div class="form-inline">
+                              <div class="radio-n-a">
+                                 <label for="PREEXIMR_N/A"> <input name="premr"
+                                    type="radio" ng-model="analysisParams.premr" value="NA">N/A
+                                 </label>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </procedure:procedure-layout>
+            </div>
+            <div id="m-submit" class="submit-btn-h">
+               <button target="_blank" class="submit-btn"
+                  ng-click="drawProcedureGraph()">Submit</button>
+            </div>
+
+
+         </div>
+
+         <div class="anly-right-pane-filter col-md-3" ng-hide="procedureType.uuid == laaoProcedureTypeUuid ">
+            <div class="anly-right-pane-inner-filter">
+            <div class="toggle-cntrl">
+               <div class="hos-drop">
+                  <!-- <select type="text"  class="in-field custom-color"   ng-options="x.name for x in hospitals track by x.uuid"  
+                          ng-model="selectedHospital" ng-hide="locationMode == 'WORLDWIDE' ">
+
+                          </select> -->
+               </div>
+               <div id="switch-lg" class="swtch-cntrl"
+                  ng-hide=" procedureType.uuid == laaoProcedureTypeUuid ">
+                  <label class="opt">OPTIONS</label> <label class="switch">
+                     <input id="disablecheckbox" ng-model="deselectAllFlag"
+                     ng-change="deselectAll()" type="checkbox"> <span
+                     class="slider round"></span> <span class="absolute-no">OFF</span>
+                  </label>
+               </div>
+
+
+            </div>
+
+            <div class="submit-btn-h">
+               <button target="_blank" class="submit-btn"
+                  ng-click="drawProcedureGraph()">Submit</button>
+            </div>
+         </div>
+
+         </div>
+
+         <div class="col-md-12 map-contrl-btn-bd">
+
+            <button  href=""  class="m-themeBtn"><img style="width:20px;height:25px;margin-left:-10px;" src="images/nc.png">NEW ZEALAND</button>
+              <button  href=""  class="m-themeBtn-act">AUCKLAND</button>
+              <button  href=""  class="m-themeBtn">CANTERBURY</button>
+              <button  href=""  class="m-themeBtn">OTAGO</button>
+              <button  href=""  class="m-themeBtn">WAIKATO</button>
+              <button  href=""  class="m-themeBtn">WELLINGTON</button>
+         </div>
+
+
+
+   </div>
+   <!-- Right Side start -->
+   </body>
+</html>
