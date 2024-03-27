@@ -1,0 +1,726 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>..:: Procedure Tracking ::..</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- <link rel="stylesheet" href="bootstrap.css" /> -->
+    <link rel="stylesheet" href="css/style-v1.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css">
+<style>
+      #secondary_container {
+        background: #fff;
+      }
+      #secondary_container img{
+        height:100%;
+        width:100%;
+      }
+      .anly-submenu span {
+          margin-left: 33% !important;
+      }
+    </style>
+  </head>
+  <body style="background: #eeeeee" ng-app="myApp" ng-controller="myController">
+    <div class="left-menu-new-des leftMenu">
+      <a ui-sref="postlogin" href="#!/postlogin">
+        <div class="logo-new-des">
+          <img src="newlogo_ap22.png">
+          <div>
+            <span class="vers-aftr-login">Ver. 2.5</span>
+          </div>
+        </div>
+      </a>
+      <div class="col-xs-12 pro-pic">
+        <a ui-sref="my_profile({user: 'bd79d5b0-8377-474a-96fe-41bb879fccdb', ct: 1594031716432})" title="Edit Profile" href="#!/myprofile/bd79d5b0-8377-474a-96fe-41bb879fccdb/1594031716432">
+          <div class="col-xs-12">
+            <span>
+              <img src="pro33.png">
+            </span>
+          </div>
+        </a>
+        <div class="col-xs-12" style="margin-top: 10px;">
+          <span class="pro-name"> PROCEDURE TRACKING </span>
+        </div>
+      </div>
+      <div class="col-xs-12" style="margin-top: 50px; padding: 0;">
+        <a id="dashlink" ui-sref="delegate_dashboard({ruuid : '0', wtype : 'WAITING'})" data-it-mark="_headerlink" href="#!/delegate_dashboard/?ruuid=0&amp;wtype=WAITING">
+          <div class="col-xs-12 nav-newdes DASHBOARD">
+            <span class="nav-icon">
+              <img src="home3.png">
+            </span>
+            <span class="nav-txt-newdes">Dashboard</span>
+          </div>
+        </a>
+        <!----------------------------------------- Analytics link ----------------------------------------------- -->
+        <a id="analink" data-it-mark="_headerlink">
+          <div class="col-xs-12 nav-newdes ANALYTICS nav-newdes-over" ng-click="redirectToAnalysis(); analyticsSubMenu = 'MORTALITY' ">
+            <span class="nav-icon">
+              <i class="fa fa-line-chart" style="font-size:24px; font-weight: 50; padding-left: 4px;"></i>
+            </span>
+            <span class="nav-txt-newdes">Analytics</span>
+          </div>
+          <div id="analiticsSubmenu">
+            <div class="anly-submenu col-xs-12 MORTALITY nav-newdes-over anly-submenu-active anly-submenu-active12" ng-class="{'anly-submenu-active12' : analyticsSubMenu == 'MORTALITY'}" ng-click="redirectToAnalysis();analyticsSubMenu = 'MORTALITY'">
+              <span>Mortality</span>
+            </div>
+            <div class="anly-submenu col-xs-12 MAJORCOMPLICATION" ng-class="{'anly-submenu-active12' : analyticsSubMenu == 'MAJORCOMPLICATION'}" ng-click="redirectToMajorComplication();analyticsSubMenu = 'MAJORCOMPLICATION'">
+              <span>Major Complications</span>
+            </div>
+            <div class="anly-submenu col-xs-12 COSTANALYSIS" ng-class="{'anly-submenu-active12' : analyticsSubMenu == 'COST'}" ng-click="redirectToCostAnalysis();analyticsSubMenu = 'COST'">
+              <span>Cost Analysis</span>
+            </div>
+          </div>
+        </a>
+        <!--------------------------------------------- Analytics link End ---------------------------------------- -->
+        <a id="patlink" data-it-mark="_headerlink" ng-click="patientLinkClicked()">
+          <div class="col-xs-12 nav-newdes PATIENTDETAILS">
+            <span class="nav-icon">
+              <img src="patient2.png">
+            </span>
+            <span class="nav-txt-newdes">Patient</span>
+          </div>
+        </a>
+        <a id="patlink" ng-click="adminLinkClicked()" data-it-mark="_headerlink">
+          <div class="col-xs-12 nav-newdes ADMINPAGE">
+            <span class="nav-icon">
+              <img src="admin2.png">
+            </span>
+            <span class="nav-txt-newdes">Admin</span>
+          </div>
+        </a>
+      </div>
+      <div class="col-xs-12 footer-new-des">© Ahimsa Global 2024 | <span>
+          <a style="cursor:pointer;text-decoration:underline !important;font-size:12px;" onclick="loadTermsAndConditions()">Privacy Policy</a>
+        </span>
+      </div>
+    </div>
+    <div class="right-side-new-des">
+   
+   
+   <div class="anly-left-pane col-md-3">
+    <div class="menu-bg">
+        <div class="menu-db menu-db-active" ng-click="mainGraphLocation = '0'; hospitalType = 'PUBLIC'; redirectToAnalytics()" ng-class="{'menu-db-active':hospitalType == 'PUBLIC'}">
+            <img src="images/db-3.png" />
+            <p>Public</p>
+         </div>
+       </div>
+      <div class="anly-left-pane-inner">
+
+         <div class="db-cal">
+            <div class="col-md-12 cal-bd">
+              <label>Procedure Type</label>
+              <div class="anly-proc-type-select-bd">
+                 <select class="in-field">
+                    <option>Transcatheter Aortic Valve Implantation</option>
+                 </select>
+              </div>
+           </div>
+            <div class="col-md-12 cal-bd">
+               <div class='input-group date date-picker-bg' id='datetimepicker9'>
+                  <input type='text' id='_datetimepicker9' class="in-field" placeholder="2012" ng-model="fromDate" />
+                  <div id="from" ng-if="fromDate" class="close-date" type="reset" ng-click="clearDate('fromDate')"></div>
+                  <span class="input-group-addon" style="border: 1px solid #CCCCCC;">
+                  <span class="glyphicon">
+                  <img src="images/clndr.png" />
+                  </span>
+                  </span>
+               </div>
+            </div>
+            <div class="col-xs-12 cal-bd">
+               <div class='input-group date date-picker-bg' id='datetimepicker10'>
+                  <input type='text' id='_datetimepicker10' class="in-field" placeholder="2024" ng-model="toDate" />
+                  <div id="to" ng-if="toDate" class="close-date" type="reset" ng-click="clearDate('toDate')"></div>
+                  <span class="input-group-addon" style="border: 1px solid #CCCCCC;">
+                  <span class="glyphicon">
+                  <img src="images/clndr.png" />
+                  </span>
+                  </span>
+               </div>
+            </div>
+            <div class="col-xs-12 cal-bd">
+               <label>Select Valve</label>
+               <div class="analytics_checkbox">
+                  <!-- ngRepeat: item in valves --><span class="marg-left10 ng-scope"> 
+                     <input type="checkbox" class="valve-checkbox ng-pristine ng-untouched ng-valid ng-empty" value="item.id1"  ><span class="ng-binding">CoreValve</span>
+                  </span><!-- end ngRepeat: item in valves --><span class="marg-left10 ng-scope"> 
+                     <input type="checkbox" class="valve-checkbox ng-pristine ng-untouched ng-valid ng-empty" value="item.id2"  ><span class="ng-binding">Evolut R</span>
+                  </span><!-- end ngRepeat: item in valves --><span class="marg-left10 ng-scope"> 
+                     <input type="checkbox" class="valve-checkbox ng-pristine ng-untouched ng-valid ng-empty" value="item.id3"  ><span class="ng-binding">Evolut Pro</span>
+                  </span><!-- end ngRepeat: item in valves --><span class="marg-left10 ng-scope"> 
+                     <input type="checkbox" class="valve-checkbox ng-pristine ng-untouched ng-valid ng-empty" value="item.id4"  ><span class="ng-binding">Evolut Pro+</span>
+                  </span><!-- end ngRepeat: item in valves --><span class="marg-left10 ng-scope"> 
+                     <input type="checkbox" class="valve-checkbox ng-pristine ng-untouched ng-valid ng-empty" value="item.id5"  ><span class="ng-binding">Evolut Fx</span>
+                  </span><!-- end ngRepeat: item in valves --><span class="marg-left10 ng-scope"> 
+                     <input type="checkbox" class="valve-checkbox ng-pristine ng-untouched ng-valid ng-empty" value="item.id6"  ><span class="ng-binding">Sapien</span>
+                  </span><!-- end ngRepeat: item in valves --><span class="marg-left10 ng-scope"> 
+                     <input type="checkbox" class="valve-checkbox ng-pristine ng-untouched ng-valid ng-empty" value="item.id7"  ><span class="ng-binding">Sapien XT</span>
+                  </span><!-- end ngRepeat: item in valves --><span class="marg-left10 ng-scope"> 
+                     <input type="checkbox" class="valve-checkbox ng-pristine ng-untouched ng-valid ng-empty" value="item.id8"  ><span class="ng-binding">Sapien 3</span>
+                  </span><!-- end ngRepeat: item in valves --><span class="marg-left10 ng-scope"> 
+                     <input type="checkbox" class="valve-checkbox ng-pristine ng-untouched ng-valid ng-empty" value="item.id"  ><span class="ng-binding">Sapien 3U</span>
+                  </span><!-- end ngRepeat: item in valves --><span class="marg-left10 ng-scope"> 
+                     <input type="checkbox" class="valve-checkbox ng-pristine ng-untouched ng-valid ng-empty" value="item.id"  ><span class="ng-binding">Sapien X4</span>
+                  </span><!-- end ngRepeat: item in valves --><span class="marg-left10 ng-scope"> 
+                     <input type="checkbox" class="valve-checkbox ng-pristine ng-untouched ng-valid ng-empty" value="item.id"  ><span class="ng-binding">Lotus</span>
+                  </span><!-- end ngRepeat: item in valves --><span class="marg-left10 ng-scope"> 
+                     <input type="checkbox" class="valve-checkbox ng-pristine ng-untouched ng-valid ng-empty" value="item.id"  ><span class="ng-binding">Acurate Neo</span>
+                  </span><!-- end ngRepeat: item in valves --><span class="marg-left10 ng-scope"> 
+                     <input type="checkbox" class="valve-checkbox ng-pristine ng-untouched ng-valid ng-empty" value="item.id"  ><span class="ng-binding">Acurate Neo2</span>
+                  </span><!-- end ngRepeat: item in valves --><span class="marg-left10 ng-scope"> 
+                     <input type="checkbox" class="valve-checkbox ng-pristine ng-untouched ng-valid ng-empty" value="item.id"  ><span class="ng-binding">Navitor</span>
+                  </span><!-- end ngRepeat: item in valves --><span class="marg-left10 ng-scope"> 
+                     <input type="checkbox" class="valve-checkbox ng-pristine ng-untouched ng-valid ng-empty" value="item.id"  ><span class="ng-binding">Jena</span>
+                  </span><!-- end ngRepeat: item in valves --><span class="marg-left10 ng-scope"> 
+                     <input type="checkbox" class="valve-checkbox ng-pristine ng-untouched ng-valid ng-empty" value="item.id"  ><span class="ng-binding">Hydra</span>
+                  </span><!-- end ngRepeat: item in valves -->
+               </div>
+            </div>
+         </div>
+         <div class="submit-btn-h">
+            <button target="_blank" class="themeBtn-search" ng-click="drawGraphs()">Search</button>
+         </div>
+      </div>
+   </div>
+   <div class="anly-graph-bd col-md-9" style="padding-right: 15px !important;">
+
+      <div class="contrl-btn">
+         <ul class="list" style="display:flex;margin-bottom: 0px;padding-left: 1px;">
+            <button class="themeBtn themeBtn-act">KM Curve</button>
+            <button class="themeBtn">Death</button>
+            <button class="themeBtn">LVEF</button>
+            <button class="themeBtn">AMG</button>
+            <button class="themeBtn">AVA</button>
+            <button class="themeBtn">Paravalvular</button>
+            <button class="themeBtn">Test 1</button>
+            <button class="themeBtn">Test 2</button>
+         </ul>
+      </div>
+   
+      
+      <span style="position:absolute;z-index:1500;color:green;right: 5%;margin-top: 10px;">{{totalProcedireCompletedPatients}} Procedures completed</span>
+      <div id="secondary_container" class="col-md-12">
+        <img src="images/kmcurve.png">
+      </div>
+   </div>
+   
+   <div class="anly-right-pane-filter col-md-3">
+      <div class="anly-right-pane-inner-filter">
+         <div class="toggle-cntrl">
+            <div id="switch-lg" class="swtch-cntrl">
+               <label class="opt">OPTIONS</label>
+               <label class="switch">
+               <input id="disablecheckbox" ng-model="deselectAllFlag" ng-change="deselectAll()" type="checkbox">
+               <span class="slider round"></span>
+               <span class="absolute-no">OFF</span>
+               </label>
+            </div>
+         </div>
+         <div class="submit-btn-h">
+            <button target="_blank" class="submit-btn" ng-click="drawGraphs()">Submit</button>
+         </div>
+      </div>
+   </div>
+   <div id="popup-option" class="col-md-9 con-main">
+      
+      <div class="con-list-1 card-list " ng-class="{ 'disabled_analytics': !deselectAllFlag} ">
+         <div class="radio-chk-row">
+            <div class="radio-chk-name-1">
+               <div class="cap-fnt">
+                  <label for="AF">AF</label>
+               </div>
+            </div>
+            <div class="radio-chk-option-1">
+               <div class="check-list-row">
+                  <div class="form-inline">
+                     <div class="radio-chk">
+                        <label for="AF-Yes">
+                        <input name="af" id="AF-Yes" type="radio" ng-model="analysisParams.af" value="true"> Yes </label>
+                     </div>
+                     <div class="radio-chk">
+                        <label for="AF-No">
+                        <input name="af" id="AF-No" type="radio" ng-model="analysisParams.af" value="false"> No </label>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="radio-chk-na-1">
+               <div class="">
+                  <div class="form-inline">
+                     <div class="radio-n-a">
+                        <label for="AF-N/A">
+                        <input name="af" id="AF-N/A" type="radio" ng-model="analysisParams.af" value="NA">N/A </label>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <procedure:procedure-layout id="6e1f83e3-d25a-45f8-8ee7-370350b0d9c0" section="TAVI_PREPHV_CT_MRI_SCAN_V1">
+            <div class="radio-chk-row">
+               <div class="radio-chk-name-1">
+                  <div class="label-name-bld">
+                     <label for="Porcelain">Porcelain Aorta </label>
+                  </div>
+               </div>
+               <div class="radio-chk-option-1">
+                  <div class="check-list-row">
+                     <div class="form-inline">
+                        <procedure:component id="_paorta">
+                           <procedure:component-options>
+                              <div class="radio-chk">
+                                 <label for="Porcelain-Yes">
+                                 <input type="radio" name="porao" ng-model="analysisParams.porao" value="${uuid}"> ${label} </label>
+                              </div>
+                           </procedure:component-options>
+                        </procedure:component>
+                     </div>
+                  </div>
+               </div>
+               <div class="radio-chk-na-1">
+                  <div class="">
+                     <div class="form-inline">
+                        <div class="radio-n-a">
+                           <label for="Porcelain-N/A">
+                           <input name="porao" id="Porcelain-N/A" type="radio" ng-model="analysisParams.porao" value="NA">N/A </label>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </procedure:procedure-layout>
+         <div class="radio-chk-row">
+            <div class="radio-chk-name-1">
+               <div class="label-name-bld">
+                  <label for="Cardiac">Previous Cardiac Surgery</label>
+               </div>
+            </div>
+            <div class="radio-chk-option-1">
+               <div class="check-list-row">
+                  <div class="form-inline">
+                     <div class="radio-chk">
+                        <label for="PCS-Yes">
+                        <input name="pcs" id="PCS-Yes" type="radio" ng-model="analysisParams.pcs" value="true"> Yes </label>
+                     </div>
+                     <div class="radio-chk">
+                        <label for="PCS-No">
+                        <input name="pcs" id="PCS-No" type="radio" ng-model="analysisParams.pcs" value="false"> No </label>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="radio-chk-na-1">
+               <div class="">
+                  <div class="form-inline">
+                     <div class="radio-n-a">
+                        <label for="PCS-N/A">
+                        <input name="pcs" id="PCS-N/A" type="radio" ng-model="analysisParams.pcs" value="NA">N/A </label>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="con-list-2 card-list" ng-class="{ 'disabled_analytics': !deselectAllFlag}">
+         <div class="radio-chk-row">
+            <div class="radio-chk-name-2">
+               <div class="cap-fnt">
+                  <label for="AF">MEAN AORTIC VALVE GRADIENT </label>
+               </div>
+            </div>
+            <div class="radio-chk-option-2">
+               <div class="check-list-row">
+                  <div class="form-inline">
+                     <div class="radio-chk">
+                        <label for="MAVG-l40">
+                        <input name="mavg" id="MAVG-l40" type="radio" ng-model="analysisParams.mavg" value="0-39">
+                        <40 </label>
+                     </div>
+                     <div class="radio-chk">
+                        <label for="MAVG-g40">
+                        <input name="mavg" id="MAVG-g40" type="radio" ng-model="analysisParams.mavg" value="40-999"> >40 </label>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="radio-chk-na-2">
+               <div class="">
+                  <div class="form-inline">
+                     <div class="radio-n-a">
+                        <label for="MAVG-Na">
+                        <input name="mavg" id="MAVG-Na" type="radio" ng-model="analysisParams.mavg" value="NA"> N/A </label>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="radio-chk-row">
+            <div class="radio-chk-name-2">
+               <div class="cap-fnt">
+                  <label for="STS">STS SCORE </label>
+               </div>
+            </div>
+            <div class="radio-chk-option-2">
+               <div class="check-list-row">
+                  <div class="form-inline">
+                     <div class="radio-chk">
+                        <label for="STS-l3">
+                        <input name="sts" id="STS-l3" type="radio" ng-model="analysisParams.sts" value="0-2">
+                        <3 </label>
+                     </div>
+                     <div class="radio-chk">
+                        <label for="STS-g3">
+                        <input name="sts" id="STS-g3" type="radio" ng-model="analysisParams.sts" value="3-101"> >3 </label>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="radio-chk-na-2">
+               <div class="">
+                  <div class="form-inline">
+                     <div class="radio-n-a">
+                        <label for="STS-Na">
+                        <input name="sts" id="STS-Na" type="radio" ng-model="analysisParams.sts" value="NA"> N/A </label>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="radio-chk-row">
+            <div class="radio-chk-name-2">
+               <div class="cap-fnt">
+                  <label for="EURO-II">EURO SCORE II</label>
+               </div>
+            </div>
+            <div class="radio-chk-option-2">
+               <div class="check-list-row">
+                  <div class="form-inline">
+                     <div class="radio-chk">
+                        <label for="EURO-l3">
+                        <input name="euro" id="EURO-l3" type="radio" ng-model="analysisParams.euro" value="0-2">
+                        <3 </label>
+                     </div>
+                     <div class="radio-chk">
+                        <label for="EURO-g3">
+                        <input name="euro" id="EURO-g3" type="radio" ng-model="analysisParams.euro" value="3-101"> >3 </label>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="radio-chk-na-2">
+               <div class="">
+                  <div class="form-inline">
+                     <div class="radio-n-a">
+                        <label for="EURO-Na">
+                        <input name="euro" id="EURO-Na" type="radio" ng-model="analysisParams.euro" value="NA"> N/A </label>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="con-list-3 card-list" ng-class="{ 'disabled_analytics': !deselectAllFlag}">
+         <div class="radio-chk-row">
+            <div class="radio-chk-name">
+               <div class="cap-fnt">
+                  <label for="LVEF">LVEF</label>
+               </div>
+            </div>
+            <div class="radio-chk-option">
+               <div class="check-list-row">
+                  <div class="form-inline">
+                     <div class="radio-chk">
+                        <label for="LVEF">
+                        <input name="LVEF" id="LVEF" type="radio" ng-model="analysisParams.lvef" value="<30">< 30 </label>
+                     </div>
+                     <div class="radio-chk">
+                        <label for="LVEF30-50-1">
+                        <input name="LVEF" id="LVEF30-50-1" type="radio" ng-model="analysisParams.lvef" value="30-49"> 30-50 </label>
+                     </div>
+                     <div class="radio-chk">
+                        <label for="LVEF>50">
+                        <input name="LVEF" id="LVEF>50" type="radio" ng-model="analysisParams.lvef" value="50-9999"> > 50 </label>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="radio-chk-na">
+               <div class="">
+                  <div class="form-inline">
+                     <div class="radio-n-a">
+                        <label for="LVEF-N/A">
+                        <input name="LVEF" id="LVEF-N/A" type="radio" ng-model="analysisParams.lvef" value="NA">N/A </label>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="radio-chk-row">
+            <div class="radio-chk-name">
+               <div class="label-name-bld">
+                  <label for="eGFR">eGFR</label>
+               </div>
+            </div>
+            <div class="radio-chk-option">
+               <div class="check-list-row">
+                  <div class="form-inline">
+                     <div class="radio-chk">
+                        <label for="eGFR">
+                        <input name="eGFR" id="eGFR" type="radio" ng-model="analysisParams.egfr" value="30">< 30 </label>
+                     </div>
+                     <div class="radio-chk">
+                        <label for="eGFR30-50">
+                        <input name="eGFR" id="eGFR" type="radio" ng-model="analysisParams.egfr" value="30-59"> 30-60 </label>
+                     </div>
+                     <div class="radio-chk">
+                        <label for="eGFR>50">
+                        <input name="eGFR" id="eGFR>50" type="radio" ng-model="analysisParams.egfr" value="60-9999"> > 60 </label>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="radio-chk-na">
+               <div class="">
+                  <div class="form-inline">
+                     <div class="radio-n-a">
+                        <label for="eGFR-N/A">
+                        <input name="eGFR" id="eGFR-N/A" type="radio" ng-model="analysisParams.egfr" value="NA">N/A </label>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="radio-chk-row">
+            <div class="radio-chk-name">
+               <div class="cap-fnt">
+                  <label for="ANL-SIZ">ANNULUS-SIZE</label>
+               </div>
+            </div>
+            <div class="radio-chk-option">
+               <div class="check-list-row">
+                  <div class="form-inline">
+                     <div class="radio-chk">
+                        <label for="ANL-SIZ">
+                        <input name="ANL-SIZ" id="ANL-SIZ21" type="radio" type="radio" ng-model="analysisParams.anlsi" value="21">< 21 </label>
+                     </div>
+                     <div class="radio-chk">
+                        <label for="ANL-SIZ21-26">
+                        <input name="ANL-SIZ" id="ANL-SIZ21-26" type="radio" type="radio" ng-model="analysisParams.anlsi" value="21-25"> 21-26 </label>
+                     </div>
+                     <div class="radio-chk">
+                        <label for="ANL-SIZ26-29">
+                        <input name="ANL-SIZ" id="ANL-SIZ26-29" type="radio" type="radio" ng-model="analysisParams.anlsi" value="26-28"> 26-29 </label>
+                     </div>
+                     <div class="radio-chk">
+                        <label for="ANL-SIZ>29">
+                        <input name="ANL-SIZ" id="ANL-SIZ>29" type="radio" type="radio" ng-model="analysisParams.anlsi" value="29-9999"> > 29 </label>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="radio-chk-na">
+               <div class="">
+                  <div class="form-inline">
+                     <div class="radio-n-a">
+                        <label for="ANL-SIZ-N/A">
+                        <input name="ANL-SIZ" id="ANL-SIZ-N/A" type="radio" ng-model="analysisParams.anlsi" value="NA">N/A </label>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="radio-chk-row">
+            <div class="radio-chk-name">
+               <div class="cap-fnt">
+                  <label for="lvot">LVOT CALCIUM</label>
+               </div>
+            </div>
+            <div class="radio-chk-option">
+               <div class="check-list-row">
+                  <div class="form-inline">
+                     <div class="radio-chk">
+                        <label for="LVOT-cal">
+                        <input type="radio" name="lvot" ng-model="analysisParams.lvot" value="178663fa-502f-44cb-a20a-fcb58adb1e05" class="ng-pristine ng-untouched ng-valid ng-not-empty"> None </label>
+                     </div>
+                     <div class="radio-chk">
+                        <label for="LVOT-cal">
+                        <input type="radio" name="lvot" ng-model="analysisParams.lvot" value="d1d025b8-ccb8-4648-b879-9c563e75bf6a" class="ng-pristine ng-untouched ng-valid ng-not-empty"> Mild </label>
+                     </div>
+                     <div class="radio-chk">
+                        <label for="LVOT-cal">
+                        <input type="radio" name="lvot" ng-model="analysisParams.lvot" value="37bc8e46-e8bb-44f8-8742-4f80df43d1f7" class="ng-pristine ng-untouched ng-valid ng-not-empty"> Moderate </label>
+                     </div>
+                     <div class="radio-chk">
+                        <label for="LVOT-cal">
+                        <input type="radio" name="lvot" ng-model="analysisParams.lvot" value="d87431cf-347a-4202-a49f-b1b21b8f033c" class="ng-pristine ng-untouched ng-valid ng-not-empty"> Severe </label>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="radio-chk-na">
+               <div class="">
+                  <div class="form-inline">
+                     <div class="radio-n-a">
+                        <label for="LVOT-cal">
+                        <input name="lvot" type="radio" ng-model="analysisParams.lvot" value="NA" class="ng-pristine ng-untouched ng-valid ng-not-empty">N/A </label>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="con-list-4 card-list" ng-class="{ 'disabled_analytics': !deselectAllFlag}">
+         <div class="radio-chk-row">
+            <div class="radio-chk-name">
+               <div class="cap-fnt">
+                  <label for="FFrALITY">FRAILITY</label>
+               </div>
+            </div>
+            <div class="radio-chk-option">
+               <div class="check-list-row">
+                  <div class="form-inline">
+                     <div class="radio-chk">
+                        <label for="FRATILITY_">
+                        <input type="radio" name="fraility" ng-model="analysisParams.fraility" value="c5e775a5-aeb6-4d2a-a499-4cc7ca6dc6f2" class="ng-pristine ng-untouched ng-valid ng-not-empty"> Severe </label>
+                     </div>
+                     <div class="radio-chk">
+                        <label for="FRATILITY_">
+                        <input type="radio" name="fraility" ng-model="analysisParams.fraility" value="86fba344-f170-4be5-8d7d-fb805d0bec9a" class="ng-pristine ng-untouched ng-valid ng-not-empty"> No frailty </label>
+                     </div>
+                     <div class="radio-chk">
+                        <label for="FRATILITY_">
+                        <input type="radio" name="fraility" ng-model="analysisParams.fraility" value="2dd97f55-de2d-4fa5-aa77-ce6266373c0b" class="ng-pristine ng-untouched ng-valid ng-not-empty"> Moderate </label>
+                     </div>
+                     <div class="radio-chk">
+                        <label for="FRATILITY_">
+                        <input type="radio" name="fraility" ng-model="analysisParams.fraility" value="e8d8e743-471f-45db-b332-f12312cd74bc" class="ng-pristine ng-untouched ng-valid ng-not-empty"> Mild </label>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="radio-chk-na">
+               <div class="">
+                  <div class="form-inline">
+                     <div class="radio-n-a">
+                        <label for="FRATILITY_N/A">
+                        <input name="fraility" type="radio" ng-model="analysisParams.fraility" value="NA" class="ng-pristine ng-untouched ng-valid ng-not-empty">N/A </label>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <procedure:procedure-layout id="f0ac69e1-e235-4651-ba4c-a7643136ef27" section="TAVI_PREPHV_ECHO_CARDIOGRAPHY">
+            <div class="radio-chk-row">
+               <div class="radio-chk-name">
+                  <div class="cap-fnt">
+                     <label for="PRE-Ex-Ar">PRE EXISTING AR</label>
+                  </div>
+               </div>
+               <div class="radio-chk-option">
+                  <div class="check-list-row">
+                     <div class="form-inline">
+                        <procedure:component id="_aigradeec">
+                           <div class="radio-chk">
+                              <label for="PREEXIAR_">
+                              <input type="radio" name="prear" ng-model="analysisParams.prear" value="0"> None </label>
+                           </div>
+                        </procedure:component>
+                     </div>
+                  </div>
+               </div>
+               <div class="radio-chk-na">
+                  <div class="">
+                     <div class="form-inline">
+                        <div class="radio-n-a">
+                           <label for="PREEXIAR_N/A">
+                           <input name="prear" type="radio" ng-model="analysisParams.prear" value="NA">N/A </label>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="radio-chk-row">
+               <div class="radio-chk-name">
+                  <div class="cap-fnt">
+                     <label for="PRE-Ex-Mr">PRE EXISTING MR</label>
+                  </div>
+               </div>
+               <div class="radio-chk-option">
+                  <div class="check-list-row">
+                     <div class="form-inline">
+                        <procedure:component id="_mrgrade">
+                           <div class="radio-chk">
+                              <label for="PREEXIMR_">
+                              <input type="radio" name="premr" ng-model="analysisParams.premr" value="0"> None </label>
+                           </div>
+                        </procedure:component>
+                     </div>
+                  </div>
+               </div>
+               <div class="radio-chk-na">
+                  <div class="">
+                     <div class="form-inline">
+                        <div class="radio-n-a">
+                           <label for="PREEXIMR_N/A">
+                           <input name="premr" type="radio" ng-model="analysisParams.premr" value="NA">N/A </label>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </procedure:procedure-layout>
+      </div>
+      <div id="m-submit" class="submit-btn-h">
+         <button target="_blank" class="submit-btn" ng-click="$parent.drawGraphs()">Submit</button>
+      </div>
+   </div>
+   
+</div>
+    <!-- Right Side start -->
+  </body>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+  <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('#multiple-checkboxes').multiselect();
+    });
+  </script>
+  <script>
+    angular.module('myApp', []).controller('myController', function($scope) {
+      $scope.valves = [{
+        id: 1,
+        label: 'Evolute Valve'
+      }, {
+        id: 2,
+        label: 'Aortic valve'
+      }, {
+        id: 3,
+        label: 'Core valve'
+      }, {
+        id: 4,
+        label: 'Lotus valve'
+      }, {
+        id: 4,
+        label: 'Hydra valve'
+      }, {
+        id: 4,
+        label: 'Jena Valve'
+      }];
+    });
+  </script>
+  <script>
+    $(document).ready(function() {
+      $("#filterhide").click(function() {
+        $("#popup-option").hide();
+      });
+      $("#m-submit").click(function() {
+        $("#popup-option").hide();
+      });
+      $("#filter-options").click(function() {
+        $("#popup-option").show();
+      });
+    });
+  </script>
+</html>
