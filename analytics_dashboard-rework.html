@@ -6,7 +6,7 @@
     <title>..:: Procedure Tracking ::..</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- <link rel="stylesheet" href="bootstrap.css" /> -->
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/style-v1.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css">
 <style>
@@ -14,8 +14,8 @@
         background: #fff;
       }
       #secondary_container img{
-        width:100%;
         height:100%;
+        width:100%;
       }
       .anly-submenu span {
           margin-left: 33% !important;
@@ -97,43 +97,21 @@
       </div>
     </div>
     <div class="right-side-new-des">
-   <div class="col-md-12">
-      <div class="menu-bg">
-         <div style="width:27%;" class="anly-proc-type-bd">
-            <div class="anly-proc-type-txt">Procedure Type</div>
-            <div class="anly-proc-type-select-bd">
-               <select class="in-field">
-                  <option>Transcatheter Aortic Valve Implantation</option>
-               </select>
-            </div>
-         </div>
-         <div class="menu-db menu-db-active" ng-click="mainGraphLocation = '0'; hospitalType = 'PUBLIC'; redirectToAnalytics()" ng-class="{'menu-db-active':hospitalType == 'PUBLIC'}">
-            <img src="images/db-3.png" />
-            <p>Public</p>
-         </div>
-         <div class="menu-db" ng-click="mainGraphLocation = '0';hospitalType = 'PRIVATE'; redirectToAnalytics() " ng-class="{'menu-db-active':hospitalType == 'PRIVATE'}">
-            <img src="images/db-4.png" />
-            <p>Private</p>
-         </div>
-      </div>
-   </div>
-   <div class="col-md-12" style="margin-top:10px">
-      <div class="contrl-btn">
-         <ul class="list" style="display:flex;margin-bottom: 0px;padding-left: 1px;">
-            <button class="themeBtn themeBtn-act">KM Curve</button>
-            <button class="themeBtn">Death</button>
-            <button class="themeBtn">LVEF</button>
-            <button class="themeBtn">AMG</button>
-            <button class="themeBtn">AVA</button>
-            <button class="themeBtn">Paravalvular</button>
-            <button class="themeBtn">Test 1</button>
-            <button class="themeBtn">Test 2</button>
-         </ul>
-      </div>
-   </div>
+   
+   
    <div class="anly-left-pane col-md-3">
+    
       <div class="anly-left-pane-inner">
+
          <div class="db-cal">
+            <div class="col-md-12 cal-bd">
+              <label>Procedure Type</label>
+              <div class="anly-proc-type-select-bd">
+                 <select class="in-field">
+                    <option>Transcatheter Aortic Valve Implantation</option>
+                 </select>
+              </div>
+           </div>
             <div class="col-md-12 cal-bd">
                <div class='input-group date date-picker-bg' id='datetimepicker9'>
                   <input type='text' id='_datetimepicker9' class="in-field" placeholder="2012" ng-model="fromDate" />
@@ -201,6 +179,20 @@
       </div>
    </div>
    <div class="anly-graph-bd col-md-9" style="padding-right: 15px !important;">
+
+      <div class="contrl-btn">
+         <ul class="list" style="display:flex;margin-bottom: 0px;padding-left: 1px;">
+            <button class="themeBtn themeBtn-act">KM Curve</button>
+            <button class="themeBtn">Survival Stats</button>
+            <button class="themeBtn">LVEF</button>
+            <button class="themeBtn">AMG</button>
+            <button class="themeBtn">AVA</button>
+            <button class="themeBtn">Paravalvular</button>
+            <button class="themeBtn">Test 1</button>
+            <button class="themeBtn">Test 2</button>
+         </ul>
+      </div>
+   
       
       <span style="position:absolute;z-index:1500;color:green;right: 5%;margin-top: 10px;">{{totalProcedireCompletedPatients}} Procedures completed</span>
       <div id="secondary_container" class="col-md-12">
