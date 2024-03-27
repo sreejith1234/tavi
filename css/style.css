@@ -8150,7 +8150,9 @@ button:focus {
 .contrl-btn {
 	width: 100%;
 	padding-left: 0px;
-	padding-right: 0px;}
+	padding-right: 0px;
+	background: #fff;
+}
 
 .map-contrl-btn {
 	width: 100%;
@@ -8568,7 +8570,7 @@ input:checked+.slider:before {
 }
 
 #secondary_container {
-	height: calc(100vh - 315px);
+	height: calc(100vh - 245px);
 	padding-right: 0px;
 	padding-left: 0px;
 	padding-right: 0px;
@@ -8611,8 +8613,8 @@ input:checked+.slider:before {
 /*-----------------------------------------------Analytics ----------------------------------------------------*/
 
 .db-cal {
-	margin-top: 1em;
-	margin-bottom: 1em;
+	margin-top: 0em;
+	margin-bottom: 0em;
 	width: 100%;
 	height: auto;
 }
@@ -8647,14 +8649,15 @@ input:checked+.slider:before {
 }
 
 .menu-db img {
-	margin-top: 10px;
-	height: 20px;
-	width: 20px;
+	margin-top: 0px;
+	height: 25px;
+	width: 25px;
 }
 
 .menu-bg {
 	margin-top: 5px;
-	height: 60px;
+	height: 37px;
+	/* padding: 5px 9px; */
 	width: 100%;
 	border-right: 1px solid #5d5d5d;
 	border-left: 1px solid #929292;
@@ -8670,8 +8673,13 @@ input:checked+.slider:before {
 }
 
 .menu-db {
-	width: 12%;
+	width: auto;
+	padding: 0px 20px;
 	float: left;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
 }
 
 .menu-db:hover {
@@ -8680,11 +8688,12 @@ input:checked+.slider:before {
 	background-color: #3838384d;
 }
 
-.menu-db>p {
+.menu-db p {
 	text-align: center;
 	text-transform: initial;
 	color: #fff;
 	font-size: 12px;
+	margin: 0 0 0px;
 }
 
 .menu-db>img {
@@ -9130,7 +9139,7 @@ input:checked+.slider:before {
 .anly-left-pane {
 	padding-left: 15px;
 	padding-right: 5px !important;
-	margin-top: 0px;
+	margin-top: 5px;
 	margin-bottom: 5px;
 }
 
@@ -9138,7 +9147,7 @@ input:checked+.slider:before {
 	padding: 10px;
 	background-color: #fff;
 	width: 100%;
-	height: calc(100vh - 315px);
+	height: calc(100vh - 209px);
 	display: inline-block;
 	overflow-y: auto;
 	overflow-x: hidden;
@@ -10099,4 +10108,7 @@ input:checked+.slider:before {
 }
 .anly-graph-bd, .con-main{
 	padding-left: 0px !important;
+}
+.anly-graph-bd{
+	margin-top:5px;
 }
