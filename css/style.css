@@ -9147,7 +9147,7 @@ input:checked+.slider:before {
 	padding: 10px;
 	background-color: #fff;
 	width: 100%;
-	height: calc(100vh - 209px);
+	height: calc(100vh - 15px);
 	display: inline-block;
 	overflow-y: auto;
 	overflow-x: hidden;
@@ -10111,4 +10111,13 @@ input:checked+.slider:before {
 }
 .anly-graph-bd{
 	margin-top:5px;
+}
+.analytics-filter{
+	position: absolute;
+	margin-top: -21px;
+	margin-left: 0px;
+	background: #f89700;
+	color: #fff;
+	padding: 2px 15px;
+	cursor: pointer;
 }
