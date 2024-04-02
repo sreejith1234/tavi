@@ -8310,7 +8310,7 @@ button:focus {
 
 .swtch-cntrl {
 	display: flex;
-	justify-content: center;
+	justify-content:flex-start;
 }
 
 .swtch-cntrl label {
@@ -8408,7 +8408,7 @@ button:focus {
 	height: 15px;
 	width: 15px;
 	left: 2px;
-	bottom: 3px;
+	bottom: 2px;
 	background-color: #fff;
 	color: #ff5722;
 	-webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.22);
@@ -8421,10 +8421,10 @@ button:focus {
 	position: absolute;
 	left: 0;
 	z-index: 1;
-	content: "ON";
+	content: "Show";
 	font-size: 12px;
 	text-align: left !important;
-	line-height: 22px;
+	line-height: 20px;
 	padding-left: 0;
 	width: 100px;
 	color: #fff;
@@ -8441,7 +8441,7 @@ input:checked+.slider:after {
 	-ms-transform: translateX(0px);
 	transform: translateX(0px);
 	/*width: 235px;*/
-	padding-left: 15px;
+	padding-left: 10px;
 }
 
 input:checked+.slider:before {
@@ -8628,7 +8628,7 @@ input:checked+.slider:before {
 }
 
 .toggle-cntrl {
-	margin-top: 21%;
+	margin-top: 5%;
 	margin-bottom: 1em;
 	width: 100%;
 	height: auto;
@@ -10120,4 +10120,15 @@ input:checked+.slider:before {
 	color: #fff;
 	padding: 2px 15px;
 	cursor: pointer;
+}
+.active-filter{
+	color: green;
+    margin-left: 10px;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+.swtch-cntrl label {
+    font-size: 12px;
+    margin-bottom: 0px;
+    font-weight: 500;
 }
