@@ -167,25 +167,23 @@
                      </span><!-- end ngRepeat: item in valves -->
                   </div>
                </div>
-            </div>
-            <div class="submit-btn-h">
-               <button target="_blank" class="themeBtn-search" ng-click="drawGraphs()">Search</button>
-            </div>
-
-            <div class="anly-right-pane-inner-filter">
-               <div class="toggle-cntrl">
-                  <div id="switch-lg" class="swtch-cntrl">
+               <div class="col-xs-12 cal-bd">
+                  <div class="toggle-cntrl">
                      <label class="opt">OPTIONS</label>
-                     <label class="switch">
-                     <input id="disablecheckbox" ng-model="deselectAllFlag" ng-change="deselectAll()" type="checkbox">
-                     <span class="slider round"></span>
-                     <span class="absolute-no">OFF</span>
-                     </label>
+                     <div id="switch-lg" class="swtch-cntrl">
+                        <label class="switch">
+                        <input id="disablecheckbox" type="checkbox">
+                        <span class="slider round"></span>
+                        <span class="absolute-no">Hide</span>
+                        </label><span class="active-filter">Filter Active</span>
+                     </div>
                   </div>
                </div>
-               <div class="submit-btn-h">
-                  <button target="_blank" class="submit-btn" ng-click="drawGraphs()">Submit</button>
-               </div>
+            </div>
+            <div class="submit-btn-h">
+               <button target="_blank" class="themeBtn-search" ng-click="drawGraphs()"> <i class="fa fa-search" aria-hidden="true"></i> Search</button>
+               
+               <button target="_blank" class="themeBtn-refresh" ng-click="drawGraphs()"> <i class="fa fa-refresh" aria-hidden="true"></i> Refresh</button>
             </div>
          </div>
       </div>
@@ -207,7 +205,7 @@
            <img src="images/kmcurve.png">
          </div>
          <div  class="con-main">
-            <div id="show_filter" class="analytics-filter">Show Filter 
+            <!-- <div id="show_filter" class="analytics-filter">Show Filter 
                <span>
                   <i class="fa fa-angle-up" aria-hidden="true"></i>
                </span>
@@ -216,7 +214,7 @@
                <span>
                   <i class="fa fa-angle-down" aria-hidden="true"></i>
                </span>
-            </div>
+            </div> -->
             <div id="popup-option" class="con-main">
                <div class="con-list-1 card-list " ng-class="{ 'disabled_analytics': !deselectAllFlag} ">
                   <div class="radio-chk-row">
@@ -676,10 +674,10 @@
   <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
 
-<script>
+<!-- <script>
    $(document).ready(function() {
-      $('#show_filter').hide(); 
-      $('#secondary_container').css({ height: 'calc(100vh - 245px)' });
+      $('#popup-option').hide(); 
+      $('#secondary_container').css({ height: 'calc(100vh - 51px)' });
 
       $('#hide_filter').click(function() {
          $('#secondary_container').css({ height: 'calc(100vh - 51px)' }).animate('slow');
@@ -691,8 +689,25 @@
          $('#secondary_container').css({ height: 'calc(100vh - 245px)' }).animate('slow');
          $('#popup-option, #hide_filter').show().animate('slow');
       });
-      
+
    });
+
+</script> -->
+
+<script>
+   $(document).ready(function(){
+      $('#popup-option').hide();
+      $('#secondary_container').css({ height: 'calc(100vh - 51px)' });
+    $('#disablecheckbox').change(function(){
+        if($(this).is(":checked")) {
+            $('#popup-option').show();
+            $('#secondary_container').css({ height: 'calc(100vh - 245px)' }).animate('slow');
+        } else {
+            $('#popup-option').hide();
+            $('#secondary_container').css({ height: 'calc(100vh - 51px)' }).animate('slow');
+        }
+    });
+});
 
 </script>
 </html>
