@@ -175,7 +175,7 @@
                         <input id="disablecheckbox" type="checkbox">
                         <span class="slider round"></span>
                         <span class="absolute-no">Hide</span>
-                        </label><span class="active-filter">Filter Active</span>
+                        </label><span>&nbsp;</span><span id="divToHide" class="active-filter">Filter Active</span>
                      </div>
                   </div>
                </div>
@@ -228,11 +228,11 @@
                            <div class="form-inline">
                               <div class="radio-chk">
                                  <label for="AF-Yes">
-                                 <input name="af" id="AF-Yes" type="radio" ng-model="analysisParams.af" value="true"> Yes </label>
+                                 <input name="af" id="AF-Yes" type="radio"  checked value="true"> Yes </label>
                               </div>
                               <div class="radio-chk">
                                  <label for="AF-No">
-                                 <input name="af" id="AF-No" type="radio" ng-model="analysisParams.af" value="false"> No </label>
+                                 <input name="af" id="AF-No" type="radio" value="false"> No </label>
                               </div>
                            </div>
                         </div>
@@ -241,8 +241,8 @@
                         <div class="">
                            <div class="form-inline">
                               <div class="radio-n-a">
-                                 <label for="AF-N/A">
-                                 <input name="af" id="AF-N/A" type="radio" ng-model="analysisParams.af" value="NA">N/A </label>
+                                 <label for="AF_None">
+                                 <input name="af" id="AF_None" type="radio" value="NA">N/A </label>
                               </div>
                            </div>
                         </div>
@@ -707,7 +707,24 @@
             $('#secondary_container').css({ height: 'calc(100vh - 51px)' }).animate('slow');
         }
     });
+
+   $('#AF_None').click(function() {
+       if ($(this).is(':checked')) {
+         $('#divToHide').hide();
+       }
+   });
+   $('#AF-No').click(function() {
+       if ($(this).is(':checked')) {
+         $('#divToHide').show();
+       }
+   });
+   $('#AF-Yes').click(function() {
+       if ($(this).is(':checked')) {
+         $('#divToHide').show();
+       }
+   });
 });
 
 </script>
+
 </html>
