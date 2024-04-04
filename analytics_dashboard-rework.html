@@ -169,13 +169,14 @@
                </div>
                <div class="col-xs-12 cal-bd">
                   <div class="toggle-cntrl">
-                     <label class="opt">OPTIONS</label>
+                     
                      <div id="switch-lg" class="swtch-cntrl">
+                        <label class="opt">OPTIONS</label>
                         <label class="switch">
                         <input id="disablecheckbox" type="checkbox">
                         <span class="slider round"></span>
-                        <span class="absolute-no">Hide</span>
-                        </label><span>&nbsp;</span><span id="divToHide" class="active-filter">Filter Active</span>
+                        <span class="absolute-no">OFF</span>
+                        </label>
                      </div>
                   </div>
                </div>
@@ -189,7 +190,7 @@
       </div>
       <div class="anly-graph-bd col-md-9" style="padding-right: 15px !important;">
          <div class="contrl-btn">
-            <ul class="list" style="display:flex;margin-bottom: 0px;padding-left: 1px;">
+            <ul class="list">
                <button class="themeBtn themeBtn-act">KM Curve</button>
                <button class="themeBtn">Survival Stats</button>
                <button class="themeBtn">LVEF</button>
@@ -200,21 +201,89 @@
                <button class="themeBtn">Test 2</button>
             </ul>
          </div>
-         <span style="position:absolute;z-index:1500;color:green;right: 5%;margin-top: 10px;">204 Procedures completed</span>
+         <div style="position:absolute;z-index:1500;color:green;right: 5%;margin-top: 10px;">204 Procedures completed</div>
          <div id="secondary_container">
            <img src="images/kmcurve.png">
          </div>
-         <div  class="con-main">
-            <!-- <div id="show_filter" class="analytics-filter">Show Filter 
-               <span>
-                  <i class="fa fa-angle-up" aria-hidden="true"></i>
-               </span>
+         <style>
+            .filtergroup_main{
+               display: flex;
+               padding: 0px 5px;
+               margin-top: -25px;
+            }
+            .activ_filter-label{
+               margin-left:10px;
+               font-weight: 600;
+            }
+            .activ_filter{
+               color: #fff;
+                background: #ff9800;
+                border: solid 1px #FF9800;
+                padding: 0px 5px;
+                border-radius: 2px;
+                margin: 0px 10px;
+                cursor: pointer;
+            }
+
+/* Tooltip container */
+.filter-tooltip {
+  position: relative;
+  display: inline-block;
+  opacity: 100;
+}
+.filter-tooltip .filter-tooltiptext {
+  visibility: hidden;
+  width: 150px;
+  min-height:30px;
+  background-color: #fff;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  box-shadow: 0 10px 30px rgb(65 72 86 / 30%);
+}
+.filter-tooltip .filter-tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #fff transparent transparent transparent;
+}
+.filter-tooltip:hover .filter-tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+.act_toollabel{
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+         </style>
+         <div id="filter_tooltip" class="filtergroup_main">
+            <div class="activ_filter-label">Active Filters</div>
+            <div class="activ_filter filter-tooltip">Group 1
+              <div class="filter-tooltiptext">
+                <div class="act_toollabel">AF: Yes</div>
+                <div class="act_toollabel">Previous Cardiac Surgery : Yes</div>
+              </div>
             </div>
-            <div id="hide_filter" class="analytics-filter">Hide Filter 
-               <span>
-                  <i class="fa fa-angle-down" aria-hidden="true"></i>
-               </span>
-            </div> -->
+            <div class="activ_filter filter-tooltip">Group 2 
+              <div class="filter-tooltiptext">
+                <div class="act_toollabel">LVEF: Yes</div>
+              </div>
+            </div>
+         </div>
+         <div  class="con-main">
             <div id="popup-option" class="con-main">
                <div class="con-list-1 card-list " ng-class="{ 'disabled_analytics': !deselectAllFlag} ">
                   <div class="radio-chk-row">
@@ -274,7 +343,7 @@
                               <div class="form-inline">
                                  <div class="radio-n-a">
                                     <label for="Porcelain-N/A">
-                                    <input name="porao" id="Porcelain-N/A" type="radio" ng-model="analysisParams.porao" value="NA">N/A </label>
+                                    <input name="porao" id="Porcelain-N/A" type="radio" checked value="NA">N/A </label>
                                  </div>
                               </div>
                            </div>
@@ -292,7 +361,7 @@
                            <div class="form-inline">
                               <div class="radio-chk">
                                  <label for="PCS-Yes">
-                                 <input name="pcs" id="PCS-Yes" type="radio" ng-model="analysisParams.pcs" value="true"> Yes </label>
+                                 <input name="pcs" id="PCS-Yes" type="radio" checked value="true"> Yes </label>
                               </div>
                               <div class="radio-chk">
                                  <label for="PCS-No">
@@ -306,7 +375,7 @@
                            <div class="form-inline">
                               <div class="radio-n-a">
                                  <label for="PCS-N/A">
-                                 <input name="pcs" id="PCS-N/A" type="radio" ng-model="analysisParams.pcs" value="NA">N/A </label>
+                                 <input name="pcs" id="PCS-N/A" type="radio" value="NA">N/A </label>
                               </div>
                            </div>
                         </div>
@@ -325,7 +394,7 @@
                            <div class="form-inline">
                               <div class="radio-chk">
                                  <label for="MAVG-l40">
-                                 <input name="mavg" id="MAVG-l40" type="radio" ng-model="analysisParams.mavg" value="0-39">
+                                 <input name="mavg" id="MAVG-l40" type="radio" value="0-39">
                                  <40 </label>
                               </div>
                               <div class="radio-chk">
@@ -340,7 +409,7 @@
                            <div class="form-inline">
                               <div class="radio-n-a">
                                  <label for="MAVG-Na">
-                                 <input name="mavg" id="MAVG-Na" type="radio" ng-model="analysisParams.mavg" value="NA"> N/A </label>
+                                 <input name="mavg" id="MAVG-Na" type="radio" checked value="NA"> N/A </label>
                               </div>
                            </div>
                         </div>
@@ -372,7 +441,7 @@
                            <div class="form-inline">
                               <div class="radio-n-a">
                                  <label for="STS-Na">
-                                 <input name="sts" id="STS-Na" type="radio" ng-model="analysisParams.sts" value="NA"> N/A </label>
+                                 <input name="sts" id="STS-Na" type="radio" checked value="NA"> N/A </label>
                               </div>
                            </div>
                         </div>
@@ -404,7 +473,7 @@
                            <div class="form-inline">
                               <div class="radio-n-a">
                                  <label for="EURO-Na">
-                                 <input name="euro" id="EURO-Na" type="radio" ng-model="analysisParams.euro" value="NA"> N/A </label>
+                                 <input name="euro" id="EURO-Na" type="radio" checked value="NA"> N/A </label>
                               </div>
                            </div>
                         </div>
@@ -431,7 +500,7 @@
                               </div>
                               <div class="radio-chk">
                                  <label for="LVEF>50">
-                                 <input name="LVEF" id="LVEF>50" type="radio" ng-model="analysisParams.lvef" value="50-9999"> > 50 </label>
+                                 <input name="LVEF" id="LVEF>50" type="radio" checked value="50-9999"> > 50 </label>
                               </div>
                            </div>
                         </div>
@@ -476,7 +545,7 @@
                            <div class="form-inline">
                               <div class="radio-n-a">
                                  <label for="eGFR-N/A">
-                                 <input name="eGFR" id="eGFR-N/A" type="radio" ng-model="analysisParams.egfr" value="NA">N/A </label>
+                                 <input name="eGFR" id="eGFR-N/A" type="radio" checked value="NA">N/A </label>
                               </div>
                            </div>
                         </div>
@@ -515,7 +584,7 @@
                            <div class="form-inline">
                               <div class="radio-n-a">
                                  <label for="ANL-SIZ-N/A">
-                                 <input name="ANL-SIZ" id="ANL-SIZ-N/A" type="radio" ng-model="analysisParams.anlsi" value="NA">N/A </label>
+                                 <input name="ANL-SIZ" id="ANL-SIZ-N/A" type="radio" checked value="NA">N/A </label>
                               </div>
                            </div>
                         </div>
@@ -554,7 +623,7 @@
                            <div class="form-inline">
                               <div class="radio-n-a">
                                  <label for="LVOT-cal">
-                                 <input name="lvot" type="radio" ng-model="analysisParams.lvot" value="NA" class="ng-pristine ng-untouched ng-valid ng-not-empty">N/A </label>
+                                 <input name="lvot" type="radio" checked value="NA" class="ng-pristine ng-untouched ng-valid ng-not-empty">N/A </label>
                               </div>
                            </div>
                         </div>
@@ -595,7 +664,7 @@
                            <div class="form-inline">
                               <div class="radio-n-a">
                                  <label for="FRATILITY_N/A">
-                                 <input name="fraility" type="radio" ng-model="analysisParams.fraility" value="NA" class="ng-pristine ng-untouched ng-valid ng-not-empty">N/A </label>
+                                 <input name="fraility" type="radio" checked value="NA" class="ng-pristine ng-untouched ng-valid ng-not-empty">N/A </label>
                               </div>
                            </div>
                         </div>
@@ -625,7 +694,7 @@
                               <div class="form-inline">
                                  <div class="radio-n-a">
                                     <label for="PREEXIAR_N/A">
-                                    <input name="prear" type="radio" ng-model="analysisParams.prear" value="NA">N/A </label>
+                                    <input name="prear" type="radio" checked value="NA">N/A </label>
                                  </div>
                               </div>
                            </div>
@@ -654,7 +723,7 @@
                               <div class="form-inline">
                                  <div class="radio-n-a">
                                     <label for="PREEXIMR_N/A">
-                                    <input name="premr" type="radio" ng-model="analysisParams.premr" value="NA">N/A </label>
+                                    <input name="premr" type="radio" checked value="NA">N/A </label>
                                  </div>
                               </div>
                            </div>
@@ -695,35 +764,21 @@
 </script> -->
 
 <script>
-   $(document).ready(function(){
+  $(document).ready(function(){
       $('#popup-option').hide();
-      $('#secondary_container').css({ height: 'calc(100vh - 51px)' });
-    $('#disablecheckbox').change(function(){
-        if($(this).is(":checked")) {
-            $('#popup-option').show();
-            $('#secondary_container').css({ height: 'calc(100vh - 245px)' }).animate('slow');
-        } else {
-            $('#popup-option').hide();
-            $('#secondary_container').css({ height: 'calc(100vh - 51px)' }).animate('slow');
-        }
-    });
-
-   $('#AF_None').click(function() {
-       if ($(this).is(':checked')) {
-         $('#divToHide').hide();
-       }
-   });
-   $('#AF-No').click(function() {
-       if ($(this).is(':checked')) {
-         $('#divToHide').show();
-       }
-   });
-   $('#AF-Yes').click(function() {
-       if ($(this).is(':checked')) {
-         $('#divToHide').show();
-       }
-   });
-});
+      $('#secondary_container').css({ height: 'calc(100vh - 51px)', 'padding-bottom': '20px' });
+      $('#disablecheckbox').change(function(){
+          if($(this).is(":checked")) {
+              $('#popup-option').show();
+              $('#filter_tooltip').hide();
+              $('#secondary_container').css({ height: 'calc(100vh - 245px)', 'padding-bottom': '0px' }).animate('slow');
+          } else {
+              $('#popup-option').hide();
+              $('#filter_tooltip').show();
+              $('#secondary_container').css({ height: 'calc(100vh - 51px)', 'padding-bottom': '20px' }).animate('slow');
+          }
+      });
+  });
 
 </script>
 
